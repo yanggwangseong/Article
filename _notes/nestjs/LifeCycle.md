@@ -1,5 +1,4 @@
 ---
-layout: page
 title: lifecycle
 permalink: /nestjs/lifecycle
 ---
