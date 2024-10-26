@@ -54,7 +54,7 @@ a();
 
 > EnvironmentRecord가 내부 전체를 처음부터 끝까지 쭉 훑어나가며 순서대로 수집 하기 때문에 아래와 같은 결과가 나온다.
 
-```js title="호이스팅 결과"
+```js
 function a () {
 	var b;              // 수집 대상 1. 변수는 선언부만 끌어올림.
 	function b() {}     // 수집 대상 2. 함수 선언은 전체를 끌어올림.
@@ -84,7 +84,8 @@ var multiply = function (a, b) { // 함수 표현식 multiply
 }
 ```
 
-```js title="호이스팅 결과"
+```js
+// 호이스팅 결과
 var sum = function sum (a, b) { // 함수 선언문은 전체를 호이스팅합니다.
 	return a + b;
 };
@@ -138,6 +139,7 @@ var outer = function () {
 outer();
 console.log(a);
 ```
+
 - inner
 	- `LexicalEnvironment`
 		- `environmentRecord`
