@@ -1,6 +1,6 @@
 ---
 title: Execution Context
-permalink: /javascript/execution-context
+permalink: /javascript/event-loop/execution-context/execution-context
 ---
 
 # 실행 컨텍스트
@@ -245,9 +245,13 @@ outerFunc();
 	- 콜스택에서 글로벌 실행 컨텍스트 제거
 
 ## 그림으로 표현
-<img src="{{ site.baseurl }}/assets/execution-context.png" style="width:100%" />
+![](/assets/execution-context.png)
+<img src="{{ site.baseurl }}/assets/execution-context.png" />
 
 # Reference
 - ( http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/ )
 - 코어 자바스크립트
 - 모던 자바스크립트 DeepDive
+
+# 로드맵
+

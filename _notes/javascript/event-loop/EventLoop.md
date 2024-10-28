@@ -1,6 +1,6 @@
 ---
 title: Javascript EventLoop
-permalink: /javascript/event-loop
+permalink: /javascript/event-loop/event-loop
 ---
 이벤트 루프
 
