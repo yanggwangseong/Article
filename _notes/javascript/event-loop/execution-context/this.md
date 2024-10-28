@@ -2,7 +2,7 @@
 title: this
 permalink: /javascript/event-loop/execution-context/this
 ---
-
+- [[Execution Context]]
 # this
 - 실행 컨텍스트가 실행 될때 함께 결정된다.
 	- 즉, 함수를 호출할 때 결정된다.
@@ -163,4 +163,5 @@ Function prototype.call(thisArg[, arg1[, arg2[, ...]]]);
 Function prototype.apply(thisArg[, argsArray])
 Function prototype.bind(thisArg[, arg1[, arg2[, ...]]]);
 ```
+
 
