@@ -70,7 +70,9 @@ function a () {
 > (1) `[Function: b]` 
 > (2) `bbb` 
 > (3) `bbb` 
+
 ### 함수 선언문과 함수 표현식
+
 ```js
 console.log(sum(1, 2));
 console.log(multiply(3, 4));
@@ -113,19 +115,24 @@ function scopeChainFunc(){
 
 - Global 실행컨텍스트의 EnvironmentRecord에서 `scopeChainFunc` 함수 자체가 수집 되기 때문에 Global 실행 컨텍스트가 생성될때 `scopeChainFunc` 함수 전체가 수집 되기 때문에 scopeChainFunc이 실행되게 된다.
 - Global 실행 컨텍스트가 생성될 때, 함수 선언이 먼저 수집되기 때문에 `scopeChainFunc()` 함수가 코드 순서와 관계없이 실행될 수 있습니다.
+
 #### 결론
 - 함수 선언문 사용은 굉장히 위험하다.
 - 상대적으로 함수 표현식이 안전하다.
 
 ## Outer Environment Reference (스코프 체인)
+
 > *외부 환경에 대한 참조*  (scope chain)
 > 외부의 `LexicalEnvironment` 에 대한 참조
 > 현재 문맥에 관련 있는 외부 식별자 정보
+
 ### Scope
 - 변수의 유효범위.
 - *ES5* 까지의 JS는 오직 함수에 의해서만 스코프가 생성됨.
 - *ES6* 이후부터는 `let, const, class, strict mode` 를 통해서 블록 스코프 사용 가능.
+
 ### Scope-Chain
+
 ```js
 var a = 1;
 var outer = function () {
@@ -160,9 +167,9 @@ console.log(a);
 - 바깥쪽으로는 나갈 수 있는데 outerEnvironmentReference를 통해 안으로 들어갈 순 없다. -> 이걸 *변수의 유효범위(Scope)* 라고 할 수 있다.
 
 > inner 함수에서 선언한 변수는 inner 함수 내부에만 국한 된다.
-> > inner 컨텍스트의 environmentRecord는 오직 inner 안에서만 존재한다.
+> inner 컨텍스트의 environmentRecord는 오직 inner 안에서만 존재한다.
 > outer 함수에서 선언한 변수는 outer 함수 내부와 inner함수 모두에 접근 가능
-> > 글로벌 컨텍스트에서는 접근 불가
+> 글로벌 컨텍스트에서는 접근 불가
 > 전역 컨텍스트에서 선언한 변수는 전역, outer, inner 다 접근 가능.
 
 
@@ -238,7 +245,7 @@ outerFunc();
 	- 콜스택에서 글로벌 실행 컨텍스트 제거
 
 ## 그림으로 표현
-<img src="{{ site.baseurl }}/assets/execution-context.png"/>
+<img src="{{ site.baseurl }}/assets/execution-context.png" style="width:100%" />
 
 # Reference
 - ( http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/ )
