@@ -251,5 +251,3 @@ outerFunc();
 - ( http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/ )
 - 코어 자바스크립트
 - 모던 자바스크립트 DeepDive
-
-
