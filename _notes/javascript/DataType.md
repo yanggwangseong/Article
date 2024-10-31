@@ -18,6 +18,7 @@ permalink: /javascript/data-type
 	- RegExp
 	- Map, WeakMap
 	- Set, WeakSet
+
 ## ✨ 데이터 할당 원리
 > JavaScript에서 변수에 값을 직접 대입하지 않고 데이터 영역에 값을 저장하고 그 **주소를 변수에 할당**하는 이유는 무엇일까요?
 ### 💡 이유
