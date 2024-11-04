@@ -113,7 +113,7 @@ function scopeChainFunc(){
 }
 ```
 
-- Global 실행컨텍스트의 EnvironmentRecord에서 `scopeChainFunc` 함수 자체가 수집 되기 때문에 Global 실행 컨텍스트가 생성될때 `scopeChainFunc` 함수 전체가 수집 되기 때문에 scopeChainFunc이 실행되게 된다.
+- Global 실행컨텍스트의 EnvironmentRecord에서 `scopeChainFunc` 함수 자체가 수집 되기 때문에 Global 실행 컨텍스트가 생성될때 `scopeChainFunc` 이 실행되게 된다.
 - Global 실행 컨텍스트가 생성될 때, 함수 선언이 먼저 수집되기 때문에 `scopeChainFunc()` 함수가 코드 순서와 관계없이 실행될 수 있습니다.
 
 #### 결론
@@ -148,13 +148,13 @@ console.log(a);
 ```
 
 - inner
-	- `LexicalEnvironment`
-		- `environmentRecord`
-		- `outerEnvironmentReference`
+	- `LexicalEnvironment` 
+		- `environmentRecord` 
+		- `outerEnvironmentReference` 
 - outer
-	- `LexicalEnvironment`
-		- `environmentRecord`
-		- `outerEnvironmentReference`
+	- `LexicalEnvironment` 
+		- `environmentRecord` 
+		- `outerEnvironmentReference` 
 - 전역(Global컨텍스트)
 	- `LexicalEnvironment`
 		- `environmentRecord` 
