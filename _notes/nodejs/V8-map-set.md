@@ -303,7 +303,8 @@ const newMap = new Map(entries);
 
 ## 4. 메모리 관리와 용량 조절
 
-- 용량 규: 초기 버킷 수는 항상 **2의 거듭제곱**입니다.
+- 용량 : 초기 버킷 수는 항상 **2의 거듭제곱**입니다.
+	- **Grow Factor** 
     - **로드 팩터**: 엔트리 수가 버킷 수의 2배에 도달하면 해시 테이블의 용량이 **2배로 증가**합니다.
     - **축소 팩터**: 엔트리가 버킷 수의 절반 이하로 줄어들면 해시 테이블의 용량이 **절반으로 축소**됩니다.
 - **재해싱(Rehashing)**: 리사이징이 발생할 때 모든 요소를 새로운 테이블로 **재해싱**하기 때문에 잠깐 성능 저하가 발생할 수 있습니다.
@@ -317,6 +318,7 @@ const newMap = new Map(entries);
 [https://v8.dev/blog/hash-code](https://v8.dev/blog/hash-code) 
 [https://v8.dev/features/weak-references](https://v8.dev/features/weak-references) 
 [https://github.com/puzpuzpuz/node/commit/3d319644c33d1c4933f7bd80b3abd53bdbba2212](https://github.com/puzpuzpuz/node/commit/3d319644c33d1c4933f7bd80b3abd53bdbba2212) 
+
 
 
 
