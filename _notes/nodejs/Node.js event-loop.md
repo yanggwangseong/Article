@@ -3,15 +3,9 @@ title: Node.js event-loop
 permalink: /nodejs/event-loop
 ---
 
-
-
-
 # Node.js Event Loop
 
 ## Node.js 구조
-
-
-
 
 이벤트 루프 순서
 1. 이벤트 루프를 초기화합니다.
@@ -27,7 +21,6 @@ permalink: /nodejs/event-loop
 
 > 각 단계에는 실행할 콜백의 FIFO큐가 있다.
 > 큐가 소진되거나 콜백 제한에 도달하면 이벤트 루프가 다음 단계로 이동.
-
 
 timers
 - 사용자가 원하는 정확한 콜백 실행 시간이 아니라 제공된 콜백이 실행 될 수 있는 임계값을 지정한다.
