@@ -212,3 +212,4 @@ https://v8.dev/docs/hidden-classes
 https://v8.dev/blog/fast-properties
 https://mathiasbynens.be/notes/shapes-ics
 https://engineering.linecorp.com/ko/blog/v8-hidden-class
+https://meetup.nhncloud.com/posts/78
