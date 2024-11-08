@@ -3,6 +3,8 @@ title: Node.js event-loop
 permalink: /nodejs/event-loop
 ---
 
+# Node.js Event Loop
+
 ## Node.js Event Loop 란?
 
 1. 이벤트 루프는 JS엔진의 일부이다. 이벤트 루프는 단지 JS 코드를 실행하기 위해 JS엔진을 이용하는거 뿐이며 실제로 V8 엔진에는 이벤트 루프를 관리하는 코드가 없다. Node.js나 브라우저가 이벤트 루프를 담당하는것이다. [Node.js에서 이벤트 루프가 구현된 코드](https://github.com/nodejs/node/blob/c61870c376e2f5b0dbaa939972c46745e21cdbdd/deps/uv/src/unix/core.c#L369) 
@@ -126,9 +128,126 @@ permalink: /nodejs/event-loop
 	- 다른 Phase와 달리, Poll Phase는 **다음 Phase로 넘어가거나, 잠시 대기 후 다시 Poll Phase로 돌아 오는 경우에 실행할 수 있는 작업이 있는지** 를 고려합니다.
 2. **Poll Phase에서 대기하는 시간 (timeout) 결정 조건** 
 	- 다음 상황에서는 **timeout이 0이되어** , 즉시 다음 Phase로 넘어 갑니다.
-	- 이벤트 루프가 끝난 경우
-	- 처리할 비동기 작업이 없는 경우 (즉, 당장 처리해야 할 I/O 요청이 없고 기다리는 요청도 없는 경우)
-	- 
+		- 이벤트 루프가 끝난 경우
+		- 처리할 비동기 작업이 없는 경우 (즉, 당장 처리해야 할 I/O 요청이 없고 기다리는 요청도 없는 경우)
+		- `idle_handles` 에 남아 있는 핸들러가 있는 경우
+		- `pending_queue` 에 남아있는 작업이 있는 경우.
+		- `close handlers` 가 남아 있는 경우.
+	- 남아 있는 타이머가 없는 경우
+		- `timeout` 은 -1이 되어 **무한정 대기** 합니다.
+		- 즉, 대기중인 타이머가 없기 때문에 다음 Phase로 넘어 가기전까지 계속 Poll Phase에서 대기할 수 있습니다.
+	- 남아 있는 타이머가 있는 경우
+		- 즉시 실행할 수 있는 타이머가 있다면, `timeout` 은 0이 되어 다음 `Phase` 로 바로 이동 합니다.
+		- 즉시 실행할 수 없는 타이머가 있다면, 해당 타이머를 실행할 수 있을때까지 대기하며, **대기 시간이 timeout** 이 됩니다.
+		- 이후 해당 타이머를 실행하고 다음 `Phase`로 넘어 갑니다.
+
+#### 결론
+
+- 이벤트 루프가 종료되었다면 바로 다음 Phase로 넘어 갑니다.
+- 만약 `Close Callbacks Phase` , `Pending Callbacks Phase` 에서 실행할 작업이 있다면 바로 다음 페이즈로 넘어 갑니다.
+- 만약 `Timer Phase` 에서 즉시 실행할 수 있는 **타이머가 있다면**  바로 다음 `Phase` 로 넘어 갑니다.
+- 만약 `Timer Phase` 에서 즉시 실행할 수 있는 **타이머는 없지만** `n` 초 후에 실행할 수 있는 타이머가 있다면
+- `n` 초 기다린 후 다음 Phase로 넘어간다.
+
+
+### Blocking I/O
+
+> Poll Phase에서 수행하는 2가지 기능
+
+1. `FD(File Descriptor)` 와 `watcher_queue` 를 이용해 `I/O 요청` 이 완료되면 콜백을 실행 한다.
+2. `watcher_queue` 에서 현재 완료된 `I/O 요청` 이 없다면 결정된 대기시간 (`timeout`) 만큼 기다리다가 다음 Phase로 넘어간다.
+
+#### Poll Phase의 Timeout 처리와 Blocking I/O 동작 방식
+
+1. `timeout` 이 0인 경우
+
+- `I/O` 요청이 완료되는 것을 기다리지 않는다.
+- 완료된 `I/O` 요청이 없다면 바로 다음 Phase로 넘어간다.
+- 이미 완료된 `I/O` 요청이 있다면 콜백을 실행하고 다음 Phase로 넘어간다.
+
+2. `timeout` 이 0보다 큰경우
+
+3. `timeout` 이 -1인 경우
+
+- `I/O` 요청이 완료될 때까지 최대 [30분](https://github.com/nodejs/node/blob/4f688399105377178fd1ebfafe8a80bc0357ffe2/deps/uv/src/unix/epoll.c#L112)  기다린다.
+- 일부 `I/O` 요청만 완료되고 아직 완료되지 않은 `I/O` 요청이 있다면 다시 최대 30분까지 `I/O` 요청이 완료되는 것을 기다린다.
+
+
+## Check Phase
+
+- `setImmediate` 의 콜백만을 위한 Phase이다.
+- `setImmediate` 가 호출되면 `Check Phase` 의 큐에 담기고 Node.js가 `Check Phase` 에 진입하면 차례대로 실행된다.
+
+### setImmediate 와 process.nextTick 의 차이점
+
+- `process.nextTick` 은 같은 Phase에서 호출한 즉시 실행된다.
+- `setImmediate` 는 다음 `Tick`에서 실행된다.
+	- 정확히는 Node.js가 `Tick` 을 거쳐 `Check Phase` 에 진입하면 실행된다.
+- `process.nextTick` 은 **즉시 실행** 되고 `setImmediate` 는 **다음 Tick** 에 실행된다.
+
+## Close Callbacks Phase
+
+- `socket.on('close', ()=> {});` 과 같은 `close` 이벤트 타입의 핸들러를 처리하는 Phase이다.
+- **시스템 실행 한도** 를 초과하기 전까지 `closing_handles` 에 담긴 작업을 순서대로 실행합니다.
+
+## nextTickQueue, microTaskQueue
+
+- `nextTickQueue` 와 `microTaskQueue` 는 앞에서 말했듯이 **이벤트 루프 의 일부가 아니다.**
+- 이벤트 루프의 `Phase` 와 상관없이 동작한다.
+- `nextTickQueue` 
+	- `process.nextTick()` 의 콜백을 관리 합니다.
+- `microTaskQueue` 
+	- `Resolve` 된 프로미스 콜백을 가지고 있다.
+- `nextTickQueue` 와 `microTaskQueue` 는 현재 Phase와 상관없이 **지금 수행하고 있는 작업** 이 끝나면 그 즉시 바로 실행한다.
+- **nextTickQueue는 microTaskQueue 보다 높은 우선순위를 가지고 더 먼저 실행 됩니다** 
+- **다른 Phase들과 다르게 시스템의 실행 한도의 영향을 받지 않는다** 
+
+### 예제 코드
+
+```js
+// Node.js >= v11
+setTimeout(() => {
+    console.log(1)
+    Promise.resolve().then(() => console.log(4))
+    process.nextTick(() => {
+        console.log(3)
+    })
+}, 0)
+setTimeout(() => {
+    console.log(2)
+}, 0)
+
+/*
+* node.js 11버전 이상
+* [결과]
+* 1
+* 3
+* 4
+* 2
+*/
+```
+
+1. `Node.js`가 `Timer Phase`에 진입
+2. 우선 `Timer Phase`에 있는 큐를 확인하고 `console.log(1)` 출력
+3. `process.nextTick`과 `Promise.resolve`를 호출해 `nextTickQueue`와 `microTaskQueue`에 콜백을 등록
+4. 현재 실행하고 있는 작업이 끝났으므로 `Node.js`는 `nextTickQueue`와 `microTaskQueue`에 작업이 있음을 확인 -> `Timer Phase`의 큐를 확인하지 않고 우선순위가 높은 `nextTickQueue` 부터 확인
+5. `console.log(3)` 출력
+6. `Node.js`는 `nextTickQueue`가 비었음을 확인하고 우선순위가 낮은 `microTaskQueue` 확인
+7. `console.log(4)` 출력
+8. `microTaskQueue`가 비었음을 확인하고 다시 `Node.js`는 `Timer Phase`에 있는 큐를 확인하고 `console.log(2)` 실핼
+9. 현재 실행하고 있는 작업이 끝났으므로 `Node.js`는 `nextTickQueue`와 `microTaskQueue`에 작업이 있음을 확인 -> `Timer Phase`의 큐가 비었음을 확인하고 `Pending Callbacks Phase`로 이동
+
+# 정리
+
+![](/assets/image12.png)
+
+
+1. 이벤트 루프의 진입점은 `Timer Phase` 입니다.
+2. Node.js는 이벤트 루프를 먼저 생성하고 이벤트 루프 바깥에서 코드를 다 실행하고 이벤트 루프에 진입합니다.
+3. 이벤트 루프를 생성하고 진입하는데 `1ms` 도 안걸렸다면 `Timer Phase` 의 콜백은 실행될 수 없습니다.
+	- 따라서 `Check Phase` 에 진입해 `setImmediate` 를 먼저 출력하고 다시 `Timer Phase` 에 진입해 `setTimeout` 을 출력 합니다.
+4. 이벤트 루프를 생성하고 진입 하는데 `1ms` 이상의 시간이 걸렸다면 이벤트 루프에 진입하자 마자 `TimerPhase` 의 콜백을 실행 할 수 있습니다.
+	- 따라서 `setTimeout` 을 출력하고 `Check Phase` 에 진입해 `setImmediate` 를 출력합니다.
 
 # Reference
 
@@ -140,3 +259,10 @@ permalink: /nodejs/event-loop
 - https://blog.insiderattack.net/event-loop-and-the-big-picture-nodejs-event-loop-part-1-1cb67a182810
 - https://blog.insiderattack.net/handling-io-nodejs-event-loop-part-4-418062f917d1
 - https://docs.libuv.org/en/v1.x/design.html
+- https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#processnexttick-vs-setimmediate
+- https://nodejs.org/en/learn/asynchronous-work/understanding-setimmediate
+- https://jaehyeon48.github.io/javascript/nodejs-event-loop-1/
+- https://jaehyeon48.github.io/javascript/nodejs-event-loop-2/
+- https://docs.libuv.org/en/v1.x/loop.html#c.uv_run
+- https://medium.com/zigbang/nodejs-event-loop%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-16e9290f2b30
+- https://evan-moon.github.io/2019/08/01/nodejs-event-loop-workflow/
