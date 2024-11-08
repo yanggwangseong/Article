@@ -55,19 +55,11 @@ permalink: /nodejs/event-loop
 - `타이머` 들을 `min-heap` 으로 유지하고 있다가 실행될 때가 된 타이머들의 콜백을 큐에 넣고 실행하는 것이다.
 - 기술적으로 **poll Phase** 단계는 타이머가 실행되는 시기를 제어합니다.
 
-> 타이머가 최소 힙으로 관리 될까?
-
-1. [PriorityQueue](const timerListQueue = new PriorityQueue(compareTimersLists, setPosition);) 는 타이머 리스트들을 우선순위에 따라 관리하며, 해당 우선순위는 `compareTimersLists` 함수에 의해 결정 됩니다.
-2. [compareTimersLists](https://github.com/nodejs/node/blob/6af5c4e2b4034a7721ebaffd939f14923f382ede/lib/internal/timers.js#L442) 
-	- 두 타이머 리스트 `a` 와 `b` 의 만료시간 `expiry` 을 비교합니다.
-		- `expiryDiff`가 음수이면 (`a.expiry < b.expiry`), 함수는 음수를 반환합니다.
-		- `expiryDiff`가 양수이면 (`a.expiry > b.expiry`), 함수는 양수를 반환합니다.
-		- `expiryDiff`가 0이면, `id`를 비교하여 순서를 결정합니다.
-3. [PriorityQueue내부동작](https://github.com/nodejs/node/blob/6af5c4e2b4034a7721ebaffd939f14923f382ede/lib/internal/priority_queue.js#L13)  으로 요소들을 정렬하여 가장 우선위가 높은 요소를 빠르게 접근 할 수 있게 합니다. `compareTimersLists(a, b)`가 음수를 반환하면 `a`가 `b`보다 우선순위가 높다는 뜻입니다.
-4. 타이머의 처리 순서
-	- [타이머를 처리할 때 processTimers함수](https://github.com/nodejs/node/blob/6af5c4e2b4034a7721ebaffd939f14923f382ede/lib/internal/timers.js#L534)  의 `timerListQueue.peek()` 는 우선순위가 가장 높은 타이머 리스트를 반환 합니다. 이때, 만료 시간이 가장 작은 타이머 리스트가 반환 됩니다.
-
-**결론적으로 만료 시간이 가장 작은 타이머 리스트가 우선적으로 처리되기 때문에, 최소 힙을 사용하는것이라고 볼 수 있다** 
+1. `Timer Phase` 는 [min-heap](https://github.com/nodejs/node/blob/6af5c4e2b4034a7721ebaffd939f14923f382ede/deps/uv/src/timer.c#L149)  을 이용해서 타이머를 관리한다. 이를 통해 실행 시간이 가장 이른 타이머를 효율적으로 찾을 수 있다.
+2. `Timer Phase` 는 `setTimeout(fn, 1000)` 을 호출했다고 하더라도 정확하게 `1s` 가 지난후에 `fn` 이 호출됨을 보장하지 않는다.
+	- `1s` 가 흐르기전에 실행되지 않는 것을 보장 합니다.
+	- `1초 이상` 의 시간이 흘렀을 때 `fn` 이 실행됨을 보장 합니다.
+3. 큐에 있는 모든 작업을 실행하거나 **시스템의 실행 한도** 에 다다르면 다음 페이즈인 `Pending Callbacks Phase` 로 넘어갑니다.
 
 ### 그럼 왜 최소힙을 사용 할까?
 
@@ -79,6 +71,7 @@ permalink: /nodejs/event-loop
 
 - 이 phase에서는 이벤트 루프의 `pending_queue` 에 들어 있는 콜백들을 실행한다.
 - 해당 큐에 들어와 있는 콜백들은 현재 돌고 있는 루프 이전에 한 작업에서 이미 큐에 들어와있던 콜백들이다.
+- **대부분의 Phase는 시스템의 실행 한도의 영향을 받는다. 시스템의 실행 한도 제한에 의해 큐에 쌓인 모든 작업을 실행하지 못하고 다음 페이즈로 넘어갈 수도 있다. 이때 처리하지 못하고 넘어간 작업들을 쌓아놓고 실행하는 Phase** 다.
 - 예시) TCP 핸들러 콜백 함수에서 파일에 뭔가를 썼다면 TCP 통신이 끝나고 파일 쓰기도 끝나고 나서 파일 쓰기의 콜백이 이 큐에 들어오는 것이다.
 - 에러 핸들러 콜백도 `pending_queue` 로 들어오게 된다.
 
@@ -88,9 +81,54 @@ permalink: /nodejs/event-loop
 
 ## Poll Phase
 
-- 일정시간동안 대기(blocking) 하면서 새로운 I/O operation이 들어오는지 `polling(watching)` 한다.
+- 새로운 I/O 이벤트를 다루며 `watcher_queue` 의 콜백들을 실행한다.
+- `watcher_queue` 에는 `I/O` 에 대한 거의 모든 콜백들이 담긴다.
+- `setTimeout` , `setImmediate` , close 콜백등을 제외한 **모든 콜백** 이 여기서 실행 된다.
+
+> 예시
+
+- 데이터베이스에 쿼리를 보낸 후 결과가 왔을 때 실행되는 콜백
+- HTTP 요청을 보낸 후 응답이 왔을 때 실행되는 콜백
+- 파일을 비동기로 읽고 다 읽었을 때 실행되는 콜백
+
+### Poll Phase가 콜백을 관리하는 방법
+
+#### I/O 이벤트의 처리 방식
+
+- Poll Phase는 `watcher_queue` 에 담긴 콜백을 관리합니다.
+- I/O 이벤트는 타이머와 달리 **큐에 담긴 순서대로 콜백이 실행** 된다는 보장이 없습니다.
+	- 예를 들어, 데이터 베이스에 A, B 쿼리를 순서대로 날렸더라도 응답은 B, A 순서로 올 수 있습니다.
+	- 따라서 **큐에 담긴 순서와 상관없이** 먼저 응답이 오는 B를 바로 실행하는 것이 올바른 방식입니다.
+
+#### 타이머와의 차이점
+
+- 타이머는 특정 실행 시간을 가지고 있어 Event Loop가 타이머 완료 여부를 알 수 있지만, **I/O 이벤트는 Event Loop가 단독으로 완료 여부를 알 수 없습니다** 
+- 이런 문제를 해결하기 위해 `Poll Phase` 는 단순한 콜백 큐를 사용하지 않고 다른 구조를 이용합니다.
+
+#### watcher_queue와 FD(File Descriptor)
+
+- Event Loop는 n개의 열린 소켓과 n개의 완료되지 않은 요청을 관리합니다.
+- 이러한 소켓들에 대해 `watcher` 라는 객체를 관리하고, 이 **watcher는 소켓과 메타 데이터** 를 포함 합니다.
+- 각 `watcher` 는 **FD(File Descriptor)** 를 가지고 있으며, 이는 **네트워크 소켓, 파일 등** 을 가리킵니다.
+- 운영체제가 특정 FD가 준비되었음을 알리면, Event Loop는 해당 `watcher` 를 찾아 그에 해당하는 콜백을 실행하게 됩니다.
+
+#### Poll Phase의 시스템 한도 영향
+
+- Poll Phase도 시스템 실행 한도의 영향을 받습니다. 즉, 시스템 리소스 및 성능에 따라 이 단계의 처리 시간이 제한될 수 있습니다.
 
 
+### Poll Phase Blocking
+
+- **Poll Phase** 는 이전의 타이머나 Pending Callbacks Phase 와는 다르게 **자신의 작업 큐가 비었을 경우 대기** 할 수 있습니다. 해당 과정은 다음 조건들에 따라 결정 됩니다.
+
+1. **Poll Phase의 기본 행동** 
+	- Poll Phase에 **대기 중인 I/O 요청이 없다거나** 아직 **응답이 오지 않았다면** , `watcher_queue` 의 상태에 따라 Poll Phase에서 **잠시 대기** 합니다.
+	- 다른 Phase와 달리, Poll Phase는 **다음 Phase로 넘어가거나, 잠시 대기 후 다시 Poll Phase로 돌아 오는 경우에 실행할 수 있는 작업이 있는지** 를 고려합니다.
+2. **Poll Phase에서 대기하는 시간 (timeout) 결정 조건** 
+	- 다음 상황에서는 **timeout이 0이되어** , 즉시 다음 Phase로 넘어 갑니다.
+	- 이벤트 루프가 끝난 경우
+	- 처리할 비동기 작업이 없는 경우 (즉, 당장 처리해야 할 I/O 요청이 없고 기다리는 요청도 없는 경우)
+	- 
 
 # Reference
 
@@ -101,3 +139,4 @@ permalink: /nodejs/event-loop
 - https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#timers
 - https://blog.insiderattack.net/event-loop-and-the-big-picture-nodejs-event-loop-part-1-1cb67a182810
 - https://blog.insiderattack.net/handling-io-nodejs-event-loop-part-4-418062f917d1
+- https://docs.libuv.org/en/v1.x/design.html
