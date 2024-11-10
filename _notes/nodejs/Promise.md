@@ -40,7 +40,7 @@ function handler(done) {
 - 이행(fulfilled) : 연산이 성공적으로 완료됨.
 - 거부(rejected) : 연산이 실패함.
 
-![[Pasted image 20241110203339.png]]
+![](/assets/image13.png)
 
 1. 대기 중인(pending) 프로미스는 값과 함께 이행(fulfilled)할 수 도, 어떤 이유(오류)로 인해 거부(rejected)될 수 도 있습니다.
 2. fulfilled이나 rejected될 때, 프로미스 의 `then` 메서드에 의해 대기열(큐)에 추가된 처리기들이 호출 됩니다.
@@ -104,41 +104,30 @@ promise.then((result) => {
 
 ## Thenables
 
-
-
-
-
+- 모든 프로미스와 유사한 객체는 Thenable 인터페이스를 구현합니다.
+- thenable은 두 개의 콜백(하나는 프로미스가 이행될 때, 다른 하나는 거부될 때)과 함께 호출되는 `then()` 메서드를 구현합니다. 프로미스 또한 thenable입니다.
+- 기존 프로미스 구현과 상호 운용하기 위해 언어에서는 프로미스 대신 thenables을 사용할 수 있습니다.
 
 ```js
-// Promise
-function handler() {
-  return validateParams()
-    .then(dbQuery)
-    .then(serviceCall)
-    .then(result => {
-      console.log(result);
-      return result;
+const aThenable = {
+  then(onFulfilled, onRejected) {
+    onFulfilled({
+      // thenable은 다른 thenable로 채워집니다.
+      then(onFulfilled, onRejected) {
+        onFulfilled(42);
+      },
     });
-}
+  },
+};
 
-// async functions
-async function handler() {
-  await validateParams();
-  const dbResults = await dbQuery();
-  const results = await serviceCall(dbResults);
-  console.log(results);
-  return results;
-}
+Promise.resolve(aThenable); // 프로미스는 42로 채워집니다.
 ```
 
-- 비동기 함수를 사용하면 실행이 여전히 비동기적임에도 불구하고 코드가 더 간결해지고 제어 및 데이터 흐름을 훨씬 더 쉽게 따라갈 수 있습니다.
 
+## Promisification(프로미스화)
 
-> pending, fulfiled, reject
-> resolved, rejected
-> thenable
-> event loop microtask queue macro taskqueue
-
+- 콜백을 받는 함수를 프라미스를 반환하는 함수로 바꾸는 것을 '프라미스화(promisification)'라고 합니다.
+- 기능을 구현 하다 보면 콜백보다는 프라미스가 더 편리하기 때문에 콜백 기반 함수와 라이브러리를 프라미스를 반환하는 함수로 바꾸는 게 좋은 경우가 종종 생깁니다.
 
 
 # Reference
