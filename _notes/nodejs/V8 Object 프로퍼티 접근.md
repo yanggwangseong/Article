@@ -4,6 +4,7 @@ permalink: /nodejs/v8-object-property
 ---
 
 # V8 Object 프로퍼티 접근
+
 ## 프로토타입 체이닝을 통한 조회
 
 ```js
