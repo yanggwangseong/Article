@@ -181,8 +181,6 @@ for (const [key, value] of map) {
 - Map : 프로토타입 체인의 영향을 받지 않으며, 키로 사용된 값이 충돌할 위험이 없습니다.
 
 
-
-
 # Reference
 https://v8.dev/docs/hidden-classes
 [JS배열과객체가 어떻게 다양한 elements kinds로 처리 되는지](https://v8.dev/blog/elements-kinds) 

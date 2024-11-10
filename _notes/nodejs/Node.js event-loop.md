@@ -8,7 +8,7 @@ permalink: /nodejs/event-loop
 ## Node.js Event Loop 란?
 
 1. 이벤트 루프는 JS엔진의 일부이다. 이벤트 루프는 단지 JS 코드를 실행하기 위해 JS엔진을 이용하는거 뿐이며 실제로 V8 엔진에는 이벤트 루프를 관리하는 코드가 없다. Node.js나 브라우저가 이벤트 루프를 담당하는것이다. [Node.js에서 이벤트 루프가 구현된 코드](https://github.com/nodejs/node/blob/c61870c376e2f5b0dbaa939972c46745e21cdbdd/deps/uv/src/unix/core.c#L369) 
-2. 이벤트 루프가 작동하는 과정은 여러 개의 큐를 사용하는 복잡한 과정이다.
+2. 이벤트 루프가 작동하는 과정은 각각의 phase마다 콜백을 실행 할 **FIFO 구조의 큐** 를 가지고 사용한다.
 3. 이벤트 루프는 **메인 싱글 스레드로 처리된다** 
 - 이벤트 루프란 Node.js가 싱글 스레드로 동작함에도 불구하고 **I/O** 동작들을 **non-blocking** 방식으로 처리할 수 있게 해주는 녀석이다.
 - 이벤트 루프는 `libuv` 라이브러리를 사용해 다수의 비동기 작업을 스케줄링 합니다. 이를 통해 I/O 작업이나 타이머, 콜백 등이 관리 됩니다.
@@ -266,3 +266,4 @@ setTimeout(() => {
 - https://docs.libuv.org/en/v1.x/loop.html#c.uv_run
 - https://medium.com/zigbang/nodejs-event-loop%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-16e9290f2b30
 - https://evan-moon.github.io/2019/08/01/nodejs-event-loop-workflow/
+
