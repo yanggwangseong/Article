@@ -251,19 +251,21 @@ setTimeout(() => {
 
 # Reference
 
-- [https://www.korecmblog.com/blog/node-js-event-loop](https://www.korecmblog.com/blog/node-js-event-loop) 
-- https://www.digitalocean.com/community/tutorials/node-js-architecture-single-threaded-event-loop
-- https://www.youtube.com/watch?v=P9csgxBgaZ8&t=1s
-- https://docs.libuv.org/en/v1.x/loop.html#c.uv_run
-- https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#timers
-- https://blog.insiderattack.net/event-loop-and-the-big-picture-nodejs-event-loop-part-1-1cb67a182810
-- https://blog.insiderattack.net/handling-io-nodejs-event-loop-part-4-418062f917d1
-- https://docs.libuv.org/en/v1.x/design.html
-- https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#processnexttick-vs-setimmediate
-- https://nodejs.org/en/learn/asynchronous-work/understanding-setimmediate
-- https://jaehyeon48.github.io/javascript/nodejs-event-loop-1/
-- https://jaehyeon48.github.io/javascript/nodejs-event-loop-2/
-- https://docs.libuv.org/en/v1.x/loop.html#c.uv_run
-- https://medium.com/zigbang/nodejs-event-loop%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-16e9290f2b30
-- https://evan-moon.github.io/2019/08/01/nodejs-event-loop-workflow/
+- [링크1](https://www.korecmblog.com/blog/node-js-event-loop) 
+- [링크2](https://www.digitalocean.com/community/tutorials/node-js-architecture-single-threaded-event-loop) 
+- [링크3](https://www.youtube.com/watch?v=P9csgxBgaZ8&t=1s) 
+- [링크4](https://docs.libuv.org/en/v1.x/loop.html#c.uv_run) 
+- [링크5](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#timers) 
+- [링크6](https://blog.insiderattack.net/event-loop-and-the-big-picture-nodejs-event-loop-part-1-1cb67a182810) 
+- [링크7](https://blog.insiderattack.net/handling-io-nodejs-event-loop-part-4-418062f917d1) 
+- [링크8](https://docs.libuv.org/en/v1.x/design.html) 
+- [링크9](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#processnexttick-vs-setimmediate) 
+- [링크10](https://nodejs.org/en/learn/asynchronous-work/understanding-setimmediate) 
+- [링크11](https://jaehyeon48.github.io/javascript/nodejs-event-loop-1/) 
+- [링크12](https://jaehyeon48.github.io/javascript/nodejs-event-loop-2/) 
+- [링크13](https://docs.libuv.org/en/v1.x/loop.html#c.uv_run) 
+- [링크14](https://medium.com/zigbang/nodejs-event-loop%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-16e9290f2b30) 
+- [링크15](https://evan-moon.github.io/2019/08/01/nodejs-event-loop-workflow/) 
+
+
 

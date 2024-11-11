@@ -275,12 +275,12 @@ console.log(obj.b); // IC를 사용하여 두 번째 조회: 캐시된 인덱스
 
 # Reference
 
-[링크1](https://v8.dev/docs/hidden-classes) 
-[링크2]([JS배열과객체가 어떻게 다양한 elements kinds로 처리 되는지](https://v8.dev/blog/elements-kinds) ) 
-[링크3]([https://www.youtube.com/watch?v=m9cTaYI95Zc](https://www.youtube.com/watch?v=m9cTaYI95Zc) ) 
-[링크4](https://v8.dev/blog/fast-propertie) 
-[링크5](https://v8.dev/blog/fast-properties) 
-[링크6](https://mathiasbynens.be/notes/shapes-ics) 
-[링크7](https://engineering.linecorp.com/ko/blog/v8-hidden-class) 
-[링크8](https://meetup.nhncloud.com/posts/78) 
+- [링크1](https://v8.dev/docs/hidden-classes) 
+- [링크2]([JS배열과객체가 어떻게 다양한 elements kinds로 처리 되는지](https://v8.dev/blog/elements-kinds) ) 
+- [링크3]([https://www.youtube.com/watch?v=m9cTaYI95Zc](https://www.youtube.com/watch?v=m9cTaYI95Zc) ) 
+- [링크4](https://v8.dev/blog/fast-propertie) 
+- [링크5](https://v8.dev/blog/fast-properties) 
+- [링크6](https://mathiasbynens.be/notes/shapes-ics) 
+- [링크7](https://engineering.linecorp.com/ko/blog/v8-hidden-class) 
+- [링크8](https://meetup.nhncloud.com/posts/78) 
 
