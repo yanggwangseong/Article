@@ -193,6 +193,90 @@ console.log(arr); // [ 'a', 'b', hello: 'world' ]
 2. 프로퍼티 추가나 삭제를 최소화 하여 `Slow Properties` 로의 전환 방지
 3. 배열에 일관된 데이터 타입 사용, 같은 배열 내에서 여러 데이터 타입을 섞지 않도록 주의
 
+#### 궁금증) Slow Properties로 전환되는 임계값이 있을까?
+
+[프로퍼티 추가관련 코드링크](https://github.com/v8/v8/blob/main/src/objects/js-objects.h#L908) 
+
+```C++
+// When extending the backing storage 
+// for property values, we increase
+// its size by more than the 1 entry necessary, 
+// so sequentially adding fields
+// to the same object requires fewer allocations and copies.
+  static const int kFieldsAdded = 3;
+  static_assert(kMaxNumberOfDescriptors + kFieldsAdded <=
+                PropertyArray::kMaxLength);
+```
+
+- 프로퍼티를 추가할 때 마다 한 번에 3개의 추가 공간을 더 할당하는 것을 볼 수 있습니다.
+
+[배열 요소 관련 코드 링크](https://github.com/v8/v8/blob/main/src/objects/js-objects.h#L884) 
+
+```C++
+ // Maximal gap that can be introduced 
+ // by adding an element beyond
+ // the current elements length.
+  static const uint32_t kMaxGap = 1024;
+
+  // Maximal length of fast elements array 
+  // that won't be checked for
+  // being dense enough on expansion.
+  static const int kMaxUncheckedFastElementsLength = 5000;
+
+  // Same as above but for old arrays. 
+  // This limit is more strict. We
+  // don't want to be wasteful with long lived objects.
+  static const int kMaxUncheckedOldFastElementsLength = 500;
+```
+
+- 최대 갭 크기: 1024
+- 빠른 요소 배열의 최대 길이: 5000
+- 오래된 배열의 최대 길이: 500
+
+> 삽질 결론적으로 말하자면 정확한 임계값이 몇인지 찾을 수는 없었다. 그리고 **중요한것은 빈 객체에 500개의 프로퍼티를 순차적으로 넣었다고 해서 Slow Properties로 전환 되는것은 아니다. V8엔진에서 고려하는 여러가지 요인들에 따라서 전환 되는것이다.** 
+
+### Hidden Class를 이용한 조회 과정
+
+#### 프로퍼티 조회 시 `Hidden Class` 사용
+
+- Javascript에서 객체의 프로퍼티를 조회 할 때, V8은 해당 객체의 `Hidden Class` 를 참조하여 프로퍼티의 위치를 빠르게 찾습니다.
+- `Hidden Class` 는 객체의 구조에 대한 정보를 가지고 있기 때문에, 이를 통해 특정 프로퍼티가 어떤 인덱스에 위치하는지 바로 알 수 있습니다.
+
+#### 조회 과정의 최적화
+
+- 객체에 **정적** 으로 프로퍼티가 설정되어 있을 때, V8은 해당 `Hidden Class` 를 사용하여 프로퍼티의 **인덱스를 캐싱** 합니다.
+- 이를 통해 객체의 **프로퍼티 조회 시간 복잡도는 O(1)** 에 가깝게 최적화 됩니다.
+
+#### Inline Caching (IC)
+
+- V8은 객체 프로퍼티 접근을 최적화 하기 위해 **Inline Caching (IC)** 라는 기법을 사용합니다.
+- IC는 객체 프로퍼티 접근 시, 이전에 접근했던 `Hidden Class` 정보를 캐싱하여, 같은 구조의 객체에 대한 프로퍼티 접근이 반복될 경우 **더 빠르게 접근** 할 수 있도록 도와줍니다.
+- 예를 들어, 함수에서 여러 번 동일한 객체의 프로퍼티를 접근할 경우, IC 덕분에 이후 접근이 **더 효율적** 으로 이루어 집니다.
+
+#### 객체 구조의 변경과 Hidden Class 전환
+
+- 객체의 구조가 변경될 때, 예를 들어 **프로퍼티가 추가되거나 삭제될 때** , V8은 **새로운 Hidden Class** 를 생성하여 해당 객체의 구조를 업데이트 합니다.
+- 이렇게 되면 기존 캐싱된 `Inline Cache` 가 무효화되어 성능이 저하될 수 있습니다.
+
+#### 프로토타입 체인과 Hidden Class
+
+- 객체에서 원하는 프로퍼티를 찾을 수 없는 경우, V8은 **프로토타입 체인** 을 따라 가면서 **상위 객체의 Hidden Class** 를 탐색 합니다.
+- 이 과정에서 **프로토타입 체인의 레벨** 이 많을수록 조회 성능이 저하될 수 있습니다.
+- 따라서 자주 사용하는 속성은 **객체 자체** 에 정의하는 것이 좋습니다.
+
+```js
+function createObject() {
+    return {
+        a: 1,
+        b: 2,
+    };
+}
+
+let obj = createObject();
+console.log(obj.a); // 첫 번째 조회: Hidden Class를 사용하여 'a'의 위치를 찾음
+console.log(obj.b); // IC를 사용하여 두 번째 조회: 캐시된 인덱스를 통해 빠르게 접근
+
+```
 
 # Reference
 
