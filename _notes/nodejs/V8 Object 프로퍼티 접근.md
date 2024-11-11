@@ -32,10 +32,10 @@ console.log(obj.toString); // [Function: toString]
 먼저 [ECMAScript 스펙에 따르면](https://tc39.es/ecma262/#sec-property-attributes) JS 객체는 key-value 쌍으로 이루어진 프로퍼티들의 집합 입니다.
 이때 key의 타입에는 **문자열 혹은 Symbol** 이 가능하며 key는 `property attribute` 라는 value에 대응 됩니다. 해당 property attribute를 살펴보면 다음과 같습니다.
 
-- `[[Value]]` : 프로퍼티의 값을 의미합니다. 프로퍼티의 값으로는 자바스크립트의 모든 값(숫자, 문자열, 객체, 함수 등)을 사용할 수 있습니다.
-- `[[Writable]]` : `=` 연산자를 이용하여 값을 할당할 수 있는지를 나타냅니다.
-- `[[Enumerable]]` : `for ... in` 과 같은 연산을 통해 "열거(enumerate)" 할 수 있는지를 나타냅니다.
-- `[[Configurable]]` : `delete` 연산자로 해당 속성을 지울 수 있는지, 그리고 `defineProperty()` 로 다른 프로퍼티 속성을 변경할 수 있는지를 나타냅니다.
+- `Value` : 프로퍼티의 값을 의미합니다. 프로퍼티의 값으로는 자바스크립트의 모든 값(숫자, 문자열, 객체, 함수 등)을 사용할 수 있습니다.
+- `Writable` : `=` 연산자를 이용하여 값을 할당할 수 있는지를 나타냅니다.
+- `Enumerable` : `for ... in` 과 같은 연산을 통해 "열거(enumerate)" 할 수 있는지를 나타냅니다.
+- `Configurable` : `delete` 연산자로 해당 속성을 지울 수 있는지, 그리고 `defineProperty()` 로 다른 프로퍼티 속성을 변경할 수 있는지를 나타냅니다.
 
 ```js
 const object = {
@@ -49,7 +49,6 @@ const object = {
 ![[Pasted image 20241109160709.png]]
 
 ![[Pasted image 20241109161424.png]]
-
 
 목적은 메모리가 낭비되는것을 방지하고 메모리를 효율적으로 사용하기 위해서 Hidden Class를 사용한다.
 
@@ -276,11 +275,12 @@ console.log(obj.b); // IC를 사용하여 두 번째 조회: 캐시된 인덱스
 
 # Reference
 
-https://v8.dev/docs/hidden-classes
-[JS배열과객체가 어떻게 다양한 elements kinds로 처리 되는지](https://v8.dev/blog/elements-kinds) 
-[https://www.youtube.com/watch?v=m9cTaYI95Zc](https://www.youtube.com/watch?v=m9cTaYI95Zc) 
-[Object의 속성 추가 및 삭제에 따른 히든 클래스 사용과 최적화 방식 ](https://v8.dev/blog/fast-propertie) 
-https://v8.dev/blog/fast-properties
-https://mathiasbynens.be/notes/shapes-ics
-https://engineering.linecorp.com/ko/blog/v8-hidden-class
-https://meetup.nhncloud.com/posts/78
+[링크1](https://v8.dev/docs/hidden-classes) 
+[링크2]([JS배열과객체가 어떻게 다양한 elements kinds로 처리 되는지](https://v8.dev/blog/elements-kinds) ) 
+[링크3]([https://www.youtube.com/watch?v=m9cTaYI95Zc](https://www.youtube.com/watch?v=m9cTaYI95Zc) ) 
+[링크4](https://v8.dev/blog/fast-propertie) 
+[링크5](https://v8.dev/blog/fast-properties) 
+[링크6](https://mathiasbynens.be/notes/shapes-ics) 
+[링크7](https://engineering.linecorp.com/ko/blog/v8-hidden-class) 
+[링크8](https://meetup.nhncloud.com/posts/78) 
+

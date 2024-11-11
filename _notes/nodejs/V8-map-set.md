@@ -311,13 +311,14 @@ const newMap = new Map(entries);
 
 # Reference
 
-[https://262.ecma-international.org/15.0/#sec-map-objects](https://262.ecma-international.org/15.0/#sec-map-objects) 
-[https://github.com/v8/v8/tree/main](https://github.com/v8/v8/tree/main) 
-[https://itnext.io/v8-deep-dives-understanding-map-internals-45eb94a183df](https://itnext.io/v8-deep-dives-understanding-map-internals-45eb94a183df) 
-[https://v8.github.io/api/head/classv8_1_1Object.html](https://v8.github.io/api/head/classv8_1_1Object.html) 
-[https://v8.dev/blog/hash-code](https://v8.dev/blog/hash-code) 
-[https://v8.dev/features/weak-references](https://v8.dev/features/weak-references) 
-[https://github.com/puzpuzpuz/node/commit/3d319644c33d1c4933f7bd80b3abd53bdbba2212](https://github.com/puzpuzpuz/node/commit/3d319644c33d1c4933f7bd80b3abd53bdbba2212) 
+[참고링크1]([https://262.ecma-international.org/15.0/#sec-map-objects](https://262.ecma-international.org/15.0/#sec-map-objects) ) 
+[참고링크2]([https://github.com/v8/v8/tree/main](https://github.com/v8/v8/tree/main) ) 
+[참고링크3](https://itnext.io/v8-deep-dives-understanding-map-internals-45eb94a183df) 
+[참고링크4](https://v8.github.io/api/head/classv8_1_1Object.html) 
+[참고링크5](https://v8.dev/blog/hash-code) 
+[참고링크6](https://v8.dev/features/weak-references) 
+[참고링크7](https://github.com/puzpuzpuz/node/commit/3d319644c33d1c4933f7bd80b3abd53bdbba2212) 
+
 
 
 
