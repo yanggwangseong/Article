@@ -126,9 +126,8 @@ Promise.resolve(aThenable); // 프로미스는 42로 채워집니다.
 - 콜백을 받는 함수를 프라미스를 반환하는 함수로 바꾸는 것을 '프라미스화(promisification)'라고 합니다.
 - 기능을 구현 하다 보면 콜백보다는 프라미스가 더 편리하기 때문에 콜백 기반 함수와 라이브러리를 프라미스를 반환하는 함수로 바꾸는 게 좋은 경우가 종종 생깁니다.
 
+# Reference
 
-> Reference
-
-- https://ko.javascript.info/async
-- https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
+- [참고1](https://ko.javascript.info/async) 
+- [참고2](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise) 
 
