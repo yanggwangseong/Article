@@ -99,3 +99,35 @@ promise.then((result) => {
 4. 이미 "Settled"된 프로미스
 
 - 이미 **Settled된 프로미스**에 대해 `.then()`을 호출하면, 첫 번째 **비동기 기회**에 해당 핸들러가 실행됩니다. 이는 마치 `setTimeout(action, 0)`와 유사합니다. 즉, **비동기 큐에 추가되어** 실행된다는 의미입니다.
+
+## Thenables
+
+- 모든 프로미스와 유사한 객체는 Thenable 인터페이스를 구현합니다.
+- thenable은 두 개의 콜백(하나는 프로미스가 이행될 때, 다른 하나는 거부될 때)과 함께 호출되는 `then()` 메서드를 구현합니다. 프로미스 또한 thenable입니다.
+- 기존 프로미스 구현과 상호 운용하기 위해 언어에서는 프로미스 대신 thenables을 사용할 수 있습니다.
+
+```js
+const aThenable = {
+  then(onFulfilled, onRejected) {
+    onFulfilled({
+      // thenable은 다른 thenable로 채워집니다.
+      then(onFulfilled, onRejected) {
+        onFulfilled(42);
+      },
+    });
+  },
+};
+
+Promise.resolve(aThenable); // 프로미스는 42로 채워집니다.
+```
+
+## Promisification(프로미스화)
+
+- 콜백을 받는 함수를 프라미스를 반환하는 함수로 바꾸는 것을 '프라미스화(promisification)'라고 합니다.
+- 기능을 구현 하다 보면 콜백보다는 프라미스가 더 편리하기 때문에 콜백 기반 함수와 라이브러리를 프라미스를 반환하는 함수로 바꾸는 게 좋은 경우가 종종 생깁니다.
+
+# Reference
+
+- https://ko.javascript.info/async
+- https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
