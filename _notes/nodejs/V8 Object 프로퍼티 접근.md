@@ -197,7 +197,7 @@ console.log(arr); // [ 'a', 'b', hello: 'world' ]
 
 [프로퍼티 추가관련 코드링크](https://github.com/v8/v8/blob/main/src/objects/js-objects.h#L908) 
 
-```C++
+```cpp
 // When extending the backing storage 
 // for property values, we increase
 // its size by more than the 1 entry necessary, 
@@ -212,7 +212,7 @@ console.log(arr); // [ 'a', 'b', hello: 'world' ]
 
 [배열 요소 관련 코드 링크](https://github.com/v8/v8/blob/main/src/objects/js-objects.h#L884) 
 
-```C++
+```cpp
  // Maximal gap that can be introduced 
  // by adding an element beyond
  // the current elements length.
