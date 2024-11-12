@@ -130,4 +130,3 @@ Promise.resolve(aThenable); // 프로미스는 42로 채워집니다.
 
 - [참고1](https://ko.javascript.info/async) 
 - [참고2](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise) 
-

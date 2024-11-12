@@ -164,4 +164,8 @@ Function prototype.apply(thisArg[, argsArray])
 Function prototype.bind(thisArg[, arg1[, arg2[, ...]]]);
 ```
 
+# 화살표 함수에서의 this
+
+- **화살표 함수는 this를 자신이 정의된 상위 스코프로부터 상속 받습니다** 
+- `call` , `apply` , `bind` 로 `this` 를 변경할 수 없습니다.
 
