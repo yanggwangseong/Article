@@ -152,8 +152,7 @@ setTimeout(callback, 100); // (3)
 - 셍성자 함수를 호출하면 해당 인스턴스가 this가 된다.
 
 
-
-# 명시적 this 바인딩 
+# 명시적 this 바인딩
 - call
 - apply
 - bind
@@ -166,6 +165,89 @@ Function prototype.bind(thisArg[, arg1[, arg2[, ...]]]);
 
 # 화살표 함수에서의 this
 
-- **화살표 함수는 this를 자신이 정의된 상위 스코프로부터 상속 받습니다** 
-- `call` , `apply` , `bind` 로 `this` 를 변경할 수 없습니다.
+- **화살표 함수에서 this는 호출 방식에 영향을 받지 않고, 선언된 시점의 상위 스코프에 의해서 결정 됩니다** 
+- 화살표 함수 내부에서나 외부에서`call` , `apply` , `bind` 로 `this` 를 사용해도 this를 변경할 수 없습니다.
 
+
+```js
+const obj = {
+  name: "ComplexObject",
+  method: function () {
+    console.log("method this: ", this);
+    const user = {
+      name: "Alice",
+      greet: () => {
+        console.log(`Hello, ${this.name}!`);
+        console.log("Using call:", (() => this.name).call({ name: "Bob" }));
+        console.log(
+          "Using apply:",
+          (() => this.name).apply({ name: "Charlie" })
+        );
+        const boundFunc = (() => this.name).bind({ name: "Dave" });
+        console.log("Using bind:", boundFunc());
+      },
+    };
+    return user;
+  },
+};
+
+const user = obj.method();
+
+user.greet();
+
+const user2 = obj;
+const test = user2.method();
+test.greet();
+
+const alice = {
+  name: "Alice",
+};
+const boundGreet = user.greet.bind(alice);
+boundGreet();
+/**
+ *
+ * 일반 함수는 가능하다
+ */
+const obj2 = {
+  name: "obj2",
+  greet: function () {
+    console.log(`Obj2 Hello, ${this.name}`);
+  },
+};
+
+const boundobj2 = obj2.greet.bind(alice);
+boundobj2();
+
+function execute(callback) {
+  callback();
+}
+
+execute(user.greet);
+
+const person = {
+  name: "Lee",
+};
+
+Object.prototype.sayHi = () => console.log(`Hi ${this.name}`);
+
+person.sayHi();
+
+function Prefixer(prefix) {
+  this.prefix = prefix;
+}
+
+Prefixer.prototype.prefixArray = function (arr) {
+  return arr.map((x) => `${this.prefix}  ${x}`);
+};
+
+const pre = new Prefixer("Hi");
+console.log(pre.prefixArray(["Lee", "Kim"]));
+
+
+```
+
+**화살표 함수는 무조건 선언된 시점의 상위 스코프를 따른다는것을 이해해야 합니다**  
+
+## 일반 함수에서의 this
+
+- **호출 방식에 영향을 받습니다**
