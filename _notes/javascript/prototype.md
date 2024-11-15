@@ -74,3 +74,141 @@ app2.hasOwnProperty(2); // true
 	- 예를 들어, `Object.freeze(instance)` 는 사용할 수 있지만 `instance.freeze()` 는 사용할 수 없는 이유다.
 - 객체 한정 메서드들을 `Object.prototype` 이 아닌 `Object` 에 직접 부여할 수 밖에 없던 이유
 	- *Object.prototype* 이 여타의 참조형 데이터뿐 아니라 기본형 데이터조차 `__proto__` 에 반복 접근함으로써 도달할 수 있는 최상위 존재이기 때문이다.
+
+
+
+# 프로토타입이 왜 필요할까?
+
+# 프로토 타입이 어떻게 객체를 만들어 내는가?
+
+## JS 객체의 분류
+
+- `ordinary object`
+- `exotic object` 
+
+### Ordinay object
+
+> 필수적인 내부 메서드 (`essential internal methods` )를 모두 구현하는 일반적인 객체를 의미합니다.
+
+- 객체 리터럴
+- Object 생성자 함수
+- 생성자 함수
+- Object.create 메서드
+- 클래스
+
+### Exotic object
+
+> Exotic object란 `ordinay object` 가 아닌 특수한 동작을 가진 객체를 의미 합니다.
+
+- Array : `length` 속성이 자동으로 관리됨.
+- Proxy : 기본 동작을 가로채어 수정할 수 있음.
+- String : 인덱스를 사용해 접근 가능.
+- Arguments : 함수 호출시 전달된 인수 목록을 관리.
+
+## OrdinaryObjectCreate
+
+- 프로토타입은 추상 연산 `OrdinaryObjectCreate` 에 전달되는 인수에 의해 결정됩니다.
+- 이 인수는 객체가 생성되는 시점에 객체 생성 방식에 의해 결정 됩니다.
+
+1. 추상 연산 OrdinaryObjectCreate는 필수적으로 생성 할 객체의 프로토타입을 인수로 전달 받습니다.
+2. 추상 연산 OrdinaryObjectCreate는 빈 객체를 생성한 후, 객체에 추가 할 프로퍼티 목록이 인수로 전달된 경우 프로퍼티를 객체에 추가합니다.
+3. 인수로 전달받은 프로토타입을 자신이 생성한 객체의 Prototype 내부 슬롯에 할당한 다음, 생성한 객체를 반환합니다.
+
+> `new Animal(...)` 가 실행 될때
+
+1. `Animal.prototype` 을 상속하는 새로운 객체가 하나 생성 됩니다.
+2. 새롭게 생성된 객체에 this가 바인딩이 되고 Animal 함수가 생성자 함수로써 호출된다.
+3. 일반적으로 생성자 함수에서 리턴이 없기 때문에 1번에서 생성된 객체가 대신 사용된다. 즉, 인스턴스가 된다.
+4. `return` 시에 반환값이 없거나 `Primitive` 값을 반환하는 경우 1번에서 생성된 객체가 반환 됩니다.
+5. 그 이외의 것들을 `return` 하게 되면 그 반환된 객체가 반환됩니다.
+
+```js
+function FuncAnimal() {
+  this.name = "animal";
+}
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+const animal = new Animal("dog");
+console.log(animal); // Animal { name: 'dog' }
+console.log(animal.__proto__ === Animal.prototype); // true
+const funcAnimal = new FuncAnimal();
+console.log(funcAnimal); // FuncAnimal { name: 'animal' }
+console.log(funcAnimal.__proto__ === FuncAnimal.prototype); // true
+```
+
+```js
+// 원시값(Primitive)값을 반환하는 경우 1번 생성된 객체가 반환 됩니다.
+function FuncAnimal() {
+  this.name = "animal";
+
+  return 1;
+}
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+    return 2;
+  }
+}
+
+const animal = new Animal("dog");
+console.log(animal); // Animal { name: 'dog' }
+const funcAnimal = new FuncAnimal();
+console.log(funcAnimal); // FuncAnimal { name: 'animal' }
+```
+
+```js
+// 그 이외의 값을 반한할 때
+function FuncAnimal() {
+  this.name = "animal";
+
+  return new Map();
+}
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+    return new Map();
+  }
+}
+
+const animal = new Animal("dog");
+console.log(animal); // Map(0) {}
+const funcAnimal = new FuncAnimal();
+console.log(funcAnimal); // Map(0) {}
+```
+
+## 리터럴 타입으로 선언
+
+```js
+// 배열 리터럴
+const arr1 = [1,2,3,4,5];
+const obj1 = {};
+const string1 = "String1";
+const number1 = "Number1";
+```
+
+1. 리터럴을 사용하여 생성된 객체의 경우 이 값은 `Object.prototype` , `Array.prototype`, `String.prototype` , `Number.prototype`  등 입니다.
+
+# 객체 생성자가 아닌 방식으로 클래스 만드는 방법
+
+
+
+# 프로토타입 전달
+
+1. 예상 되는 필드 값이 있어야 되는데 없는지
+2. 메서드나 이런것들이 어디에 있어야 되는지, 만들면 어디로 가는지?
+3. 메모리상 어디로 어디에 위치 하는지?
+
+# Reference
+
+- [https://tc39.es/ecma262/#ordinary-object](https://tc39.es/ecma262/#ordinary-object) 
+- [MDN링크](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/new) 
+- [MDN링크2](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/proto) 
+- [ECMASSCRIPT](https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-object.prototype.__proto__) 
+
