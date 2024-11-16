@@ -23,5 +23,15 @@ permalink: /javascript/event-loop/event-loop
     - 예를 들어, `setTimeout()`의 콜백은 지정된 시간이 지난 후 매크로 태스크 큐에 추가되고, 그 후에 이벤트 루프에 의해 실행됩니다.
 
 # 로드맵
+
 1. [[Execution Context]]
+
+# Reference
+
+- [링크1](https://developer.mozilla.org/ko/docs/Web/JavaScript/Event_loop) 
+- [링크2](https://ko.javascript.info/event-loop) 
+- [링크3](https://www.youtube.com/watch?v=8aGhZQkoFbQ) 
+- [링크4](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) 
+
+
 

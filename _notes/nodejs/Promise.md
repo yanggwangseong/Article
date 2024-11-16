@@ -73,7 +73,6 @@ promise.then((result) => {
 - Promise에서 resolve를 실행해서 현재 States가 `Fulfilled` 가 되고 Fates가 `Resolved` 가 되어서 `Settled` 되어 상태는 불변하여 then을 호출하면 결과값이 결정 되었기 때문에 언제든지 그값을 다시 호출하면 같은 결과를 얻을 수 있다.
 - **즉, `then` 이나 `catch` 그리고 `finaly` 를 계속 호출 할 수 있는 이유가 `Settled` 되었기 때문이다!**  
 
-
 ### Promise chain
 
 - `then` 
@@ -125,6 +124,8 @@ Promise.resolve(aThenable); // 프로미스는 42로 채워집니다.
 
 - 콜백을 받는 함수를 프라미스를 반환하는 함수로 바꾸는 것을 '프라미스화(promisification)'라고 합니다.
 - 기능을 구현 하다 보면 콜백보다는 프라미스가 더 편리하기 때문에 콜백 기반 함수와 라이브러리를 프라미스를 반환하는 함수로 바꾸는 게 좋은 경우가 종종 생깁니다.
+
+## Promise 
 
 # Reference
 

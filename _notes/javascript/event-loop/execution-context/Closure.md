@@ -3,7 +3,9 @@ title: Closure
 permalink: /javascript/event-loop/execution-context/closure
 ---
 - [[Execution Context]]
+
 # Closure
+
 - 어떤 함수 LexicalEnvironment의 environmentRecord에 있는 지역 변수를 내부함수가 outerEnvironmentReference를 통해 참조하는 내부 함수를 외부로 전달 할 경우, 어떤 함수의 실행 컨텍스트가 종료된 후에도 해당 지역 변수가 사라지지 않는 현상.
 - 내부함수를 외부로 전달하는 방법에는 함수 return, 콜백으로 전달.
 - 어떤 함수에서 선언한 변수를 참조하는 내부함수에서만 발생하는 현상.
@@ -49,6 +51,7 @@ console.log(closure(4));
 console.log(closure(5));
 ```
 ## 클로저 활용
+
 1. 콜백 함수 내부에서 외부 데이터를 사용하고자 할 때
 2. 접근 권한 제어(정보 은닉 캡슐화)
 	- 함수에서 지역변수 및 내부 함수 등을 생성합니다.
@@ -61,6 +64,7 @@ console.log(closure(5));
 
 
 ### 접근 권한 제어(정보 은닉)
+
 ```js
 var outer = function () {
 	var a = 1;
@@ -75,6 +79,7 @@ console.log(outer2());
 ```
 
 ### 부분 적용 함수
+
 > bind 활용
 
 ```js
@@ -90,6 +95,7 @@ console.log(addPartial(6, 7, 8, 9, 10));
 ```
 
 ### 커링 함수
+
 ```js
 var curry3 = function (func) {
 	return function (a) {

@@ -4,6 +4,7 @@ permalink: /javascript/event-loop/execution-context/this
 ---
 - [[Execution Context]]
 # this
+
 - 실행 컨텍스트가 실행 될때 함께 결정된다.
 	- 즉, 함수를 호출할 때 결정된다.
 - 전역 공간에서의 this는 전역객체(window, global)를 참조
@@ -13,16 +14,19 @@ permalink: /javascript/event-loop/execution-context/this
 - 생성자 함수에서의 this는 생성될 인스턴스를 참조.
 
 # this가 달라지는 상황
+
 - 전역 공간에서의 this
 - 함수 호출시
 - 메서드 호출시
 - callback 호출시
 - 생성자 함수 호출시
 ## 전역 공간에서의 this
+
 - 전역 공간에서 this는 전역객체를 의미한다.
 	- window, global === this.
 	- `JS의 모든 변수는 실은 특정 객체의 프로퍼티로서 동작하기 때문에` 
 ## 함수 메서드 호출시
+
 - 일반 함수 표현식이든 함수 선언문이든 일반 함수로 호출시 전역 객체를 가리킨다.
 	- `this는 전역 객체를 가리킨다.`
 	- strict mode 에서는 `this는 undefined` 가 된다.
@@ -87,6 +91,7 @@ e(); // (7)
 	- (6) : { innerMethod : f } 
 
 ### 메서드 내부함수에서의 this를 우회법
+
 - 변수를 활용하는 방법
 - 화살표 함수 사용
 - 명시적 this지정 (call, apply, bind)
@@ -109,6 +114,7 @@ obj.b();
 ```
 
 ## callback 호출시
+
 > 함수 A의 제어권을 다른 함수(또는 메서드) B에게 넘겨주는 경우 함수 A를 콜백 함수라 합니다. <br>
 > 기본적으로는 전역 객체를 참조하지만, `제어권을 받은 함수에서 콜백 함수에 별도로 this가 될 대상을 지정한 경우에는 그 대상을 참조 한다` 
 
@@ -147,12 +153,13 @@ setTimeout(callback, 100); // (3)
 	- (4) 지정 안하면 this를 전역 객체 : window/global
 	- (5) 두번째 인자 thisArgs를 지정하면 지정한 값이 this가 된다. : `[6,7,8]` 
 
-
 ## 생성자 함수 호출시
+
 - 셍성자 함수를 호출하면 해당 인스턴스가 this가 된다.
 
 
 # 명시적 this 바인딩
+
 - call
 - apply
 - bind

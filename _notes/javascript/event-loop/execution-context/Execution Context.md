@@ -4,6 +4,7 @@ permalink: /javascript/event-loop/execution-context/execution-context
 ---
 
 # 실행 컨텍스트
+
 - VariableEnvironment
 	- environmentRecord (snapshot)
 	- outerEnvironmentReference (snapshot)
@@ -15,6 +16,7 @@ permalink: /javascript/event-loop/execution-context/execution-context
 	- 실행 컨텍스트가 활성화 당시에 this가 지정되지 않은 경우 this에는 전역 객체가 저장(window, global)
 
 # 실행 컨텍스트 생성
+
 1. Environment Record 생성
 	- 매개변수, 함수 선언, var로 선언된 변수를 수집하여 Environment Record를 구성
 2. Outer Environment Reference 설정
@@ -26,12 +28,15 @@ permalink: /javascript/event-loop/execution-context/execution-context
 5. ThisBinding
 
 # VariableEnvironment
+
 - `VariableEnvironment` 에 담기는 내용은 `LexicalEnvironment` 와 같지만 최초 실행시 스냅샷 유지
 - 실행 컨텍스트를 생성할 때 `VariableEnvironment` 에 정보를 먼저 담은 다음 그대로 복사해서 `LexicalEnvironment` 를 만든다.
 - 이후에는 주로 `LexicalEnvironment` 를 사용한다.
 
 # LexicalEnvironment
+
 ## EnvironmentRecord (호이스팅)
+
 > 현재 문맥의 식별자 정보
 
 - environmentRecord에 컨텍스트를 구성하는 함수에 지정된 매개변수 식별자, 선언한 함수가 있을 경우 그 함수 자체, var로 선언된 변수의 식별자등을 컨텍스트 내부 전체를 처음부터 끝까지 쭉 훑어나가며 순서대로 수집.
@@ -117,6 +122,7 @@ function scopeChainFunc(){
 - Global 실행 컨텍스트가 생성될 때, 함수 선언이 먼저 수집되기 때문에 `scopeChainFunc()` 함수가 코드 순서와 관계없이 실행될 수 있습니다.
 
 #### 결론
+
 - 함수 선언문 사용은 굉장히 위험하다.
 - 상대적으로 함수 표현식이 안전하다.
 
@@ -127,6 +133,7 @@ function scopeChainFunc(){
 > 현재 문맥에 관련 있는 외부 식별자 정보
 
 ### Scope
+
 - 변수의 유효범위.
 - *ES5* 까지의 JS는 오직 함수에 의해서만 스코프가 생성됨.
 - *ES6* 이후부터는 `let, const, class, strict mode` 를 통해서 블록 스코프 사용 가능.
@@ -193,6 +200,7 @@ console.log(a);
 
 
 # 나의 코드의 실행 컨텍스트 그리기
+
 ```js
 const globalVariable = "global";
 const outerFunc = () => {
@@ -245,6 +253,7 @@ outerFunc();
 	- 콜스택에서 글로벌 실행 컨텍스트 제거
 
 ## 그림으로 표현
+
 ![](/assets/execution-context.png)
 
 # Reference
