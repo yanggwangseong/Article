@@ -149,7 +149,6 @@ permalink: /nodejs/event-loop
 - 만약 `Timer Phase` 에서 즉시 실행할 수 있는 **타이머는 없지만** `n` 초 후에 실행할 수 있는 타이머가 있다면
 - `n` 초 기다린 후 다음 Phase로 넘어간다.
 
-
 ### Blocking I/O
 
 > Poll Phase에서 수행하는 2가지 기능
@@ -202,7 +201,71 @@ permalink: /nodejs/event-loop
 - **nextTickQueue는 microTaskQueue 보다 높은 우선순위를 가지고 더 먼저 실행 됩니다** 
 - **다른 Phase들과 다르게 시스템의 실행 한도의 영향을 받지 않는다** 
 
-### 예제 코드
+### 예제코드
+
+```js
+setTimeout(() => {
+  console.log("setTimeout 1");
+
+  setTimeout(() => {
+    console.log("setTImeout 2");
+  });
+  process.nextTick(() => {
+    console.log("nextTick inside setTimeout");
+  });
+
+  setTimeout(() => {
+    console.log("setTImeout 3");
+  });
+
+  Promise.resolve().then(() => {
+    console.log("Promise inside setTimeout");
+  });
+  setTimeout(() => {
+    console.log("setTImeout 4");
+  });
+}, 0);
+
+process.nextTick(() => {
+  console.log("nextTick 1");
+});
+
+Promise.resolve().then(() => {
+  console.log("Promise 1");
+});
+
+console.log("console.log");
+/*
+* console.log
+* nextTick 1
+* Promise 1
+* setTimeout 1
+* nextTick inside setTimeout
+* Promise inside setTimeout
+* setTImeout 2
+* setTImeout 3
+* setTImeout 4
+*/
+```
+
+- 해당 예제를 통해서 `nextTickQueue` 와 `microTaskQueue` 는 이벤트루프의 일부가 아니고 현재 작업중인 작업이 끝나면 우선순위 nextTickQueue > microTaskQueue로 의해서 실행 되는것을 알 수 있다.
+
+## 예제 코드1
+
+```js
+setTimeout(() => {
+  console.log("setTimeout");
+}, 0);
+setImmediate(() => {
+  console.log("setImmediate");
+});
+```
+
+- 실행 결과가 계속 바뀌는 예제이다. `setTimeout(fn,0)` 은 사실 `0ms` 뒤에 콜백을 실행하라는 뜻이 아니다.
+- 실제로는 `1ms` 뒤에 콜백을 실행하라는 뜻과 같다.
+- 따라서 `Timer Phase` 에 진입 했을때 `1ms` 이상의 시간이 흘렀다면 콜백이 실행될 수 있고 만약 `1ms` 이상의 시간이 흐르지 않았다면 콜백이 실행되지 않고 다음 Phase로 넘어가게 된다.
+
+## 예제 코드 2
 
 ```js
 // Node.js >= v11
@@ -241,7 +304,6 @@ setTimeout(() => {
 
 ![](/assets/image12.png)
 
-
 1. 이벤트 루프의 진입점은 `Timer Phase` 입니다.
 2. Node.js는 이벤트 루프를 먼저 생성하고 이벤트 루프 바깥에서 코드를 다 실행하고 이벤트 루프에 진입합니다.
 3. 이벤트 루프를 생성하고 진입하는데 `1ms` 도 안걸렸다면 `Timer Phase` 의 콜백은 실행될 수 없습니다.
@@ -266,6 +328,3 @@ setTimeout(() => {
 - [링크13](https://docs.libuv.org/en/v1.x/loop.html#c.uv_run) 
 - [링크14](https://medium.com/zigbang/nodejs-event-loop%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-16e9290f2b30) 
 - [링크15](https://evan-moon.github.io/2019/08/01/nodejs-event-loop-workflow/) 
-
-
-

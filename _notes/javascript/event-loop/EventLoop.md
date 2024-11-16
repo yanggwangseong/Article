@@ -33,5 +33,3 @@ permalink: /javascript/event-loop/event-loop
 - [링크3](https://www.youtube.com/watch?v=8aGhZQkoFbQ) 
 - [링크4](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) 
 
-
-

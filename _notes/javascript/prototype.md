@@ -77,7 +77,37 @@ app2.hasOwnProperty(2); // true
 
 # 프로토타입이 왜 필요할까?
 
-- 메모리 최적화를 위해서 필요하다.
+```js
+function Person(){
+	this.eyes = 2;
+	this.nose = 1;
+}
+
+const kim = new Person();
+const park = new Person();
+
+console.log(kim.eyes); // 2
+console.log(park.nose); // 1
+
+console.log(park.eyes); // 2
+console.log(park.nose); // 1
+```
+
+- `kim` 과 `park` 은 `eyes` 와 `nose` 를 공통적으로 가지고 있는데, 메모리에는 `eyes` 와 `nose` 가 2개씩 총 4개가 할당 됩니다. 이는 객체를 100개를 만들면 200개의 변수가 메모리에 할당되게 됩니다.
+
+```js
+function Person(){}
+
+Person.prototype.eyes = 2;
+Person.prototype.nose = 1;
+
+const kim = new Person();
+const park = new Person();
+
+console.log(kim.eyes); // 2
+```
+
+- Person의 prototype의 static 공간에 eyes와 nose를 둬서 메모리를 효율적으로 사용 할 수 있게 됩니다.
 
 # 프로토 타입이 어떻게 객체를 만들어 내는가?
 
@@ -289,8 +319,107 @@ console.log(car2.color); // 5:
 
 - classical
 
+```js
+/**
+ * Benz Bus <- Bus <-    Vehicle
+ * BMW Car <- Car <-     Vehicle
+ * HondaBike <- Bike <-  Vehicle
+ */
+
+function Vehicle(vehicleType) {
+  this.vehicleType = vehicleType;
+}
+
+Vehicle.prototype.blowHorn = function () {
+  console.log("Honk!");
+};
+
+function Bus(make) {
+  Vehicle.call(this, "Bus");
+  this.make = make;
+}
+
+Bus.prototype = Object.create(Vehicle.prototype);
+
+Bus.prototype.noOfWheels = 6;
+Bus.prototype.accelerator = function () {
+  console.log("Accelerating Bus");
+};
+
+Bus.prototype.brake = function () {
+  console.log("Braking Bus");
+};
+
+function Car(make) {
+  Vehicle.call(this, "Car");
+}
+Car.prototype = Object.create(Vehicle.prototype);
+Car.prototype.noOfWheels = 4;
+Car.prototype.accelerator = function () {
+  console.log("Accelerating Car");
+};
+Car.prototype.brake = function () {
+  console.log("Braking Car");
+};
+
+function Bike(make) {
+  Vehicle.call(this, "Bike");
+  this.make = make;
+}
+Bike.prototype = Object.create(Vehicle.prototype);
+Bike.prototype.noOfWheels = 2;
+Bike.prototype.accelerator = function () {
+  console.log("Accelerating Bike");
+};
+Bike.prototype.brake = function () {
+  console.log("Braking Bike");
+};
+
+const myBus = new Bus("Benz");
+const myCar = new Car("BMW");
+const myMotorBike = new Bike("Honda");
+
+console.dir(myBus);
+/**
+ * Bus
+ * - make: "Benz"
+ * - vehicleType : "Bus"
+ * - __proto__ (Vehicle)
+ *   - accelerator : f()
+ *   - brake: f()
+ *   - noOfWheels: 6
+ *   - __proto__: Object
+ *     - blowHorn : f()
+ *     - constructor: f Vehicle(vehicleType)
+ */
+
+```
+
 - prototypal
 
+```js
+let animal = {
+  eats: true,
+  walk() {
+    console.log("동물이 걷습니다");
+  },
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal,
+};
+
+let longEar = {
+  earLength: 10,
+  __proto__: rabbit,
+};
+
+console.dir(longEar.eats);
+console.dir(longEar.jumps);
+console.dir(longEar.walk());
+console.dir(longEar.jumps);
+```
 ## extends
 
 ```js
@@ -320,16 +449,6 @@ console.log(b.name); // "yang"
 - 이전에 함수에서만 `prototype` 을 가질 수 있다고 하였다.
 - 결국 class에서 `extends` 가 의미하는것은 `__proto__` 객체가 `prototype` 객체를 참조할 수 있게 해주는것이다.
 
-# 프로토타입 전달
-
-1. 예상 되는 필드 값이 있어야 되는데 없는지
-2. 메서드나 이런것들이 어디에 있어야 되는지, 만들면 어디로 가는지?
-3. 메모리상 어디로 어디에 위치 하는지?
-
-프로토타입으로 extends 해보고 예상되는 필드값이 있어야 되는데 없다던지 그런거 확인
-메서드나 이런것들이 어디에 있어야 되는가 만들면 어디로 가는가
-메모리상 어디로 어디에 위치하는건가
-
 # Reference
 
 - [tc39링크1](https://tc39.es/ecma262/#ordinary-object) 
@@ -339,5 +458,3 @@ console.log(b.name); // "yang"
 - [ECMASSCRIPT](https://tc39.es/ecma262/multipage/fundamental-objects.html#sec-object.prototype.__proto__) 
 - [MDN ObjectCreate](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/create) 
 - [링크](https://poiemaweb.com/js-prototype) 
-
-
