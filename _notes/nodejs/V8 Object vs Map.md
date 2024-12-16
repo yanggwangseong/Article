@@ -75,9 +75,35 @@ console.log("hasOwnProperty" in obj); // true
 	- 숫자나 다른 타입의 키를 사용하려고 하면 자동으로 문자열로 변환됩니다.
 	- [ECMAScript 사양에 따르면, "The properties of an object are uniquely identified using property keys. A property key is either a String or a Symbol."](https://tc39.es/ecma262/#sec-object-type) 
 - Map
+	- 하나의 `Map` 에서의 키는 **오직 단 하나만 존재** 합니다.
 	- **키로 모든 타입을 사용할 수 있습니다** 
 		- 객체, 함수, 심지어 다른 Map도 키로 사용할 수 있습니다.
 	- [MDN Web Docs에 따르면, "Map 객체는 키로 모든 값(객체와 원시 값 모두)을 사용할 수 있습니다."](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Map) 
+
+## 크기를 빠르게 구할 수 있다
+
+- Object
+	- O(n)의 시간이 소요된다.
+- Map
+	- O(1)의 시간이 소요된다.
+
+```js
+const map = new Map();
+map.set('someKey1', 1);
+map.set('someKey2', 1);
+...
+map.set('someKey100', 1);
+
+console.log(map.size) // 100, Runtime: O(1)
+
+const plainObjMap = {};
+plainObjMap['someKey1'] = 1;
+plainObjMap['someKey2'] = 1;
+...
+plainObjMap['someKey100'] = 1;
+
+console.log(Object.keys(plainObjMap).length) // 100, Runtime: O(n)
+```
 
 ## 키의 순서 보장
 
@@ -170,6 +196,42 @@ for (const [key, value] of map) {
 
 - 삽입한 순서대로 데이터를 반환 하는것을 알 수 있습니다.
 
+
+## Iteration
+
+- Object
+	- key를 먼저 모두 찾아낸 다음에야 그것들을 토대로 순회 합니다.
+- Map
+	- Map은 그 자체가 iterable 하기 때문에 바로 사용 할 수 있습니다.
+
+```js
+// 1. Map을 순회하는 예
+const map = new Map();
+map.set('키1', 1);
+map.set('키2', 2);
+map.set('키3', 3);
+
+for (let [key, value] of map) {
+  console.log(`${key} = ${value}`);
+}
+
+// 2. Plain Object를 순회하는 예
+const plainObjMap = {};
+plainObjMap['키1'] = 1;
+plainObjMap['키2'] = 2;
+plainObjMap['키3'] = 3;
+
+for (let key of Object.keys(plainObjMap)) {
+  const value = plainObjMap[key];
+  console.log(`${key} = ${value}`);
+}
+
+// * 출력 결과는 동일
+// 키1 = 1
+// 키2 = 2
+// 키3 = 3
+```
+
 ## 성능 측면
 
 - Object : 키-값 쌍의 추가 및 삭제 시에 최적화되어 있지 않아 특히 많은 양의 데이터를 다룰 때 성능 저하가 발생할 수 있습니다.
@@ -177,8 +239,24 @@ for (const [key, value] of map) {
 
 ## 프로토타입 체인 영향
 
-- Object : 프로토타입 체인의 영향을 받기 때문에, 키로 사용하려는 이름이 프로토타입 체인에 존재하면 예기치 않은 동작이 발생할 수 있습니다.
-- Map : 프로토타입 체인의 영향을 받지 않으며, 키로 사용된 값이 충돌할 위험이 없습니다.
+- Object
+	- prototype 체인의 영향으로 key들을 예약어처럼 가지고 있습니다.
+		- ex) `toString` , `constructor` , `valueOf` 
+		- 이러한 key를 사용하면 프로토타입의 메서드와 충돌이 발생할 수 있습니다.
+- Map
+	- map에서는 문제가 없습니다.
+
+```js
+const map = new Map();
+map.set('키1', 1);
+map.set('키2', 2);
+map.set('toString', 3); // Map에서는 문제 없습니다.
+ 
+const plainObjMap = {};
+plainObjMap['키1'] = 1;
+plainObjMap['키2'] = 2;
+plainObjMap['toString'] = 3; // toString은 이미 선점되어 있습니다. toString()을 사용할 수 없게됩니다.
+```
 
 # Reference
 

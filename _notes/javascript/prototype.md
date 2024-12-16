@@ -393,6 +393,32 @@ console.dir(myBus);
  *     - constructor: f Vehicle(vehicleType)
  */
 
+
+/*
+* class 사용시
+*/
+class Vehicle {
+  constructor(type) {
+    this.vehicleType= type;
+  }
+  blowHorn() {
+    console.log("Honk!");
+  }
+}
+class Bus extends Vehicle {
+  constructor(make) {
+    super("Bus");
+    this.make = make; 
+  }
+  accelerator() {
+    console.log('Accelerating Bus');
+  }
+  brake() {
+    console.log('Braking Bus');
+  }
+}
+Bus.prototype.noOfWheels = 6;
+const myBus = new Bus("Mercedes");
 ```
 
 - prototypal
@@ -420,6 +446,7 @@ console.dir(longEar.jumps);
 console.dir(longEar.walk());
 console.dir(longEar.jumps);
 ```
+
 ## extends
 
 ```js
