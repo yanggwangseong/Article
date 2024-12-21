@@ -39,4 +39,5 @@ permalink: /wating/1
 
 
 <iframe src="https://docs.google.com/presentation/d/11sQIFWbpxqH3QON263AcdFlc3VASSK02PUED-yd12vM/preview" 
-        frameborder="0" width="960" height="569" allowfullscreen></iframe>
+        frameborder="0" width="100%" height="569" allowfullscreen></iframe>
+
