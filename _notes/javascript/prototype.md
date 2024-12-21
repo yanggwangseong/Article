@@ -1,6 +1,8 @@
 ---
 title: prototype
 permalink: /javascript/prototype
+tags:
+  - Javascript
 ---
 
 # 🛠️ 프로토타입 개념 정리

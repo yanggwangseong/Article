@@ -1,6 +1,8 @@
 ---
 title: DataType
 permalink: /javascript/data-type
+tags:
+  - Javascript
 ---
 # 데이터 타입
 
