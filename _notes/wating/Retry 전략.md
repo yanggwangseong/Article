@@ -36,3 +36,7 @@ permalink: /wating/1
 - **Application Load Balancer (ALB)** 가 클라이언트 요청을 여러 컨테이너에 분산시킵니다.
 - 트래픽이 분산되면서 성능과 가용성이 개선됩니다.
 
+
+
+<iframe src="https://docs.google.com/presentation/d/11sQIFWbpxqH3QON263AcdFlc3VASSK02PUED-yd12vM/preview" 
+        frameborder="0" width="960" height="569" allowfullscreen></iframe>
