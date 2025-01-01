@@ -1,6 +1,6 @@
 ---
 title: nestjs-jwt
-permalink: /wating/1
+permalink: /wating/jwt
 ---
 
 # @nestjs/jwt 모듈 성능 이슈
