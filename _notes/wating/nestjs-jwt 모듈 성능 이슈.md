@@ -57,3 +57,8 @@ permalink: /wating/1
 - `createPublicKey` 호출 제거 성공!!!!!!!!!!!!!!!!!! 
 - jwtwebotken 라이브러리 이슈 `if (secretOrPublicKey != null && !(secretOrPublicKey instanceof KeyObject)) {` 
 
+# Reference
+
+- [jwtwebtoken위치](https://github.com/auth0/node-jsonwebtoken/blob/master/sign.js)
+- [verifyAsync위치](https://github.com/nestjs/jwt/blob/7030389b880882e9a6b3ff66003cfcc7e5403f9c/lib/jwt.service.ts#L129)
+
