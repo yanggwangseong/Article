@@ -49,10 +49,19 @@ permalink: /wating/nginx
     - 클라우드 환경에서는 로드 밸런서와 오토 스케일링 그룹을 통해 수평적 확장을 구현할 수 있으나, 비용 문제가 발생할 수 있습니다.
     - 비용 효율성을 고려하여 **Nginx**와 **Docker Compose**를 사용해 로드 밸런서와 수평적 확장을 직접 구현합니다.
 
+
+## 1. 왜 resolver 지시자가 필요한가?
+
+- Nginx는 기본적으로 **DNS를 한 번만** 해석(기동 혹은 `nginx -s reload` 시점)하고 그 결과를 캐싱합니다.
+- 스케일 아웃/인 시점에 컨테이너가 늘어나거나 줄어들어도, Nginx가 DNS를 다시 조회하지 않으면 **1개의 IP만 쓰게 되는 문제**가 생길 수 있습니다.
+- **`resolver 127.0.0.11 valid=30s; server backend:3000 resolve;`** 형태로 설정하면,
+    - Docker 내부 DNS(127.0.0.11)에서 일정 주기(30초)로 **다시** backend 서비스의 IP 리스트를 가져와 라운드 로빈하게 됩니다.
+    - 이로써 backend 컨테이너를 1개에서 3개, 3개에서 5개로 늘리거나 줄여도 **Nginx가 스케일 상태에 따라 자동 반영**하게 됩니다.
 # Reference
 
 - [Nginx 사용 로드밸런싱](https://hudi.blog/load-balancing-with-nginx/) 
 - [AWS SDK NCP ObjectStorage 사용](https://guide.ncloud-docs.com/docs/storage-storage-8-4) 
+- [Nginx 공식문서](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/) 
 
 
 
