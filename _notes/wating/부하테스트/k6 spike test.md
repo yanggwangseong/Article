@@ -9,12 +9,16 @@ permalink: /wating/k6-spike-test
 
 # Plateau(고원지대) 와 RPS
 
+- [Plateau란](https://ardalis.com/load-testing-and-the-requests-per-second-curve/) 
 - Plateau란 높은 트래픽이 발생 했을 때 시스템이 처리하는 트래픽(RPS)가 일정하게 유지되지만 대신 에러율과 응답시간이 증가하는 상태 입니다.
+- *Plateau(고원지대)* 란
+	- VUs가 증가 함에 따라 RPS가 더이상 증가하지 않고 일정한 수준에 머무르게 되는데 이때 RPS는 일정하지만 응답 시간과 에러율이 증가하는 구간을 말합니다.
 
 ## 질문
 
 - Plateau를 찾을 때 api의 파라미터는 고정된 파라미터를 사용하는게 맞을까?
 - 높은 response data사이즈로 인해서 클라우드 아웃바운드 네트워크 초과 과금이 발생 할것 같은데 어떻게 하면 좋을까요?
+- 스파이크 테스트시에 Database에 슬립 프로세스가 많이 생기는데 
 ## Plateau 확인 지표
 
 - 처리량 유지 : RPS(Requests Per Second) 또는 Throughput이 일정하게 유지 됩니다.

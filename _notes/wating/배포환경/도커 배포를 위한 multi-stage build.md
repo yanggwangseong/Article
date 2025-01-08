@@ -11,3 +11,4 @@ permalink: /wating/multi-stage build
 - 현재 ECR의 배포 이미지의 크기는 187MB이다.
 - 이는 생각 보다 꽤 큰 사이즈이다.
 - 일반적으로는 100MB이하로 만드는것이 좋다.
+
