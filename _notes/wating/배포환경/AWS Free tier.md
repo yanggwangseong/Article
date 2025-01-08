@@ -3,7 +3,6 @@ title: mokakbab-issue
 permalink: /wating/k6-spike-test
 ---
 
-
 - ECR
 - ECS
 - RDS
@@ -167,7 +166,7 @@ sudo yum install -y containerd.io docker
 
 ![[Pasted image 20250106203649.png]]
 
-- *중요) CPU 메모리 1GB로 변경* 
+- *중요) CPU 메모리 0.98GB로 변경* 
 - EC2 인스턴스 선택
 - *네트워크 모드 EC2는 브릿지 선택 해야된다* 
 - 태스크 크기
@@ -398,8 +397,6 @@ jobs:
 	- Task 정의에 가서 Task 만들기
 - ECS 페이지에서 나머지 부분들은 다 github actions로 처리 할 수 있다.
 
-
-
 # 과금 문제
 
 - IPV4 과금문제
@@ -407,7 +404,7 @@ jobs:
 
 https://shortcuts.tistory.com/53
 
-
 # Reference
 
 - [많은 도움이된 블로그](https://velog.io/@heoze/%EB%8F%84%EC%A0%84-%ED%94%84%EB%A6%AC%ED%8B%B0%EC%96%B4%EB%A1%9C-AWS-ECS-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-ECS-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%EC%97%90-EC2-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%97%B0%EA%B2%B0-%EA%B0%84%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%85%8C%EC%8A%A4%ED%8A%B8) 
+
