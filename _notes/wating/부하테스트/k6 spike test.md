@@ -2,13 +2,106 @@
 title: mokakbab-issue
 permalink: /wating/k6-spike-test
 ---
+# 결론적인 서버 최대치 찾기
 
-- [k6 공식문서 spike 테스트](https://grafana.com/blog/2024/01/30/spike-testing/) 
-- [그라파 공식문서 부하 테스트 종류 정리](https://grafana.com/load-testing/) 
+- 스파이크 테스트를 진행 하라.
+- 고원 지대를 파악하고 그 고원지대라는것은 일정한 RPS를 유지하는 구간이다.
+- 이는 조건이 있는데 RPS가 일정함을 유지해야 하고 대신 duration이 증가하거나 오류율이 증가한다.
+- *애플리케이션 CPU 사용률 네트워크 인바운드 등 모니터링* 그래도 CPU 사용률이 70~80%정도는 나와줘야 한다.
 
+## 애플리케이션 문제라면
+- 비동기 호출 함수 최적화
+- 플레임 그래프 적극 활용하여 어디서 병목이 발생하고 어디서 CPU 유틸리제이션이 높은지 확인하여 최적화 개선
+
+## 디비 관련 문제라면
+
+- `mysql` 핵심 conf 설정
+	- time out 관련 설정 2개
+	- max-connection 개수 설정
+	- max-user-connection 개수 설정
+		- *이거 설정하면 문제가 생기는듯* 
+- typeORM 적절한 설정
+
+```
+// 현재 최대선인듯
+// AWS RDS max connection 500
+extra: {
+	connectionLimit: 400,
+	waitForConnections: true,
+	queueLimit: 100,
+	enableKeepAlive: true,
+	keepAliveInitialDelay: 10000,
+} as PoolOptions,
+```
+
+- 맥스 커넥션에 따른 connectionLimit 설정
+- 킵얼라이브 설정
+- `waitForConnections` 옵션 반드시 true `mysql2` 라이브러리 이슈가 있음. 원인은 아직 못찾음
+- 적절한 `queueLimit`
+
+
+### max_connections 계산 공식
+
+```
+max_connections = (Available Memory - Global Buffers) / Thread Buffers
+```
+
+-  `innodb_buffer_pool_size`: 기본적으로 사용 가능한 메모리의 약 70% (700MB로 가정)
+- Thread Buffers (각 연결당 소비 메모리): 기본적으로 약 1MB ~ 2MB 계산 기준
+
+```
+Available Memory = 1024MB - 700MB (innodb_buffer_pool_size) - 50MB (기타 버퍼)
+= 약 274MB
+
+Thread Buffers = 2MB (추정)
+max_connections = 274MB / 2MB = 약 137
+```
+
+#### RPS 처리에 따라 계산
+```
+Concurrent Connections = RPS * Average Request Duration
+```
+
+- 1500 RPS를 처리하려면, 요청당 처리 시간에 따라 동시 연결 수가 달라집니다.
+- RPS 초당 요청 : 1500
+- Average Request Duration (초당 처리 시간) : 예를 들어 현재 테스트 한 `api` 평균 `http_req_duration`이 **1.71초**
+
+```
+Concurrent Connections = 390 * 1.71 = 약 667
+// 약 700개 설정
+
+// TypeORM connectionLimit 600개 설정
+```
+
+### TypeORM 설정 문제
+
+```ts
+ ERROR [GlobalExceptionFilter] Exception: Queue limit reached.
+Error: Queue limit reached.
+    at Pool.getConnection (/home/mokakbab/node_modules/mysql2/lib/base/pool.js:72:17)
+    at /home/mokakbab/node_modules/typeorm/driver/mysql/MysqlDriver.js:728:27
+    at new Promise (<anonymous>)
+    at MysqlDriver.obtainMasterConnection (/home/mokakbab/node_modules/typeorm/driver/mysql/MysqlDriver.js:719:16)
+    at MysqlQueryRunner.connect (/home/mokakbab/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:60:18)
+    at /home/mokakbab/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:150:55
+    at new Promise (<anonymous>)
+    at MysqlQueryRunner.query (/home/mokakbab/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:147:16)
+    at DataSource.query (/home/mokakbab/node_modules/typeorm/data-source/DataSource.js:350:42)
+    at EntityManager.query (/home/mokakbab/node_modules/typeorm/entity-manager/EntityManager.js:95:32)
+```
+
+
+```
+ ERROR [GlobalExceptionFilter] Exception: connect ETIMEDOUT
+Error: connect ETIMEDOUT
+    at PoolConnection._handleTimeoutError (/home/mokakbab/node_modules/mysql2/lib/base/connection.js:200:17)
+
+```
 
 # Plateau(고원지대) 와 RPS
 
+- [k6 공식문서 spike 테스트](https://grafana.com/blog/2024/01/30/spike-testing/) 
+- [그라파 공식문서 부하 테스트 종류 정리](https://grafana.com/load-testing/) 
 - [Plateau란](https://ardalis.com/load-testing-and-the-requests-per-second-curve/) 
 - Plateau란 높은 트래픽이 발생 했을 때 시스템이 처리하는 트래픽(RPS)가 일정하게 유지되지만 대신 에러율과 응답시간이 증가하는 상태 입니다.
 - *Plateau(고원지대)* 란
@@ -207,3 +300,102 @@ export const options = {
 
 - 응답 본문을 무시하고 테스트 할 수 있지만 이는 정확한 부하 테스트라고 보기 어려울것 같다.
 - `response` 데이터를 압축해서 리턴하면 어떻게 될까
+
+
+# connect ETIMEDOUT
+
+> Exception: connect ETIMEDOUT
+> Error: connect ETIMEDOUT
+
+
+## 흠 도대체 왜 쿼리 최적화를 했는데도 안될까?
+
+- `slow_query_log = 1 long_query_time = 1` 
+
+
+![[Pasted image 20250110043317.png]]
+
+- BinLogDIsUsage 스파이크 문제
+
+**문제**: `BinLogDiskUsage`가 급격히 증가한 것으로 보입니다. 이는 MySQL에서 **Binary Logging** 기능이 활성화되어 있고, 트랜잭션이나 데이터 변경(INSERT, UPDATE, DELETE)이 많아질 때 발생할 수 있습니다.
+
+- Binary Logging은 주로 데이터 복제나 변경 사항 로그 기록을 위해 사용됩니다.
+- BinLog가 디스크에 기록되기 때문에 디스크 I/O를 증가시키고, 이로 인해 성능 저하가 발생할 수 있습니다.
+
+```makefile
+// `binlog_expire_logs_seconds`를 낮게 설정하여 오래된 BinLog를 자동으로 삭제
+binlog_expire_logs_seconds = 3600
+```
+
+### **4. DiskQueueDepth**
+
+- **문제**: `DiskQueueDepth` 지표가 상승하는 시점이 있으며, 이는 디스크 I/O 작업이 대기열에 쌓이고 있음을 나타냅니다.
+    
+    - INSERT와 같은 쓰기 작업이 많아 디스크 병목 현상이 발생할 가능성이 있습니다.
+- **해결 방안**:
+    
+    1. **IOPS 확인 및 조정**:
+        - RDS 인스턴스가 프로비저닝된 IOPS(Provisioned IOPS)를 사용하는지 확인합니다. 표준 SSD에서는 쓰기 작업량이 많을 경우 병목이 발생할 수 있습니다.
+        - 필요 시 **IOPS를 증가**시키거나, **프로비저닝된 IOPS SSD**로 전환합니다.
+
+
+**문제**: `Freeable Memory`가 점차 감소하고 있습니다. 이는 데이터베이스가 메모리를 많이 사용하고 있음을 나타냅니다.
+
+```
+SHOW STATUS LIKE 'Innodb_buffer_pool%';
+```
+
+https://docs.aws.amazon.com//AmazonRDS/latest/UserGuide/CHAP_Storage.html#Concepts.Storage.GeneralSSD
+
+
+```
+Exception: Can't add new command when connection is in closed state
+
+query: INSERT INTO `member`(`id`, `name`, `nickname`, `password`, `email`, `profileImage`, `refreshTokenId`, `isEmailVerified`, `createdAt`, `updatedAt`, `verificationCodeId`) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, ?) -- PARAMETERS: ["user-1","nickna","$2b$10$VIPS8VpnRJ2pjHkt/jRvRufk5eWh6TeXFzsRYxjEsP1Gwtp4VIFTW","user-1736451941859-hwopqnih6tm@test.com",124874]
+query failed: INSERT INTO `member`(`id`, `name`, `nickname`, `password`, `email`, `profileImage`, `refreshTokenId`, `isEmailVerified`, `createdAt`, `updatedAt`, `verificationCodeId`) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, ?) -- PARAMETERS: ["user-1","nickna","$2b$10$VIPS8VpnRJ2pjHkt/jRvRufk5eWh6TeXFzsRYxjEsP1Gwtp4VIFTW","user-1736451941859-hwopqnih6tm@test.com",124874]
+error: Error: Can't add new command when connection is in closed state
+query: ROLLBACK
+query failed: ROLLBACK
+error: Error: Can't add new command when connection is in closed state
+[Nest] 41130  - 2025. 01. 10. 오전 4:46:01   ERROR [GlobalExceptionFilter] Exception: Can't add new command when connection is in closed state
+QueryFailedError: Can't add new command when connection is in closed state
+    at Query.onResult (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:246:33)
+    at PoolConnection._addCommandClosedState (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/mysql2/lib/base/connection.js:164:11)
+    at PoolConnection.query (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/mysql2/lib/base/connection.js:571:17)
+    at <anonymous> (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:207:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+query: INSERT INTO `verification_code`(`id`, `code`, `createdAt`, `updatedAt`) VALUES (DEFAULT, ?, DEFAULT, DEFAULT) -- PARAMETERS: ["DA40E8"]
+query failed: INSERT INTO `verification_code`(`id`, `code`, `createdAt`, `updatedAt`) VALUES (DEFAULT, ?, DEFAULT, DEFAULT) -- PARAMETERS: ["DA40E8"]
+error: Error: Can't add new command when connection is in closed state
+query: ROLLBACK
+query failed: ROLLBACK
+error: Error: Can't add new command when connection is in closed state
+[Nest] 41130  - 2025. 01. 10. 오전 4:46:01   ERROR [GlobalExceptionFilter] Exception: Can't add new command when connection is in closed state
+QueryFailedError: Can't add new command when connection is in closed state
+    at Query.onResult (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:246:33)
+    at PoolConnection._addCommandClosedState (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/mysql2/lib/base/connection.js:164:11)
+    at PoolConnection.query (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/mysql2/lib/base/connection.js:571:17)
+    at <anonymous> (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:207:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[Nest] 41130  - 2025. 01. 10. 오전 4:46:01   ERROR [GlobalExceptionFilter] Exception: Connection is not established with mysql database
+TypeORMError: Connection is not established with mysql database
+    at <anonymous> (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlDriver.ts:916:21)
+    at new Promise (<anonymous>)
+    at MysqlDriver.obtainMasterConnection (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlDriver.ts:900:16)
+    at MysqlQueryRunner.connect (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:90:18)
+    at <anonymous> (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:197:55)
+    at new Promise (<anonymous>)
+    at MysqlQueryRunner.query (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:193:16)
+    at MysqlQueryRunner.startTransaction (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/driver/src/driver/mysql/MysqlQueryRunner.ts:128:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async InsertQueryBuilder.execute (/Users/bugibugi/Project2/flab/Mokakbab/node_modules/typeorm/query-builder/src/query-builder/InsertQueryBuilder.ts:71:17)
+```
+
+- [뭔가 이슈가 있는듯 하긴한데](https://github.com/sidorares/node-mysql2/issues/1898) 
+- [스택오버플로우 쉽지않군](https://stackoverflow.com/questions/47548434/cant-add-new-command-when-connection-is-in-closed-state) 
+
+- *결과론 적으로 해당 에러는 릴리즈(release)가 된 상태에서 한 번더 릴리지(release)를 수행한 후 커넥션을 사용할 때 에러가 발생합니다.*
+- `Can't add new command when connection is in closed state` 
+- `Exception: Pool is closed.
+
+- https://kyungyeon.dev/posts/92/
