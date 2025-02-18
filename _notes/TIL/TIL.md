@@ -1,4 +1,11 @@
 
+- Trie 자료구조란?
+	- 문자열의 한 문자를 저장
+	- Root에서부터 자식 노드를 따라가며 문자열을 구성
+	- 문자열의 공통 접두사(Prefix)를 공유하여 저장 공간을 절약.
+- Silver Bullet(실버 불렛)
+	- 모든 문제를 완벽하게 해결하는 마법 같은 해결책은 없다.
+
 - OLTP (Online Transaction Processing)이란?
 - OLAP (Online Analytical Processing)이란?
 
@@ -16,8 +23,6 @@
 	- 해당 참조값을 변수에 할당해서 string-constant-pool을 통해서 값의 immutable을 보장합니다.
 	- 여기서 또 call by reference도 js 관점에서 다시 생각 해야되는게
 	- V8 엔진에서 Sharp 또는 Hidden Class라고 하는 공간에 값만 저장되고 이를 통한 재사용성과 메모리 효율을 극대화하는게 목적이죠.
-
-
 
 
 - 면접 말하기 연습을 어떻게 하면 좋을라나
