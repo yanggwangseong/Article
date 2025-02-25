@@ -8,7 +8,6 @@
 
 - OLTP (Online Transaction Processing)이란?
 - OLAP (Online Analytical Processing)이란?
-
 - RBAC(Role-Based Access Control)
 - ABAC(Attribute-Based Access Control)
 
@@ -55,7 +54,10 @@
 	    - 가장 비효율적인 시간 복잡도로, 작은 N에서도 실행 시간이 급격히 증가
 	    - 예: **순열 생성(Permutation), 브루트포스 TSP(외판원 문제)**
 
-
+- Obtaining, obtain, obtained
+	- In order to obtain a block of IP addresses for use within an organization’s subnet
+	- Obtaining a Block of Addresses
+	- Once an organization has obtained a block of addresses, it can assign individual IP addresses to the host and router interfaces in its organization
 
 #### DataStructure
 - *(TODO중요)* 해시맵 해시함수 해시충돌 
