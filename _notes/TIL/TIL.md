@@ -53,11 +53,25 @@
 	- **O(N!) (팩토리얼 시간)**
 	    - 가장 비효율적인 시간 복잡도로, 작은 N에서도 실행 시간이 급격히 증가
 	    - 예: **순열 생성(Permutation), 브루트포스 TSP(외판원 문제)**
+- 정렬
+	- stable sort vs unStable sort
+		- stable : 정렬이 되어서도 같은 키값이라도 순서보장 (버블정렬)
+		- unStable : 정렬후에 같은 키값일때 순서 보장 안됨. (선택정렬)
+	- In place Sort vs Not In place Sort
+		- 추가 메모리를 사용하냐 안하냐 구분 (Bubble sort vs Merge sort)
 
-- Obtaining, obtain, obtained
-	- In order to obtain a block of IP addresses for use within an organization’s subnet
-	- Obtaining a Block of Addresses
-	- Once an organization has obtained a block of addresses, it can assign individual IP addresses to the host and router interfaces in its organization
+- ISP (Internet Service Provider)란?
+	- ISP는 인터넷 서비스를 제공하는 중계자로, IP 주소 블록을 할당받아 사용자에게 개별 IP 주소를 제공하는 역할을 한다. 대표적인 ISP로는 SKT, LG, KT 등이 있다.
+	- 또한, ISP는 이메일 송수신 과정에서도 중요한 역할을 한다. 대부분의 ISP는 자체 메일 서버(SMTP, IMAP, POP3)를 운영하며, 사용자가 이메일을 보낼 때 ISP의 SMTP 서버를 거쳐 인터넷을 통해 목적지 메일 서버로 전달된다. 반대로 사용자가 이메일을 받을 때는 ISP의 IMAP 또는 POP3 서버를 통해 메일을 다운로드하거나 실시간으로 조회할 수 있다.
+
+
+- HTTP Message Format
+- 인터넷 전자메일
+- Http/2
+- Http/3
+- CDN
+- 회선교환 큐잉 딜레이, 패킷 로스
+
 
 #### DataStructure
 - *(TODO중요)* 해시맵 해시함수 해시충돌 
