@@ -5,7 +5,6 @@
 	- 문자열의 공통 접두사(Prefix)를 공유하여 저장 공간을 절약.
 - Silver Bullet(실버 불렛)
 	- 모든 문제를 완벽하게 해결하는 마법 같은 해결책은 없다.
-
 - OLTP (Online Transaction Processing)이란?
 - OLAP (Online Analytical Processing)이란?
 - RBAC(Role-Based Access Control)
@@ -63,7 +62,22 @@
 - ISP (Internet Service Provider)란?
 	- ISP는 인터넷 서비스를 제공하는 중계자로, IP 주소 블록을 할당받아 사용자에게 개별 IP 주소를 제공하는 역할을 한다. 대표적인 ISP로는 SKT, LG, KT 등이 있다.
 	- 또한, ISP는 이메일 송수신 과정에서도 중요한 역할을 한다. 대부분의 ISP는 자체 메일 서버(SMTP, IMAP, POP3)를 운영하며, 사용자가 이메일을 보낼 때 ISP의 SMTP 서버를 거쳐 인터넷을 통해 목적지 메일 서버로 전달된다. 반대로 사용자가 이메일을 받을 때는 ISP의 IMAP 또는 POP3 서버를 통해 메일을 다운로드하거나 실시간으로 조회할 수 있다.
-
+- Under-fetching(언더 페칭)과 Over-fetching(오버 페칭)
+	- 언더페칭
+		- 클라이언트가 api에 요청을 보냈는데 원하는 데이터를 얻지 못하여 다시 추가적인 api 요청을 보내야 하는 상황.
+		- 해결방법
+			- 필드 필터링 기능을 통해서 (query-string) 클라이언트가 추가적인 프로퍼티들을 가져 올 수 있게 필터링 기능을 추가한다.
+			- `Graphql` 사용
+	- 오버페칭
+		- 해당 under-fetching을 해결 하기 위해서 rest-api에서는 나중에 필요한것 같은 추가적인 프로퍼티들도 반환하게끔 설계를 했을 때 발생하는 문제.
+		- 클라이언트가 요청한 데이터 이외에 불필요한 정보나 추가적인 프로퍼티들까지 서버에서 반환하는 상황.
+		- 해결 방법
+			- 필드 필터링 기능을 통해서 (query-string) 클라이언트가 필요한 필드만 지정하여 요청 할 수 있게 필터링 기능을 추가한다
+			- `Graphql` 사용
+- Graceful Shutdown
+	- 애플리케이션이 종료될 때 바로 종료하는 것이 아니라, 현재 처리하고 있는 작업을 마무리하고 리소스를 정리한 이후 종료하는 방식
+	- EX) TCP 4-way-handshake에서 마지막 ACK후에 바로 연결을 끊지 않는 케이스
+- 유니캐스트, 멀티캐스트, 애니캐스트, 브로드캐스트
 
 - HTTP Message Format
 - 인터넷 전자메일
@@ -72,24 +86,5 @@
 - CDN
 - 회선교환 큐잉 딜레이, 패킷 로스
 
-
-#### DataStructure
-- *(TODO중요)* 해시맵 해시함수 해시충돌 
-
-#### OS
-- *6~8 살짝 아쉬움 다시 공부*  
-- (TODO) 동시성 제어 복습
-- (TODO) 데드락 복습
-- 메모리 가상메모리 굳
-- 프로세스 스레드 굳
-- (TODO) 프로세스간 통신 IPC복습.
-
-#### Network
-- 현재 진행중인것은 공부 할때 한번에 정리 필요.
-- (TODO) 1장 패킷 교환 회선교환, 패킷 교환 지연과 손실 (중요)
-- 2장 한줄정리 복습
-- 3장 한줄정리 필요
-
-#### Database
-
-#### Node.js
+페북 용량 문제 RocksDB
+- https://hyj3463.tistory.com/26

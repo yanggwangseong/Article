@@ -31,3 +31,17 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
     max-width: 46em;
   }
 </style>
+
+
+# Articles
+
+- 메인은 간단 소개 및 추천
+	- 책 리스트
+	- 기본기를 가장 중요하게 생각하고 어쩌고 저쩌고
+- 아티클 탭에 아티클 list 표시
+
+## Database
+
+- LOCK
+- Index
+- Connection Pool
