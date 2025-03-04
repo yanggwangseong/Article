@@ -4,6 +4,7 @@ permalink:
 tags:
   - Nodejs
   - event-loop
+layout: page
 ---
 
 # 잘못된 개념
