@@ -106,3 +106,6 @@
 
 페북 용량 문제 RocksDB
 - https://hyj3463.tistory.com/26
+- RocksDB가 먼저 만들어지고 MySQL에서 용량 문제를 해결 하기 위한 Mysql 스토리지 엔진으로 Meta에서 MyRocks를 만듬.
+	- [MyRocks 공식문서](https://myrocks.io/) 
+	- [MyRocks 페북 깃허브](https://github.com/facebook/mysql-5.6) 

@@ -7,14 +7,65 @@ tags:
   - nestjs
 layout: page
 ---
-https://yokan.netlify.app/fastify%EC%99%80-express-%EC%B0%A8%EC%9D%B4
 
+- [Express Adaptor Repository](https://github.com/f-lab-edu/Mokakbab/tree/feature/express-adaptor) 
+- [Fastify Adaptor Repository](https://github.com/f-lab-edu/Mokakbab/tree/feature/88-change-adaptor-for-performance) 
 
 # 서론
 
-*NestJS*의 프로젝트에서 기본 설정값인 *Express Adaptor*에서 *Fastify Adaptor*로 변경만으로 RPS가 급격하게 증가하고 반대로 특정 API에서는 RPS가 오히려 줄어드는 경험을 하였습니다.
+[NestJS 공식문서에서도 Performance로 Fastify가 소개 되어있습니다](https://docs.nestjs.com/techniques/performance) 
+NestJS에서 밴치마크 결과도 제공 해주고 있습니다 [링크](https://github.com/nestjs/nest/blob/master/benchmarks/all_output.txt) 
 
-(TODO) 결과 표시
+```ts
+-----------------------
+nest (with "@nestjs/platform-express")
+-----------------------
+Running 10s test @ http://localhost:3000
+1024 connections
+
+┌─────────┬───────┬───────┬───────┬───────┬──────────┬──────────┬────────┐
+│ Stat    │ 2.5%  │ 50%   │ 97.5% │ 99%   │ Avg      │ Stdev    │ Max    │
+├─────────┼───────┼───────┼───────┼───────┼──────────┼──────────┼────────┤
+│ Latency │ 61 ms │ 64 ms │ 71 ms │ 94 ms │ 65.44 ms │ 17.35 ms │ 325 ms │
+└─────────┴───────┴───────┴───────┴───────┴──────────┴──────────┴────────┘
+┌───────────┬─────────┬─────────┬─────────┬─────────┬─────────┬────────┬─────────┐
+│ Stat      │ 1%      │ 2.5%    │ 50%     │ 97.5%   │ Avg     │ Stdev  │ Min     │
+├───────────┼─────────┼─────────┼─────────┼─────────┼─────────┼────────┼─────────┤
+│ Req/Sec   │ 14183   │ 14183   │ 15767   │ 15991   │ 15640   │ 501.13 │ 14182   │
+├───────────┼─────────┼─────────┼─────────┼─────────┼─────────┼────────┼─────────┤
+│ Bytes/Sec │ 3.06 MB │ 3.06 MB │ 3.41 MB │ 3.45 MB │ 3.38 MB │ 108 kB │ 3.06 MB │
+└───────────┴─────────┴─────────┴─────────┴─────────┴─────────┴────────┴─────────┘
+
+Req/Bytes counts sampled once per second.
+
+156k requests in 10.24s, 33.8 MB read
+
+-----------------------
+nest (with "@nestjs/platform-fastify")
+-----------------------
+Running 10s test @ http://localhost:3000
+1024 connections
+
+┌─────────┬───────┬───────┬───────┬───────┬──────────┬──────────┬────────┐
+│ Stat    │ 2.5%  │ 50%   │ 97.5% │ 99%   │ Avg      │ Stdev    │ Max    │
+├─────────┼───────┼───────┼───────┼───────┼──────────┼──────────┼────────┤
+│ Latency │ 31 ms │ 33 ms │ 38 ms │ 52 ms │ 34.41 ms │ 11.73 ms │ 245 ms │
+└─────────┴───────┴───────┴───────┴───────┴──────────┴──────────┴────────┘
+┌───────────┬─────────┬─────────┬────────┬─────────┬─────────┬─────────┬─────────┐
+│ Stat      │ 1%      │ 2.5%    │ 50%    │ 97.5%   │ Avg     │ Stdev   │ Min     │
+├───────────┼─────────┼─────────┼────────┼─────────┼─────────┼─────────┼─────────┤
+│ Req/Sec   │ 24911   │ 24911   │ 30031  │ 30335   │ 29470.4 │ 1564.48 │ 24907   │
+├───────────┼─────────┼─────────┼────────┼─────────┼─────────┼─────────┼─────────┤
+│ Bytes/Sec │ 3.81 MB │ 3.81 MB │ 4.6 MB │ 4.64 MB │ 4.51 MB │ 239 kB  │ 3.81 MB │
+└───────────┴─────────┴─────────┴────────┴─────────┴─────────┴─────────┴─────────┘
+
+Req/Bytes counts sampled once per second.
+
+295k requests in 10.17s, 45.1 MB read
+```
+
+평균 Latency값만 비교하면 2배나 차이난다는것을 밴치마크 결과 지표로 알려주고 있습니다.
+그렇다면 Express에서 Fastify로 변경 하기만해도 높은 performance를 얻을것이라고 예상이 되었습니다.
 
 # NestJS에서 어떻게 호출할까?
 
@@ -115,7 +166,8 @@ express, fastify는 AbstractHttpAdapter를 상속 받는 Adapter 구현체
 
 # Express와 Fastify에서 차이
 
-## 테스트 환경
+## 테스트 결과 비교
+### 테스트 환경
 
 ```ts
 scenarios: {
@@ -135,7 +187,7 @@ thresholds: {
 ```
 
 - 테스트 환경은 동일하게 진행 했고 `k6` 를 사용 하였습니다.
-## 대상 API
+### 대상 API
 
 ```ts
 @Controller("participations")
@@ -190,35 +242,20 @@ export class ParticipationsController {
 | **MaxVUs**          | 500      | 최대 가상 사용자 수     |     |
 
 아무런 최적화를 하지도 않았고 정말 단순히 앞단의 *adaptor* 를 *fastify* 로 변경만 하였는데 RPS가 2배나 늘어난걸 알 수 있었습니다.
-처음에는 저는 *fastify* 자체가 *express* 보다 엄청난 성능을 가지고 있는건가 생각이 들었습니다.
+
+## Fastify가 왜 빠를까?
 
 
-## 문제 
-
-여기서 재밌는점은 *POST API* 는 오히려 성능저하가 발생 했습니다.
-
-### 대상 API
-
-- 유저 생성 POST API
-
-```ts
-@IsPublicDecorator(IsPublicEnum.PUBLIC)
-@Post("sign-up")
-signUp(@Body() dto: RegisterMemberDto) {
-	return this.authService.registerByEmail(dto);
-}
-```
 
 
-**Express Adaptor**
+# Reference
 
-(TODO) 결과
+- https://docs.nestjs.com/techniques/performance
 
-**Fastify Adaptor**
+- https://fastify.dev/docs/latest/Reference/Routes/
 
-(TODO) 결과
+- https://github.com/nestjs/nest/tree/master/packages/platform-express
+
+- https://github.com/nestjs/nest/tree/master/packages/platform-fastify
 
 
-## 원인
-
-문제의 원인은 정확히는 `Express` 와 `Fastify` 의 차이가 아니라 `Fastify` 의 동작 방식의 차이에 있었습니다.
