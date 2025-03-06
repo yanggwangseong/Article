@@ -485,11 +485,69 @@ route: function _route (options) {
 
 - Response시에 `platform-fastify` -> `fastify/lib/reply.js Reply.send` 메서드를 호출합니다.
 
-https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/core/router/router-execution-context.ts#L414
+### NestJS router-execution-context
+
+```ts
+// https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/core/router/router-execution-context.ts#L414
+
+public createHandleResponseFn(
+    callback: (...args: unknown[]) => unknown,
+    isResponseHandled: boolean,
+    redirectResponse?: RedirectResponse,
+    httpStatusCode?: number,
+  ): HandleResponseFn {
+    const renderTemplate = this.reflectRenderTemplate(callback);
+    if (renderTemplate) {
+      return async <TResult, TResponse>(result: TResult, res: TResponse) => {
+        return await this.responseController.render(
+          result,
+          res,
+          renderTemplate,
+        );
+      };
+    }
+    if (redirectResponse && isString(redirectResponse.url)) {
+      return async <TResult, TResponse>(result: TResult, res: TResponse) => {
+        await this.responseController.redirect(result, res, redirectResponse);
+      };
+    }
+    const isSseHandler = !!this.reflectSse(callback);
+    if (isSseHandler) {
+      return <
+        TResult extends Observable<unknown> = any,
+        TResponse extends HeaderStream = any,
+        TRequest extends IncomingMessage = any,
+      >(
+        result: TResult,
+        res: TResponse,
+        req: TRequest,
+      ) => {
+        this.responseController.sse(
+          result,
+          (res as any).raw || res,
+          (req as any).raw || req,
+          { additionalHeaders: res.getHeaders?.() as any },
+        );
+      };
+    }
+    return async <TResult, TResponse>(result: TResult, res: TResponse) => {
+      result = await this.responseController.transformToResult(result);
+      !isResponseHandled &&
+        (await this.responseController.apply(result, res, httpStatusCode));
+      return res;
+    };
+  }
+```
+
+1. `render Template` 이 있는 경우
+2. `redirect` 가 있는경우
+3. `SSE` 가 있는경우
+4. 일반적인 Restful API의 Response의 경우 
 
 https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/lib/wrapThenable.js#L30
 
 
+**분석중 ㅠㅠ 뚝딱뚝딱** 
 
 
 
