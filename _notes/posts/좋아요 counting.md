@@ -20,3 +20,11 @@ permalink: /posts/좋아요 counting
 		- 좋아요 업데이트의 실시간성 반영을 줄이고 배치 작업을 통해서 해결하기
 			- 같은 데이터로 동기화 하는방법 궁극적 일관성(Eventual Consistency)
 			- 배치 서버가 필요하다.
+
+# 시리즈2
+
+- 배치서버 사용
+
+# 시리즈3
+
+- Mysql count함수 동작원리

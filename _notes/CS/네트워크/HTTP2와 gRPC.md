@@ -68,8 +68,37 @@
 			- Conversion Routines
 
 
+# 2번째 정리
+
+## 책에서의 내용
+
+> p 103
+
+- HTTP/2의 주요 목표
+	- *하나의 TCP 연결상에서 멀티플렉싱 요청/응답 지연 시간을 줄이는게 목표* 
+- 특징
+	- 요청 우선순위화
+	- 서버 푸시
+	- HTTP 헤더 필드의 효율적인 압축 기능
+	- 병렬 TCP connection 수를 최소화
+
+### HTTP/2 프레이밍
+
+### 메세지 우선순위화 및 서버푸싱
+
+
+
+## gRPC의 특징
+
+## HTTP/2.0
+
+## Protocol Buffer
+
+
+
 # Reference
 
+- https://changhoi.kim/posts/backend/grpc-internals/
 - [https://ably.com/topic/http2](https://ably.com/topic/http2) 
 - [https://www.thewebmaster.com/what-is-http2-and-how-does-it-compare-to-http1-1/](https://www.thewebmaster.com/what-is-http2-and-how-does-it-compare-to-http1-1/) 
 - https://evan-moon.github.io/2019/06/13/http2-with-aws/

@@ -1,5 +1,4 @@
 
-
 > Anonymous User를 차단하는 방법
 > XSS공격, CSRF공격, CSRF, cookie, same-site cookie, http only cookie, local storage
 > IPv4, IPv6 NAT, Anonymous User, 라우트 장비, 앱에서는 디바이스 아이디

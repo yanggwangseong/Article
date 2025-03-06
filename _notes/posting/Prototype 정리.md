@@ -6,7 +6,6 @@
 - Prototype 오염공격 대처
 
 
-
 - https://evan-moon.github.io/2019/10/27/inheritance-with-prototype/
 - https://evan-moon.github.io/2019/10/23/js-prototype/
 

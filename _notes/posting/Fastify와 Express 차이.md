@@ -14,7 +14,7 @@ layout: page
 # 서론
 
 [NestJS 공식문서에서도 Performance로 Fastify가 소개 되어있습니다](https://docs.nestjs.com/techniques/performance) 
-NestJS에서 밴치마크 결과도 제공 해주고 있습니다 [링크](https://github.com/nestjs/nest/blob/master/benchmarks/all_output.txt) 
+NestJS에서 밴치마크 결과도 제공 해주고 있습니다 [벤치마크 결과 링크](https://github.com/nestjs/nest/blob/master/benchmarks/all_output.txt) 
 
 ```ts
 -----------------------
@@ -62,10 +62,14 @@ Running 10s test @ http://localhost:3000
 Req/Bytes counts sampled once per second.
 
 295k requests in 10.17s, 45.1 MB read
+
+
 ```
 
 평균 Latency값만 비교하면 2배나 차이난다는것을 밴치마크 결과 지표로 알려주고 있습니다.
 그렇다면 Express에서 Fastify로 변경 하기만해도 높은 performance를 얻을것이라고 예상이 되었습니다.
+
+💡`nestjs/platform` 패키지는 NestJS 버전에 맞게 Express와 Fastify를 특정 의존성 버전 패키지를 설치하고 그것에 맞게 동작 할 수 있게 랩핑한 라이브러리입니다. 정확히는 `Express` 와 `Fastify` 와 완전히 똑같이 동작한다고 볼 수 없습니다. 그래서 위의 링크에 NestJS에서 제공하는 밴치마크 결과도 4개이고 미약하게나마 차이는 있습니다.
 
 # NestJS에서 어떻게 호출할까?
 
@@ -161,6 +165,7 @@ export abstract class AbstractHttpAdapter<
 (TODO) 엑스칼라 드로우 그림
 express, fastify는 AbstractHttpAdapter를 상속 받는 Adapter 구현체
 `NestFactory.create` 메서드를 통해서 사용자가 지정한 adapter를 기준으로 하여 NestJS 인스턴스를 생성 합니다.
+platform 랩핑 라이브러리 언급 NestJS 버전에 맞는 express와 fastify 관리
 
 (TODO) Adapter 패턴이란?
 
@@ -244,6 +249,246 @@ export class ParticipationsController {
 아무런 최적화를 하지도 않았고 정말 단순히 앞단의 *adaptor* 를 *fastify* 로 변경만 하였는데 RPS가 2배나 늘어난걸 알 수 있었습니다.
 
 ## Fastify가 왜 빠를까?
+
+### platform-fastify와 platform-express 동작 차이
+
+#### Request 차이
+
+```ts
+// https://github.com/nestjs/nest/blob/master/packages/core/adapters/http-adapter.ts#L24
+// AbstractHttpAdapter
+public get(handler: RequestHandler);
+  public get(path: any, handler: RequestHandler);
+  public get(...args: any[]) {
+    return this.instance.get(...args);
+  }
+
+  public post(handler: RequestHandler);
+  public post(path: any, handler: RequestHandler);
+  public post(...args: any[]) {
+    return this.instance.post(...args);
+  }
+
+
+// https://github.com/nestjs/nest/blob/master/packages/platform-fastify/adapters/fastify-adapter.ts#L294
+// platform-fastify
+...
+public get(...args: any[]) {
+    return this.injectRouteOptions('GET', ...args);
+  }
+
+  public post(...args: any[]) {
+    return this.injectRouteOptions('POST', ...args);
+  }
+
+  public head(...args: any[]) {
+    return this.injectRouteOptions('HEAD', ...args);
+  }
+
+  public delete(...args: any[]) {
+    return this.injectRouteOptions('DELETE', ...args);
+  }
+...
+
+// platform-express
+// 부모 클래스 AbstractHttpAdapter 메서드를 그대로 상속 받아서 사용 합니다.
+```
+
+- `platform-express` 는 부모 클래스인 `AbstractHttpAdapter` 를 그대로 상속 받아 해당 `get, post` 등 메서드를 호출 하는 모습 입니다.
+- `platform-fastify` 은 `get, post` 등의 메서드를 오버라이딩하여 `injectRouteOptions` 메서드를 호출하여 리턴 하고 있습니다.
+
+**injectRouteOptions** 가 핵심인것 같습니다. 이는 아래에서 다시 다뤄보겠습니다.
+
+#### Response 차이
+
+```ts
+// https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/core/adapters/http-adapter.ts#L154C3-L154C65
+// AbstractHttpAdapter
+abstract reply(response: any, body: any, statusCode?: number);
+
+ // https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/platform-fastify/adapters/fastify-adapter.ts#L367
+  // platform-fastify
+public reply(
+    response: TRawResponse | TReply,
+    body: any,
+    statusCode?: number,
+  ) {
+    const fastifyReply: TReply = this.isNativeResponse(response)
+      ? new Reply(
+          response,
+          {
+            [kRouteContext]: {
+              preSerialization: null,
+              preValidation: [],
+              preHandler: [],
+              onSend: [],
+              onError: [],
+            },
+          },
+          {},
+        )
+      : response;
+
+    if (statusCode) {
+      fastifyReply.status(statusCode);
+    }
+
+...
+...
+...
+
+// https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/platform-express/adapters/express-adapter.ts#L62
+// platform-express
+public reply(response: any, body: any, statusCode?: number) {
+    if (statusCode) {
+      response.status(statusCode);
+    }
+    if (isNil(body)) {
+      return response.send();
+    }
+    if (body instanceof StreamableFile) {
+      const streamHeaders = body.getHeaders();
+      if (
+        response.getHeader('Content-Type') === undefined &&
+        streamHeaders.type !== undefined
+      ) {
+        response.setHeader('Content-Type', streamHeaders.type);
+      }
+  ...
+  ...
+
+```
+
+- `platform-express` 와 `platform-fastify` 둘다 부모 클래스의 `reply` 추상 메서드를 오버라이딩 하는 모습 입니다.
+- 이는 다른 Adaptor를 새로 추가 하더라도 수행 해야 하는 작업인것 같습니다. 부모 클래스인 `AbstractHttpAdapter` 에서는 `reply` 뿐만 아니라 오버라이딩이 필요한 메서드는 추상메서드로 선언 해두었습니다. [추상 메서드 코드 링크](https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/core/adapters/http-adapter.ts#L154C3-L154C65) 를 보게 되면 해당하는 추상 메서드들을 adaptor에서 구현체를 구현하게끔 의도하는 목적인것 같습니다.
+
+### 차이점 분석
+
+#### injectRouteOptions
+
+```ts
+// platform-fastify
+private injectRouteOptions(
+    routerMethodKey: Uppercase<HTTPMethods>,
+    ...args: any[]
+  ) {
+    const handlerRef = args[args.length - 1];
+    const isVersioned =
+      !isUndefined(handlerRef.version) &&
+      handlerRef.version !== VERSION_NEUTRAL;
+    const routeConfig = Reflect.getMetadata(
+      FASTIFY_ROUTE_CONFIG_METADATA,
+      handlerRef,
+    );
+
+    const routeConstraints = Reflect.getMetadata(
+      FASTIFY_ROUTE_CONSTRAINTS_METADATA,
+      handlerRef,
+    );
+
+    const hasConfig = !isUndefined(routeConfig);
+    const hasConstraints = !isUndefined(routeConstraints);
+
+    const routeToInject: RouteOptions<TServer, TRawRequest, TRawResponse> &
+      RouteShorthandOptions = {
+      method: routerMethodKey,
+      url: args[0],
+      handler: handlerRef,
+    };
+
+    if (isVersioned || hasConstraints || hasConfig) {
+      const isPathAndRouteTuple = args.length === 2;
+      if (isPathAndRouteTuple) {
+        const constraints = {
+          ...(hasConstraints && routeConstraints),
+          ...(isVersioned && {
+            version: handlerRef.version,
+          }),
+        };
+
+        const options = {
+          constraints,
+          ...(hasConfig && {
+            config: {
+              ...routeConfig,
+            },
+          }),
+        };
+
+        const routeToInjectWithOptions = { ...routeToInject, ...options };
+
+        return this.instance.route(routeToInjectWithOptions);
+      }
+    }
+    return this.instance.route(routeToInject);
+  }
+```
+
+- `handleRef`
+
+```ts
+// handlerRef
+async (req, res, next) => {
+  try {
+      await targetCallback(req, res, next);
+  }
+  catch (e) {
+      const host = new execution_context_host_1.ExecutionContextHost([req, res, next]);
+      exceptionsHandler.next(e, host);
+      return res;
+  }
+}
+
+
+```
+
+- `this.instance.route` 
+
+```ts
+// instance.route 메서드를 호출 할때 route는 fastify 메서드 입니다.
+// https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/fastify.js#L284
+...
+
+// extended route
+route: function _route (options) {
+  // we need the fastify object that we are producing so we apply a lazy loading of the function,
+  // otherwise we should bind it after the declaration
+  return router.route.call(this, { options })
+},
+
+...
+
+```
+
+### Reply
+
+```ts
+// platform-fastify
+	reply(response, body, statusCode) {
+        const fastifyReply = this.isNativeResponse(response)
+            ? new Reply(response, {
+                [symbols_1.kRouteContext]: {
+                    preSerialization: null,
+                    preValidation: [],
+                    preHandler: [],
+                    onSend: [],
+                    onError: [],
+                },
+            }, {})
+    ...
+    ...
+    return fastifyReply.send(body);
+}
+// https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/lib/reply.js#L126
+
+```
+
+- Response시에 `platform-fastify` -> `fastify/lib/reply.js Reply.send` 메서드를 호출합니다.
+
+https://github.com/nestjs/nest/blob/00bb79721a27a5cf548c6c2fef7a8f6ac03ce9b0/packages/core/router/router-execution-context.ts#L414
+
+https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/lib/wrapThenable.js#L30
+
 
 
 
