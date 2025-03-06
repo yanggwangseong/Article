@@ -1,5 +1,4 @@
 
-
 # 안녕 NestJS
 
 <p style="padding: 3em 1em; background: #f5f7ff; border-radius: 4px;">
@@ -91,3 +90,6 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
 	- [데이터베이스 시스템 3판](https://product.kyobobook.co.kr/detail/S000214032509) 
 	- RealMysql 1권, 2권
 	- [데이터 중심 애플리케이션 설계](https://product.kyobobook.co.kr/detail/S000001766328) 
+- 자료구조
+- 알고리즘
+

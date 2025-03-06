@@ -1,6 +1,6 @@
 
-- [Index](https://dev.mysql.com/doc/refman/8.4/en/indexes.html) 
-- [ch 17 InnoDB](https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html) 
+- [Index](https://dev.mysql.com/doc/refman/8.4/en/indexes.html) ⭐️
+- [ch 17 InnoDB](https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html) ⭐️
 - [ch10 optimization](https://dev.mysql.com/doc/refman/8.4/en/optimization.html) 
 - [ch 11 Language Structure](https://dev.mysql.com/doc/refman/8.4/en/language-structure.html) 
 - [ch 13 Data Type](https://dev.mysql.com/doc/refman/8.4/en/data-types.html) 

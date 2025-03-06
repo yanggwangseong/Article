@@ -94,7 +94,10 @@
 		- 우선순위큐
 		- 해시테이블
 		- 딕셔너리
-
+- CPU Cache (L1, L2, L3) 란?
+	- 속도와 저장공간의 트레이드 오프 관계입니다.
+	- 속도(Speed): L1 > L2 > L3 (L1이 가장 빠름)
+	- 저장공간(Storage): L1 < L2 < L3 (L3가 가장 큼)
 
 
 - HTTP Message Format
