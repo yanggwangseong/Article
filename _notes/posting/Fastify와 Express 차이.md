@@ -460,6 +460,8 @@ route: function _route (options) {
 
 ```
 
+즉, Fastify의 Route 옵션들을 예를 들면 [NestJS 문서에서 Fastify Route Config](https://docs.nestjs.com/techniques/performance#route-config) ,  [NestJS 문서에서 Fastify route-constraints](https://docs.nestjs.com/techniques/performance#route-constraints) 등의 옵션들을 추가할 수 있게 하기 위한 오버라이딩 메서드입니다.
+
 ### Reply
 
 ```ts
@@ -544,21 +546,64 @@ public createHandleResponseFn(
 3. `SSE` 가 있는경우
 4. 일반적인 Restful API의 Response의 경우 
 
+
+**즉, Fastify의 Reply send 이후의 결과가 마지막으로 NestJS router-execution-context에 의해 처리 되고 있습니다.** 
+
+
 https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/lib/wrapThenable.js#L30
 
+## ⚠️ 잘못된 지식
 
-**분석중 ㅠㅠ 뚝딱뚝딱** 
+1. [Fastify](https://fastify.dev/docs/v4.29.x/Reference/Validation-and-Serialization/#validation-and-serialization) 의 핵심 코어 기능중에서 [JSON Schema](https://json-schema.org/) 를 베이스로한 `Reqeust Validation` 에서는 [Ajv](https://www.npmjs.com/package/ajv) 를 `Response Serialization` 에서는 [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify) 를 사용 합니다.
+2. Express와 Fastify 둘다 Routing에 Promise를 지원 합니다.
+
+### 1. JSON Schema
+
+`NestJS에서 platform-fastify를 사용할때` `class-transformer` 와 `class-validation` 을 사용하여 Validation과 Serialization을 사용하기 때문에 해당 Fastify의 JSON Schema 방식으로 사용하고자 한다면 따로 설정을 해주어야 합니다.
+
+### 2. Routing Promise
+
+```ts
+// fastify
+fastify.get('/', options, async function (request, reply) {}
+// express ❌
+app.get('/example/b', (req, res, next) => {}
+// express ✅
+app.get('/example/b', async (req, res, next) => {}
+```
+
+Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜백기반이라 `sync` 동작하기 때문에 Blocking되어서 많이 처리를 못한다는 정보를 보게 되었는데 이는 잘못된 정보이고 `async await` 는 ES6에서 나온 기술로 `fastify와 Express` 와는 별개의 `JS 개념` 입니다.
+
+- Express 공식문서의 [best-practice-performance](https://expressjs.com/en/advanced/best-practice-performance.html#use-promises) 부분을 보면 `use promise` 즉, Promise를 써라는 내용이 나와 있습니다.
+
+
+
+
+# Core 1: Fastify Routing 최적화
+
+- [find-my-way](https://www.npmjs.com/package/find-my-way/v/7.5.0) 
+- [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)
+- [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) 
+
+- Fastify의 라우트 정의 및 Reply 객체 구현에서의 코드중에서 최적화된 비동기 처리 메커니즘을 확인 할 수 있는 로직
+- Fastify의 [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) Radix Tree 라우팅
+
+# Core 2: Fastify Reply 객체
+
+
+
 
 
 
 # Reference
 
-- https://docs.nestjs.com/techniques/performance
+- [ https://docs.nestjs.com/techniques/performance]( https://docs.nestjs.com/techniques/performance) 
 
-- https://fastify.dev/docs/latest/Reference/Routes/
+- [https://fastify.dev/docs/latest/Reference/Routes/](https://fastify.dev/docs/latest/Reference/Routes/) 
 
-- https://github.com/nestjs/nest/tree/master/packages/platform-express
+- [https://github.com/nestjs/nest/tree/master/packages/platform-express](https://github.com/nestjs/nest/tree/master/packages/platform-express) 
 
-- https://github.com/nestjs/nest/tree/master/packages/platform-fastify
+- [https://github.com/nestjs/nest/tree/master/packages/platform-fastify](https://github.com/nestjs/nest/tree/master/packages/platform-fastify) 
+
 
 
