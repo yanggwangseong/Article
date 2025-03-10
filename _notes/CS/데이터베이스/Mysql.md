@@ -1,5 +1,8 @@
+https://dev.mysql.com/doc/refman/8.4/en/glossary.html#glos_innodb
 
-- [Index](https://dev.mysql.com/doc/refman/8.4/en/indexes.html) ⭐️
+- [B-Tree](https://dev.mysql.com/doc/refman/8.4/en/glossary.html#glos_b_tree) 
+- [mysql Manual](https://dev.mysql.com/doc/dev/mysql-server/latest/PAGE_STORAGE.html#storage_innodb) 
+- [Index](https://dev.mysql.com/doc/refman/8.4/en/indexes.html) 
 - [ch 17 InnoDB](https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html) ⭐️
 - [ch10 optimization](https://dev.mysql.com/doc/refman/8.4/en/optimization.html) 
 - [ch 11 Language Structure](https://dev.mysql.com/doc/refman/8.4/en/language-structure.html) 

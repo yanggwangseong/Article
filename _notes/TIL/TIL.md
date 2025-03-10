@@ -98,14 +98,17 @@
 	- 속도와 저장공간의 트레이드 오프 관계입니다.
 	- 속도(Speed): L1 > L2 > L3 (L1이 가장 빠름)
 	- 저장공간(Storage): L1 < L2 < L3 (L3가 가장 큼)
-
-
+- [Zero-Downtime Deployment (무중단 배포)란?](https://www.maeil-mail.kr/question/195) 
+	- https://www.youtube.com/watch?v=xThOQuhJ2Pw
+	- https://velog.io/@pmthk__/Github-Actions-%EA%B3%BC-AWS-CodeDeploy%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-BlueGreen-%EB%B0%B0%ED%8F%AC-%EC%9E%90%EB%8F%99%ED%99%94
 - HTTP Message Format
 - 인터넷 전자메일
+- P2P
 - Http/2
 - Http/3
 - CDN
 - 회선교환 큐잉 딜레이, 패킷 로스
+
 
 페북 용량 문제 RocksDB
 - https://hyj3463.tistory.com/26

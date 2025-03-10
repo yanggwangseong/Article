@@ -8,8 +8,8 @@ tags:
 layout: page
 ---
 
-- [Express Adaptor Repository](https://github.com/f-lab-edu/Mokakbab/tree/feature/express-adaptor) 
-- [Fastify Adaptor Repository](https://github.com/f-lab-edu/Mokakbab/tree/feature/88-change-adaptor-for-performance) 
+- [모각밥 프로젝트 Express Adaptor Repository 브랜치](https://github.com/f-lab-edu/Mokakbab/tree/feature/express-adaptor) 
+- [모각밥 프로젝트 Fastify Adaptor Repository 브랜치](https://github.com/f-lab-edu/Mokakbab/tree/feature/88-change-adaptor-for-performance) 
 
 # 서론
 
@@ -589,6 +589,7 @@ Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜
 - Fastify의 [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) Radix Tree 라우팅
 
 # Core 2: Fastify Reply 객체
+
 
 
 
