@@ -555,7 +555,7 @@ https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1
 ## ⚠️ 잘못된 지식
 
 1. [Fastify](https://fastify.dev/docs/v4.29.x/Reference/Validation-and-Serialization/#validation-and-serialization) 의 핵심 코어 기능중에서 [JSON Schema](https://json-schema.org/) 를 베이스로한 `Reqeust Validation` 에서는 [Ajv](https://www.npmjs.com/package/ajv) 를 `Response Serialization` 에서는 [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify) 를 사용 합니다.
-2. Express와 Fastify 둘다 Routing에 Promise를 지원 합니다.
+2. Express와 Fastify중에서 Fastify만 Routing에 Promise를 지원 합니다.
 
 ### 1. JSON Schema
 
@@ -574,8 +574,7 @@ app.get('/example/b', async (req, res, next) => {}
 
 Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜백기반이라 `sync` 동작하기 때문에 Blocking되어서 많이 처리를 못한다는 정보를 보게 되었는데 이는 잘못된 정보이고 `async await` 는 ES6에서 나온 기술로 `fastify와 Express` 와는 별개의 `JS 개념` 입니다.
 
-- Express 공식문서의 [best-practice-performance](https://expressjs.com/en/advanced/best-practice-performance.html#use-promises) 부분을 보면 `use promise` 즉, Promise를 써라는 내용이 나와 있습니다.
-
+- Express 공식문서의 [best-practice-performance](https://expressjs.com/en/advanced/best-practice-performance.html#use-promises) 부분을 보면 `use promise` 즉, Promise를 사용하라는 내용이 나와 있습니다.
 
 
 
@@ -590,9 +589,20 @@ Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜
 
 # Core 2: Fastify Reply 객체
 
+- request.js 비동기
 
+https://github.com/fastify/fastify/blob/main/lib/request.js
 
+- hook 방식
+https://github.com/fastify/fastify/blob/main/lib/hooks.js
 
+- **라우트 매칭 (Route Lookup)**
+    - `find-my-way`(Trie 기반 라우트 탐색) 사용
+- **미들웨어 및 훅 실행**
+    - Fastify의 `onRequest`, `preValidation`, `preHandler`, `onSend`, `onResponse` 등 실행
+- **비동기 핸들러 실행**
+    - 요청을 처리하는 `async` 함수 실행
+- caching
 
 
 
