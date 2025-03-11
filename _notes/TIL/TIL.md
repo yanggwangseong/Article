@@ -101,6 +101,19 @@
 - [Zero-Downtime Deployment (무중단 배포)란?](https://www.maeil-mail.kr/question/195) 
 	- https://www.youtube.com/watch?v=xThOQuhJ2Pw
 	- https://velog.io/@pmthk__/Github-Actions-%EA%B3%BC-AWS-CodeDeploy%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-BlueGreen-%EB%B0%B0%ED%8F%AC-%EC%9E%90%EB%8F%99%ED%99%94
+- Stream과 Buffer
+	- Buffer란?
+		- 데이터를 모으는 동작
+	- Stream란?
+		- 데이터를 조금씩 전송 하는 동작
+	- 버퍼(Buffer)는 데이터를 임시 저장하는 공간이고, 스트림(Stream)은 데이터를 조금씩(chunk 단위로) 보내거나 받는 방식
+	- 즉, 버퍼는 데이터를 담는 임시저장 공간에 대한 개념이고 스트림은 데이터를 조금씩 보내는 행위의 개념이다.
+	- Stream에서 Buffer없이 데이터 전송 가능하다
+		- Buffer가 임시 저장소로 메모리를 차지하지 않기 때문에 자주 사용하는것이다.
+		- 일반적인 메인 메모리에 저장되는 문자열등을 그냥 Stream으로 전송 가능하다.
+
+
+
 - HTTP Message Format
 - 인터넷 전자메일
 - P2P

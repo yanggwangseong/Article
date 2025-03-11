@@ -9,7 +9,7 @@ layout: page
 # Section
 
 - *Disk System*
-- File System
+- *File System*
 	- Partition
 	- Directory
 	- File
@@ -105,4 +105,67 @@ layout: page
 	- **Partitions**
 		- Directory들의 집합을 논리적/물리적으로 구분
 		- EX) C드라이버, D드라이버
+
+## File Concept
+
+- 보조 기억 장치에 저장된 연관된 정보들의 집합
+	- 보조 기억 장치 할당의 최소 단위
+	- Sequence of bytes (물리적 정의)
+- 내용에 따른 분류
+	- Program file
+		- Source program, object program, executable files
+	- Data file
+- 형태에 따른 분류
+	- Text (ascii) file
+	- Binary file
+- File Attribute
+- File operations
+	- Create
+	- Write
+	- Read
+	- Reposition
+	- Delete
+	- Etc.
+- OS는 file operation들에 대한 system call을 제공해야 함
+
+## File Access Methods
+
+- **Sequential access (순차 접근)** 
+	- File을 record(or bytes) 단위로 순서대로 접근
+		- `E.g., fgetc()` 
+- **Directed access (직접 접근)** 
+	- 원하는 Block을 직접 접근
+		- `E.g., lseek(), seek()` 
+- **Indexed access**
+	- Index를 참조하여, 원하는 block를 찾은 후 데이터에 접근
+
+## File System Organization
+
+![](/assets/os-file-system-image12.png)
+
+![](/assets/os-file-system-image13.png)
+
+- **Partitions(minidisks, volumes)** 
+	- Virtual disk
+- **Directory** 
+	- File들을 분류, 보관하기 위한 개념
+	- Operations on directory
+		- Search for a file
+		- Create a file
+		- Delete a file
+		- List a directory
+		- Rename a file
+		- Traverse the file system
+
+
+![](/assets/os-file-system-image14.png)
+
+- **Mounting** 
+	- 현재 FS에 다른 FS를 붙이는 것
+	- EX) Android -> "SD카드"
+
+# Directory Structure
+
+
+
 
