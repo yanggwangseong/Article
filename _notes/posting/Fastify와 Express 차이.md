@@ -605,6 +605,125 @@ https://github.com/fastify/fastify/blob/main/lib/hooks.js
 - caching
 
 
+- 비동기 훅 실행 최적화
+	- Fastify는 모든 훅(hook)들을 비동기적으로 실행하며, 콜백 체인을 통해 다음 단계로 진행합니다. 이는 각 단계가 이벤트 루프를 블로킹하지 않도록 보장합니다.
+
+```ts
+if (context.onRequest !== null) {
+  onRequestHookRunner(
+	context.onRequest,
+	request,
+	reply,
+	runPreParsing
+  )
+} else {
+  runPreParsing(null, request, reply)
+}
+```
+
+- 비동기 유효성 검사 지원
+	- 라우트 제약조건에 대해 비동기 검증을 지원하며, 이를 효율적으로 처리할 수 있는 구조를 가지고 있습니다.
+
+```ts
+function isAsyncConstraint () {
+	return router.constrainer.asyncStrategiesInUse.size > 0
+}
+```
+
+- Avvio
+	- 비동기 플러그인 시스템 (Avvio)
+	- Fastify는 Avvio라는 플러그인 시스템을 사용하여 모든 플러그인 로딩과 초기화를 비동기적으로 처리합니다.
+	- https://github.com/fastify/avvio
+
+```ts
+this.after((notHandledErr, done) => {
+        // Send context async
+        context.errorHandler = opts.errorHandler ? buildErrorHandler(this[kErrorHandler], opts.errorHandler) : this[kErrorHandler]
+        context._parserOptions.limit = opts.bodyLimit || null
+        context.logLevel = opts.logLevel
+        context.logSerializers = opts.logSerializers
+        context.attachValidation = opts.attachValidation
+        context[kReplySerializerDefault] = this[kReplySerializerDefault]
+        context.schemaErrorFormatter = opts.schemaErrorFormatter || this[kSchemaErrorFormatter] || context.schemaErrorFormatter
+
+        // Run hooks and more
+        avvio.once('preReady', () => {
+          for (const hook of lifecycleHooks) {
+            const toSet = this[kHooks][hook]
+              .concat(opts[hook] || [])
+              .map(h => h.bind(this))
+            context[hook] = toSet.length ? toSet : null
+          }
+
+          // Optimization: avoid encapsulation if no decoration has been done.
+          while (!context.Request[kHasBeenDecorated] && context.Request.parent) {
+            context.Request = context.Request.parent
+          }
+          while (!context.Reply[kHasBeenDecorated] && context.Reply.parent) {
+            context.Reply = context.Reply.parent
+          }
+
+          // Must store the 404 Context in 'preReady' because it is only guaranteed to
+          // be available after all of the plugins and routes have been loaded.
+          fourOhFour.setContext(this, context)
+
+          if (opts.schema) {
+            context.schema = normalizeSchema(context.schema, this.initialConfig)
+
+            const schemaController = this[kSchemaController]
+            if (!opts.validatorCompiler && (opts.schema.body || opts.schema.headers || opts.schema.querystring || opts.schema.params)) {
+              schemaController.setupValidator(this[kOptions])
+            }
+            try {
+              const isCustom = typeof opts?.validatorCompiler === 'function' || schemaController.isCustomValidatorCompiler
+              compileSchemasForValidation(context, opts.validatorCompiler || schemaController.validatorCompiler, isCustom)
+            } catch (error) {
+              throw new FST_ERR_SCH_VALIDATION_BUILD(opts.method, url, error.message)
+            }
+
+            if (opts.schema.response && !opts.serializerCompiler) {
+              schemaController.setupSerializer(this[kOptions])
+            }
+            try {
+              compileSchemasForSerialization(context, opts.serializerCompiler || schemaController.serializerCompiler)
+            } catch (error) {
+              throw new FST_ERR_SCH_SERIALIZATION_BUILD(opts.method, url, error.message)
+            }
+          }
+        })
+
+        done(notHandledErr)
+      })
+```
+
+
+- Promise 기반 비동기 처리
+
+```ts
+// lib/wrapThenable.js
+function wrapThenable (thenable, reply, store) {
+  if (store) store.async = true
+  thenable.then(function (payload) {
+    // ... 비동기 응답 처리
+  })
+}
+```
+
+- 모든 핸들러의 응답을 Promise로 래핑하여 비동기 처리를 보장합니다.
+
+
+- 비동기 서버 시작/종료
+
+```ts
+// lib/server.js
+function listenPromise (server, listenOptions) {
+  return this.ready().then(() => {
+    // ... 서버 시작 로직
+  })
+}
+```
+
+- 서버 시작과 종료가 비동기
 
 # Reference
 

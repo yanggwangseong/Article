@@ -166,6 +166,27 @@ layout: page
 
 # Directory Structure
 
+- **Logical directory structure** 
+	- Flat (single-level) directory structure
+	- 2-level directory structure
+	- Hierarchical (tree-structure) directory structure
+	- Acyclic graph directory structure
+	- General graph directory structure
+
+## Flat Directory Structure
+
+- **FS내에 하나의 directory만 존재** 
+	- Single-level directory structure
+- Issues
+	- File naming
+	- File protection
+	- File management
+	- 다중 사용자 환경에서 문제가 더욱 커짐
+
+
+# File Protection
+
+- (TODO)
 
 
 
