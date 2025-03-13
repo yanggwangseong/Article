@@ -576,9 +576,7 @@ Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜
 
 - Express 공식문서의 [best-practice-performance](https://expressjs.com/en/advanced/best-practice-performance.html#use-promises) 부분을 보면 `use promise` 즉, Promise를 사용하라는 내용이 나와 있습니다.
 
-
-
-# Core 1: Fastify Routing 최적화
+# Core 1: Routing
 
 - [find-my-way](https://www.npmjs.com/package/find-my-way/v/7.5.0) 
 - [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)
@@ -587,7 +585,43 @@ Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜
 - Fastify의 라우트 정의 및 Reply 객체 구현에서의 코드중에서 최적화된 비동기 처리 메커니즘을 확인 할 수 있는 로직
 - Fastify의 [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) Radix Tree 라우팅
 
-# Core 2: Fastify Reply 객체
+Express는 라우팅이 O(N)만큼 탐색 합니다.
+
+# Core 2: 비동기 처리
+
+- Express는 비동기 처리에 대한 최적화되어 있지 않습니다.
+- 콜백 기반 미들웨어 체인
+	- `각 미들웨어는 (req, res, next) 형태의 콜백 체인으로 연결됩니다` 
+
+```js
+app.handle = function handle(req, res, callback) {
+  // final handler
+  var done = callback || finalhandler(req, res, {
+    env: this.get('env'),
+    onerror: logerror.bind(this)
+  });
+
+  // set powered by header
+  if (this.enabled('x-powered-by')) {
+    res.setHeader('X-Powered-By', 'Express');
+  }
+
+  // set circular references
+  req.res = res;
+  res.req = req;
+
+  // alter the prototypes
+  Object.setPrototypeOf(req, this.request)
+  Object.setPrototypeOf(res, this.response)
+
+  // setup locals
+  if (!res.locals) {
+    res.locals = Object.create(null);
+  }
+
+  this.router.handle(req, res, done);
+};
+```
 
 - request.js 비동기
 
@@ -712,18 +746,6 @@ function wrapThenable (thenable, reply, store) {
 - 모든 핸들러의 응답을 Promise로 래핑하여 비동기 처리를 보장합니다.
 
 
-- 비동기 서버 시작/종료
-
-```ts
-// lib/server.js
-function listenPromise (server, listenOptions) {
-  return this.ready().then(() => {
-    // ... 서버 시작 로직
-  })
-}
-```
-
-- 서버 시작과 종료가 비동기
 
 # Reference
 
