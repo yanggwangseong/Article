@@ -16,3 +16,9 @@
 	- cache miss를 발생 시키는게 맞을것 같다.
 
 
+
+# Reference
+
+- [위키피디아 Redis](https://en.wikipedia.org/wiki/Redis) 
+- [위키피디아 Memcached](https://en.wikipedia.org/wiki/Memcached) 
+
