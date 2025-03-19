@@ -192,6 +192,7 @@ thresholds: {
 ```
 
 - 테스트 환경은 동일하게 진행 했고 `k6` 를 사용 하였습니다.
+
 ### 대상 API
 
 ```ts
@@ -226,7 +227,7 @@ export class ParticipationsController {
 }
 ```
 
-- 특정 아티클 ID에 해당하는 참여자 리스트를 가져오는 간단한 GET api입니다.
+- 특정 아티클 ID에 해당하는 참여자 리스트를 가져오는 간단한 GET API 입니다.
 
 **Express Adaptor**
 
@@ -549,13 +550,11 @@ public createHandleResponseFn(
 
 **즉, Fastify의 Reply send 이후의 결과가 마지막으로 NestJS router-execution-context에 의해 처리 되고 있습니다.** 
 
-
-https://github.com/fastify/fastify/blob/dd358cb1f3c6e7f7c7e6fe9273e2c26f86dec7a1/lib/wrapThenable.js#L30
-
 ## ⚠️ 잘못된 지식
 
-1. [Fastify](https://fastify.dev/docs/v4.29.x/Reference/Validation-and-Serialization/#validation-and-serialization) 의 핵심 코어 기능중에서 [JSON Schema](https://json-schema.org/) 를 베이스로한 `Reqeust Validation` 에서는 [Ajv](https://www.npmjs.com/package/ajv) 를 `Response Serialization` 에서는 [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify) 를 사용 합니다.
-2. Express와 Fastify중에서 Fastify만 Routing에 Promise를 지원 합니다.
+1. [Fastify](https://fastify.dev/docs/v4.29.x/Reference/Validation-and-Serialization/#validation-and-serialization) 의 핵심 코어 기능중에서 [JSON Schema](https://json-schema.org/) 를 베이스로한 `Reqeust Validation` 에서는 [Ajv](https://www.npmjs.com/package/ajv) 를 `Response Serialization` 에서는 [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify) 를 사용 합니다. ❌
+2. Express와 Fastify중에서 Fastify만 Routing에 Promise를 지원 합니다. ❌
+	- 아래에서 Express 콜백기반과 Fastify의 Promise기반 처리를 다루겠습니다.
 
 ### 1. JSON Schema
 
@@ -572,26 +571,58 @@ app.get('/example/b', (req, res, next) => {}
 app.get('/example/b', async (req, res, next) => {}
 ```
 
-Chatgpt나 특정 블로그에 종종 Express는 라우팅 handler 함수가 콜백기반이라 `sync` 동작하기 때문에 Blocking되어서 많이 처리를 못한다는 정보를 보게 되었는데 이는 잘못된 정보이고 `async await` 는 ES6에서 나온 기술로 `fastify와 Express` 와는 별개의 `JS 개념` 입니다.
-
 - Express 공식문서의 [best-practice-performance](https://expressjs.com/en/advanced/best-practice-performance.html#use-promises) 부분을 보면 `use promise` 즉, Promise를 사용하라는 내용이 나와 있습니다.
 
 # Core 1: Routing
 
-- [find-my-way](https://www.npmjs.com/package/find-my-way/v/7.5.0) 
-- [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)
-- [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) 
+## Express
 
-- Fastify의 라우트 정의 및 Reply 객체 구현에서의 코드중에서 최적화된 비동기 처리 메커니즘을 확인 할 수 있는 로직
-- Fastify의 [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) Radix Tree 라우팅
+```js
+// express.js
+app.use = function use(fn) {
+  // ......
+  var fns = flatten.call(slice.call(arguments, offset), Infinity);
+  
+  fns.forEach(function (fn) {
+    router.use(path, fn);  // 라우터에 순차적으로 추가
+  }, this);
+  // ......
+};
+```
 
-Express는 라우팅이 O(N)만큼 탐색 합니다.
+- Express는 라우팅이 O(N)만큼 탐색 합니다.
+
+## Fastify
+
+### Fastify의 라우팅 엔진: find-my-way
+
+- [find-my-way](https://www.npmjs.com/package/find-my-way/v/7.5.0) 는 Fastify에서 사용하는 요청 URL을 빠르게 라우팅 하기 위해서 **Radix Tree** 기반의 **라우팅 라이브러리** 입니다.
+
+### Radix Tree란?
+
+- **Radix Tree**는 접두사(Prefix)를 공유하는 트리 구조로, 라우트 탐색을 최적화 합니다.
+- URL이 공유하는 **공통 접두사를 하나의 노드로** 사용하여 **검색 속도를 줄이고 메모리 사용을 최적화** 합니다.
+
+```ts
+            ""
+          /    \
+     users   posts
+      /  \
+    :id  create
+
+```
+
+
+
 
 # Core 2: 비동기 처리
 
-- Express는 비동기 처리에 대한 최적화되어 있지 않습니다.
+## Express
+
+- **Express는 handler에서 비동기 처리에 대한 최적화되어 있지 않습니다.** 
 - 콜백 기반 미들웨어 체인
 	- `각 미들웨어는 (req, res, next) 형태의 콜백 체인으로 연결됩니다` 
+- 즉, router 함수에서 `async` 를 통해서 handler 함수를 호출 하더라도 `Express` 내부적으로는 콜백기반으로 처리 되고 있습니다.
 
 ```js
 app.handle = function handle(req, res, callback) {
@@ -623,20 +654,32 @@ app.handle = function handle(req, res, callback) {
 };
 ```
 
-- request.js 비동기
+## Fastify
 
-https://github.com/fastify/fastify/blob/main/lib/request.js
+```js
+// fastify/lib/route.js L420 routeHandler
+// HTTP request entry point, the routing has already been executed
 
-- hook 방식
-https://github.com/fastify/fastify/blob/main/lib/hooks.js
+function routeHandler (req, res, params, context, query) {
+...
+...
+    if (context.onRequest !== null) {
+      onRequestHookRunner(
+        context.onRequest,
+        request,
+        reply,
+        runPreParsing
+      )
+    } else {
+      runPreParsing(null, request, reply)
+    }
+...
+...
+```
 
-- **라우트 매칭 (Route Lookup)**
-    - `find-my-way`(Trie 기반 라우트 탐색) 사용
-- **미들웨어 및 훅 실행**
-    - Fastify의 `onRequest`, `preValidation`, `preHandler`, `onSend`, `onResponse` 등 실행
-- **비동기 핸들러 실행**
-    - 요청을 처리하는 `async` 함수 실행
-- caching
+1. 비동기 파이프라인 패턴을 구현하여 요청 처리를 단계별로 분리
+2. onRequest -> runPreParsing -> handleRequest로 이어지는 명확한 비동기 실행 흐름
+
 
 
 - 비동기 훅 실행 최적화
@@ -655,83 +698,8 @@ if (context.onRequest !== null) {
 }
 ```
 
-- 비동기 유효성 검사 지원
-	- 라우트 제약조건에 대해 비동기 검증을 지원하며, 이를 효율적으로 처리할 수 있는 구조를 가지고 있습니다.
-
-```ts
-function isAsyncConstraint () {
-	return router.constrainer.asyncStrategiesInUse.size > 0
-}
-```
-
-- Avvio
-	- 비동기 플러그인 시스템 (Avvio)
-	- Fastify는 Avvio라는 플러그인 시스템을 사용하여 모든 플러그인 로딩과 초기화를 비동기적으로 처리합니다.
-	- https://github.com/fastify/avvio
-
-```ts
-this.after((notHandledErr, done) => {
-        // Send context async
-        context.errorHandler = opts.errorHandler ? buildErrorHandler(this[kErrorHandler], opts.errorHandler) : this[kErrorHandler]
-        context._parserOptions.limit = opts.bodyLimit || null
-        context.logLevel = opts.logLevel
-        context.logSerializers = opts.logSerializers
-        context.attachValidation = opts.attachValidation
-        context[kReplySerializerDefault] = this[kReplySerializerDefault]
-        context.schemaErrorFormatter = opts.schemaErrorFormatter || this[kSchemaErrorFormatter] || context.schemaErrorFormatter
-
-        // Run hooks and more
-        avvio.once('preReady', () => {
-          for (const hook of lifecycleHooks) {
-            const toSet = this[kHooks][hook]
-              .concat(opts[hook] || [])
-              .map(h => h.bind(this))
-            context[hook] = toSet.length ? toSet : null
-          }
-
-          // Optimization: avoid encapsulation if no decoration has been done.
-          while (!context.Request[kHasBeenDecorated] && context.Request.parent) {
-            context.Request = context.Request.parent
-          }
-          while (!context.Reply[kHasBeenDecorated] && context.Reply.parent) {
-            context.Reply = context.Reply.parent
-          }
-
-          // Must store the 404 Context in 'preReady' because it is only guaranteed to
-          // be available after all of the plugins and routes have been loaded.
-          fourOhFour.setContext(this, context)
-
-          if (opts.schema) {
-            context.schema = normalizeSchema(context.schema, this.initialConfig)
-
-            const schemaController = this[kSchemaController]
-            if (!opts.validatorCompiler && (opts.schema.body || opts.schema.headers || opts.schema.querystring || opts.schema.params)) {
-              schemaController.setupValidator(this[kOptions])
-            }
-            try {
-              const isCustom = typeof opts?.validatorCompiler === 'function' || schemaController.isCustomValidatorCompiler
-              compileSchemasForValidation(context, opts.validatorCompiler || schemaController.validatorCompiler, isCustom)
-            } catch (error) {
-              throw new FST_ERR_SCH_VALIDATION_BUILD(opts.method, url, error.message)
-            }
-
-            if (opts.schema.response && !opts.serializerCompiler) {
-              schemaController.setupSerializer(this[kOptions])
-            }
-            try {
-              compileSchemasForSerialization(context, opts.serializerCompiler || schemaController.serializerCompiler)
-            } catch (error) {
-              throw new FST_ERR_SCH_SERIALIZATION_BUILD(opts.method, url, error.message)
-            }
-          }
-        })
-
-        done(notHandledErr)
-      })
-```
 
 
-- Promise 기반 비동기 처리
 
 ```ts
 // lib/wrapThenable.js
@@ -745,8 +713,6 @@ function wrapThenable (thenable, reply, store) {
 
 - 모든 핸들러의 응답을 Promise로 래핑하여 비동기 처리를 보장합니다.
 
-
-
 # Reference
 
 - [ https://docs.nestjs.com/techniques/performance]( https://docs.nestjs.com/techniques/performance) 
@@ -756,6 +722,5 @@ function wrapThenable (thenable, reply, store) {
 - [https://github.com/nestjs/nest/tree/master/packages/platform-express](https://github.com/nestjs/nest/tree/master/packages/platform-express) 
 
 - [https://github.com/nestjs/nest/tree/master/packages/platform-fastify](https://github.com/nestjs/nest/tree/master/packages/platform-fastify) 
-
-
-
+- [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)
+- [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) 

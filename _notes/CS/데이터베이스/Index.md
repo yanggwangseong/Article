@@ -7,7 +7,6 @@ layout: page
 ---
 
 
-
 # Reference
 
 - Operating System Concepts 10th (공룡책)
