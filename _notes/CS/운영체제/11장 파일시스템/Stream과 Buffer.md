@@ -71,6 +71,7 @@ readStream.on('end', () => {
 # Reference
 
 - https://f-lab.kr/insight/stream-vs-buffer
+- [Buffer 위키피디아](https://en.wikipedia.org/wiki/Data_buffer) 
 
 
 

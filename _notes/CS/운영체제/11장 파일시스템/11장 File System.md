@@ -186,7 +186,27 @@ layout: page
 
 # File Protection
 
-- (TODO)
+- **File Protection이란?**
+	- File에 대한 부적절한 접근 방지
+		- 다중 사용자 시스템에서 더욱 필요
+- **접근 제어가 필요한 연산들**
+	- Read (R)
+	- Write (W)
+	- Execute (X)
+	- Append (A)
+
+## File Protection Mechanism
+
+- 파일 보호 기법은 system size 및 응용 분야에 따라 다를 수 있음.
+
+1. Password 기법
+	- 각 file들에 PW 부여
+	- 비현실적
+		- 사용자들이 파일 각각에 대한 PW를 기억 해야함.
+		- 접근 권할 별로 서로 다른 PW를 부여 해야함.
+2. Access Matrix 기법
+	- (TODO)
+
 
 
 
