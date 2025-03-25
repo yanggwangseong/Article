@@ -2,4 +2,42 @@
 layout: default
 ---
 
-<content> {{ content }} </content>
+<article>
+  <div>
+    <h1>{{ page.title }}</h1>
+  </div>
+
+  {% assign content_array = content | split: '<h' %}
+  {% if content_array.size > 1 %}
+    <div class="table-of-contents">
+      <h2>목차</h2>
+      <ul>
+        {% for item in content_array %}
+          {% if forloop.first == false %}
+            {% assign headerLevel = item | truncate: 1, '' %}
+            {% if headerLevel == "1" or headerLevel == "2" %}
+              {% assign header = item | split: '</h' | first %}
+              {% assign title = header | split: '>' | last | strip %}
+              {% assign id = title | downcase | replace: ' ', '-' | replace: '.', '' | replace: ':', '' %}
+              <li class="toc-h{{ headerLevel }}">
+                <a href="#{{ id }}">{{ title }}</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <content>
+    {{ content }}
+  </content>
+
+  {% if page.tags %}
+    <div class="tags">
+      {% for tag in page.tags %}
+        <a href="/tags/{{ tag }}" class="tag">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</article>

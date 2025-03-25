@@ -149,3 +149,44 @@ code {
   color: #ccc;
   cursor: help;
 }
+
+.table-of-contents {
+  background: var(--secondary-color, #f5f5f5);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .toc-h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .toc-h2 {
+    padding-left: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+    line-height: 1.7;
+
+    &:hover {
+      color: var(--link-color);
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+}
