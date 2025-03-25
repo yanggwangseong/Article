@@ -40,7 +40,9 @@ permalink: /books/
   </div>
 
   <div class="book-card">
-    <img src="/assets/books/book2.jpg" alt="클린 아키텍처">
+    <div class="book-cover">
+      <img src="/assets/books/book2.jpg" alt="클린 아키텍처">
+    </div>
     <div class="book-info">
       <h3>database system concepts 7th</h3>
       <p class="author">Abraham Silberschatz , Henry F. Korth , S. Sudarshan 저자</p>

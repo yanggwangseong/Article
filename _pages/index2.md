@@ -1,4 +1,13 @@
 
+# 블로그 기능 완료
+
+- 태그 페이지와 태그 기능 완료
+- 포스트 리스트 페이지 기능 완료
+- 책리스트 페이지 완료
+- 나를 소개하는 Resume 페이지 완료
+- **블로그 헤더에 포스트, 태그, Resume, Book Library 메뉴 추가** 
+- 포스트 글 내용안에서 단락별 이동 메뉴 추가
+
 # 안녕 NestJS
 
 <p style="padding: 3em 1em; background: #f5f7ff; border-radius: 4px;">
