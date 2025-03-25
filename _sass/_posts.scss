@@ -47,6 +47,12 @@
       margin-right: 0.5rem;
       margin-bottom: 0.5rem;
       color: var(--text-color-secondary, #666);
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: darken(#eee, 10%);
+      }
     }
   }
 
