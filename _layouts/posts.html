@@ -1,0 +1,40 @@
+---
+layout: default
+---
+
+<div class="posts-list">
+  <h1>{{ page.title }}</h1>
+
+  {% assign notes = site.notes | where_exp: "item", "item.path contains
+  'posting/'" | sort: "last_modified_at" | reverse %}
+
+  <ul>
+    {% for note in notes %}
+    <li>
+      <h2 class="post-title">
+        <a href="{{ note.url }}" class="internal-link">{{ note.title }}</a>
+      </h2>
+
+      {% if note.tags %}
+      <div class="tags">
+        {% for tag in note.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %} {% if note.excerpt %}
+      <div class="excerpt">
+        {{ note.excerpt | strip_html | truncatewords: 50 }}
+      </div>
+      {% endif %}
+
+      <div class="post-meta">
+        {% if note.last_modified_at %}
+        <small
+          >마지막 수정: {{ note.last_modified_at | date: "%Y-%m-%d" }}</small
+        >
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
