@@ -1,4 +1,5 @@
-.posts-list {
+.posts-list,
+.tags-page {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1rem;
@@ -14,12 +15,11 @@
 
   li {
     margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #eee;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    padding: 1.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
   .post-title {
@@ -31,6 +31,10 @@
 
       &:hover {
         color: var(--link-color);
+      }
+
+      &::after {
+        display: none;
       }
     }
   }
@@ -53,6 +57,10 @@
       &:hover {
         background: darken(#eee, 10%);
       }
+
+      &::after {
+        display: none;
+      }
     }
   }
 
@@ -66,4 +74,9 @@
     color: var(--text-color-tertiary, #888);
     font-size: 0.9rem;
   }
+}
+
+.internal-link::after,
+a[href^="http"]::after {
+  display: none !important;
 }
