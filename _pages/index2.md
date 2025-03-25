@@ -80,7 +80,6 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
 - YDS (Yang Design System)
 	- Shacdn ui + tailwind + Storybook
 
-
 # Book
 
 ## CS
