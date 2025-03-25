@@ -2,6 +2,8 @@
 layout: default
 ---
 
-<content>
-  {{ content }}
-</content>
+<content> {{ content }} </content>
+{% if page.tags %} {% for tag in page.tags %} {% if site.data.tags contains tag
+%}
+<span class="tag">{{ site.data.format[tag] }}</span>
+{% endif %} {% endfor %} {% endif %}
