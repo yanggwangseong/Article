@@ -2,7 +2,7 @@
 title: Dijkstra
 permalink: 
 tags:
-  - "#Algorithm"
+  - Algorithm
 ---
 
 # 🛠️ Dijkstra 알고리즘

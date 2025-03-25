@@ -2,7 +2,7 @@
 title: DP
 permalink: 
 tags:
-  - "#Algorithm"
+  - Algorithm
 ---
 
 # 🛠️ DP 알고리즘
