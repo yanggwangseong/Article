@@ -43,21 +43,26 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
 # my (2025~)
 
 - type-collection ✅
+	- **필요한 타입들 모음집** 
 	- 나만의 타입 컬렉션 모음
 - type-challenges ✅
+	- **고급 타입연습** 
 	- TS 타입 챌린지를 풀기
 - DataStructure ✅ ⭐️⭐️⭐️⭐️⭐️
+	- **(중요) 좋은 자료구조** 
 	- TS 기반으로 자료구조와 알고리즘을 연구
 	- python
 - AlgoNote ✅ ⭐️⭐️⭐️⭐️⭐️
 	- 알고리즘 문제를 풀면서 issue기반의 오답노트
 	- TS 기반으로 여러 알고리즘 연구 (OS, 네트워크 등)
 - ts-toolkit (with Jest, codekata) ⭐️⭐️⭐️⭐️⭐️
+	- **(중요) 좋은 비지니스 로직** 
 	- TS 기반 유틸리티 함수들 연구 레포지토리
 	- ts-number-utils : 숫자 관련 유틸 함수 모음
 	- ts-string-utils : 문자열 관련 유틸 함수 모음
 	- ts-date-utils : 날짜 관련 유틸 함수 모음
 - ts-oop (with Jest)
+	- **(중요) 좋은 OOP 설계**
 	- TS 기반 OOP적인 사고를 향상 시키기 위해 연습
 	- 디자인패턴
 	- 상속, 합성, 믹스인
@@ -67,12 +72,13 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
 - nestjs-toolkit (with Jest)
 	- pipe, guard, middleware, interceptor 등 연구
 - nestjs-boilerplate
+	- 여러가지 셋팅 설정
+	- Nestia + typia 세팅
+	- NestJS + SWC + Webpack 세팅
 - react-boilerplate ✅
 	- react 18기준 템플릿
 - YDS (Yang Design System)
 	- Shacdn ui + tailwind + Storybook
-
-
 
 
 # Book
@@ -92,4 +98,36 @@ The easiest way to get started is to read this [step-by-step guide explaining ho
 	- [데이터 중심 애플리케이션 설계](https://product.kyobobook.co.kr/detail/S000001766328) 
 - 자료구조
 - 알고리즘
+
+## 시스템 디자인
+
+- 시스템 디자인
+	- 가상면접으로 배우는 시스템 디자인 1편,2편
+
+
+Book
+- 객체지향의 사실과 오해
+- 오브젝트책
+- 이펙티브 TS
+- 아는만큼보이는데이터베이스설계와구축
+- 코어자바스크립트
+- 모던JS딥다이브
+- 공룡책
+- 네트워크탑다운
+- 데이터베이스 시스템
+- UnitTest (Reading)
+- RealMysql (Reading)
+- 데이터중심애플리케이션설계 (Plan)
+- 가상 면접 사례로 배우는 대규모 시스템 설계 기초 (Plan)
+## 기록없음
+- NestJS로 배우는 백엔드 프로그래밍
+- 혼자 공부하는 컴퓨터 구조+운영체제
+- 혼자 공부하는 네트워크
+- 면접을 위한 CS 전공지식 노트
+- 코딩 자율학습 제로초의 자바스크립트 입문
+- Node.js 교과서
+- 함께 자라기
+- 실용주의 프로그래머
+- 소프트웨어 장인
+- 개발자를 위한 레디스
 
