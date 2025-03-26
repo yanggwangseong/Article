@@ -9,7 +9,32 @@ permalink: /resume/
 ```ts
 // Pick, Omit 타입 같은걸로 내가 중요하게 생각하는것을 선택하는 코드
 // Pick<Item, "OS" | "Network" | >
-// 블라블라 
+// 블라블라
+
+export namespace YangGwangSeong {
+    export type Introdution = `
+    👋 안녕하세요! 
+        탄탄한 CS 기반 위에 실용적인 서비스를 만드는 백엔드 개발자를 지향합니다.
+    💡 저는 기본기를 매우 중요하게 생각합니다. 
+        견고한 기초가 탄탄한 아키텍처와 안정적인 서비스를 만든다고 믿고 있으며, 이를 위해 ${Important}등 CS 지식을 꾸준히 학습하고 있습니다.
+    📚 저는 책을 보는것을 좋아하고 열심히 기록하고 정리하는것을 좋아합니다. 
+        특히 기술서적 중에서는 📖 ${Book}을 가장 좋아합니다.
+    🌟 지속적인 성장을 하기 위해서 꾸준함과 기록 복습이 중요하다고 생각합니다.
+        이를 위해 블로그를 운영하고 있습니다. 블로그 (🛠️ Obsidian 기반, Jekyll 환경) 주소는 ${BlogUrl}입니다.
+    💻 기술스택
+        ${Skill}
+    🚀 함께 성장하며, 더 나은 개발자가 되기 위해 매일 한 걸음씩 나아가고 있습니다.
+    `;
+    export type Item = ["OS", "DB", "Network", "Data Structure", "Algorithm"];
+
+    // important 중요하게 생각하는것
+    export type Important = "Item";
+    export type Book = "Item";
+    export type BlogUrl = "Item";
+    export type Skill = "Item";
+}
+
+const yanggwangseong = "";
 ```
 
 프론트와 백엔드를 넘나들며 성장하고 있는 개발자입니다.  

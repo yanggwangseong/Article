@@ -52,10 +52,16 @@ layout: page
 	- 플레터
 	- 트랙
 	- 섹터
+		- **디스크로부터 읽고 쓸 수 있는 정보의 가장 작은 단위** 
 	- 암
 	- read-write 헤더
 	- 실린더
+		- **모든 디스크 판위에 있는 헤드는 다같이 움직이기 때문에 여러개의 판의 헤더들은 같은 트랙을 가리킨다. 이를 실린더라고 한다.** 
+		- 모든 디스크 판의 `i` 번째 트랙을 `i` 번째 실린더라 부른다.
 	- 스핀들
+- **Flash memory**
+	- NOR Flash와 NAND Flash
+	- SSD는 NAND Flash를 사용하여 만든다.
 - Disk Performance 측정
 	- access time (접근 시간)
 	- seek time (탐색 시간)
@@ -64,9 +70,6 @@ layout: page
 		- IOPS
 	- MTTF(mean time to failure)
 		- 평균적으로 시스템이 아무 실패 없이 계속해서 동작할 수 있는 시간이다.
-- **Flash memory**
-	- NOR Flash와 NAND Flash
-	- SSD는 NAND Flash를 사용하여 만든다.
 - **RAID**
 	- 디스크의 성능과 신뢰성 향상을 위한 디스크 아키텍쳐
 	- 중복에 의한 신뢰성 향상
@@ -92,7 +95,6 @@ layout: page
 	5. Nonvolatile write buffer (NVRAM, 비휘발성 쓰기 버퍼)
 		- 디스크 쓰기 속도를 높이기 위한 목적
 		- 메인 메모리 같은 경우 휘발성 메모리이기 때문에 트랜잭션 처리 시스템 같은 갱신 중심 데이터베이스 응용 프로그램에서는 NVRAM을 통해서 이를 해결한다.
-
 
 # 파일
 
