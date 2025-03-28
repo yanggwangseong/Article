@@ -1,8 +1,8 @@
 ---
-title: 도구
-permalink: /tools/도구
+title: Tools
+permalink: /tools
 tags:
-  - 도구
+  - tools
 ---
 
 # VSCODE
