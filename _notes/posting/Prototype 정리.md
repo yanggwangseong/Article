@@ -12,4 +12,3 @@
 - https://evan-moon.github.io/2019/10/27/inheritance-with-prototype/
 - https://evan-moon.github.io/2019/10/23/js-prototype/
 - [프로토타입 오염](https://medium.com/intrinsic-blog/javascript-prototype-poisoning-vulnerabilities-in-the-wild-7bc15347c96) 
-

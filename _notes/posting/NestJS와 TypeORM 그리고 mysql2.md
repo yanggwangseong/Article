@@ -4,3 +4,4 @@
 - mysql2 preparedStatement
 - mysql2에서 `no-delay옵션과 네이글 알고리즘`
 
+NestJS TypeORM mysql2
