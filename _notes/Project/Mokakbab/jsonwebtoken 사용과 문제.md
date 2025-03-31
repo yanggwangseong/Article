@@ -9,14 +9,14 @@ tags:
 layout: page
 ---
 
-## jsonwebtoken 사용과 문제
+# jsonwebtoken 사용과 문제
 
 - 🐙 **[모각밥 프로젝트(GitHub)](https://github.com/f-lab-edu/Mokakbab)** 
 - 📑 [**V1 프로젝트 리포트**](https://curvy-wood-aa3.notion.site/V1-192135d46c8f803caaa6f10c2faeb4b2?pvs=4) 
 
 ---
 
-### 📚 Contents
+## 📚 Contents
 
 1. 개요
 2. 문제
@@ -24,15 +24,35 @@ layout: page
 
 ---
 
-### 개요
+## 개요
 
-- NestJS와 jwt 호출 개요 
- 
+**호출 Flow** 
+
+![](/assets/Mokakbab03.png)
+
+- `@nestjs` 
+- `@nestjs/jwt` 
+- `AuthService (사용자 생성 클래스)` 
+- `@nestjs/jwt/jwtService` 
+- `jsonwebtoken/verify`
+
+1. NestJS에서 `@nestjs/jwt` 라이브러리의 `JwtModule.registerAsync` 를 통해서 AuthModule에 해당 JwtModule을 의존성 주입을 합니다.
+
+2. 사용자 클래스에서 jwtService에 사용하기 위한 의존성 주입하고 `jwt` 를 검증하는 메서드에서 호출하여 사용 할 수 있습니다.
+
+3. jwtService에서는 2가지 메서드를 지원 합니다.
+
+- `verify` 
+- `verifyAsync` 
+
+4. 비동기방식을 지원하는 **Promise Wrapping된 verifyAsync** 메서드와 그렇지 않은 `verify` 메서드를 지원합니다.
+
+5. 해당 메서드들은 **jsonwebtoken** 라이브러리에서 `verify` 메서드를 호출 합니다.
 
 
 ---
 
-### 문제
+## 문제
 
 1. jsonWebtoken의 createPublicKey
 2. async와 sync
@@ -47,7 +67,7 @@ layout: page
 
 문제가 발생하고 있는 구간을 살펴보면 **createPublicKey** 라는것을 알 수 있습니다.
 
-#### createPublicKey
+### createPublicKey
 
 **jsonWebtoken 라이브러리에서 `verfiy.js` 에서 호출되는 함수 입니다. 정확히는 nodejs의 crypto 모듈에서 호출되는 함수입니다.** 
 
@@ -74,7 +94,7 @@ if (secretOrPublicKey != null && !(secretOrPublicKey instanceof KeyObject)) {
 ```
 
 이를 해결하기 위해서 먼저 개요에서 나타나는것처럼 호출 순서와 지속적인 호출을 막기위해서 해결 할 수 있는 방법이 필요 하였습니다.
-#### async와 sync
+### async와 sync
 
 ```ts
 // auth.service.ts 모각밥 프로젝트에서 verify 코드
@@ -100,7 +120,7 @@ Event-Loop가 Blocking되어 효율적인 Non-Blocking 작업처리가 되지 �
 
 ---
 
-### 문제 해결 및 결과
+## 문제 해결 및 결과
 
 - 📘 **[노션 결과 리포트](https://curvy-wood-aa3.notion.site/v1-1-API-180135d46c8f804abf2bd6be14255686?pvs=4)** 
 - 🔗 **[PR #72 이슈 링크](https://github.com/f-lab-edu/Mokakbab/pull/72)** 
@@ -108,7 +128,7 @@ Event-Loop가 Blocking되어 효율적인 Non-Blocking 작업처리가 되지 �
 1. jsonWebtoken의 createPublicKey
 2. async와 sync
 
-#### jsonWebtoken의 createPublicKey
+### jsonWebtoken의 createPublicKey
 
 - NestJS Module에서 key를 미리 생성하기
 
@@ -146,7 +166,7 @@ Module에서 JwtModule의 의존성을 주입할때 `useFactory` 를 통해서 *
 ![](/assets/Mokakbab02.png)
 
 **이를 통해서 createSecretKey 호출이 사라진 결과의 플레임그래프를 볼 수 있었습니다** 
-#### verifyAsync 메서드로 변경
+### verifyAsync 메서드로 변경
 
 - `verifyAsync` 메서드를 통해서 Promise를 지원할 수 있게 변경 하였습니다.
 
