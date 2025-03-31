@@ -1,5 +1,5 @@
 ---
-title: NestJS에서 TypeORM Seeding 성능 문제
+title: TypeORM Seeding 성능 문제
 permalink: /project/mokakbab/trouble-shooting/2
 tags:
   - Troubleshooting
@@ -9,7 +9,7 @@ tags:
 layout: page
 ---
 
-## NestJS에서 TypeORM Seeding 성능 문제
+## TypeORM Seeding 성능 문제
 
 - 🐙 **모각밥 프로젝트(GitHub)**: [모각밥 프로젝트 링크](모각밥 프로젝트 링크)
 - 📑 **V1 프로젝트 리포트**

@@ -1,18 +1,19 @@
 ---
-title: NestJS에서 jsonwebtoken 사용과 문제
-permalink: /project/mokakbab/trouble-shooting/1
+title: AWS와 S3 업로드시 CPU Bound
+permalink: /project/mokakbab/trouble-shooting/6
 tags:
-  - jwt
   - Troubleshooting
   - mokakbab
   - nestjs
+  - s3
+  - aws
 layout: page
 ---
 
-## NestJS에서 jsonwebtoken 사용과 문제
+## AWS와 S3 업로드시 CPU Bound
 
-- 🐙 **모각밥 프로젝트(GitHub)**: [모각밥 프로젝트 링크](모각밥 프로젝트 링크)
-- 📑 **V1 프로젝트 리포트**
+- 🐙 **[모각밥 프로젝트(GitHub)](https://github.com/f-lab-edu/Mokakbab)** 
+- 📑 [**V1 프로젝트 리포트**](https://curvy-wood-aa3.notion.site/V1-192135d46c8f803caaa6f10c2faeb4b2?pvs=4) 
 
 ---
 
