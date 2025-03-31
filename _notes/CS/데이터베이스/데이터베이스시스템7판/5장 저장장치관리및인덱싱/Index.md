@@ -1,4 +1,0 @@
-
-- Dense Index
-- Sparse Index
-

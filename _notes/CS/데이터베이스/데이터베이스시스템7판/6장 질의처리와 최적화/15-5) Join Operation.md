@@ -1,0 +1,34 @@
+---
+title: 15-5) Join Operation
+permalink: /cs/database/database-system-7th/ch-15-5-join-operation
+tags:
+  - Database
+layout: page
+---
+
+# Join Operation
+
+- Join Operation
+	- **Natural Join**과 관련된 쿼리는 인덱스의 유무와 릴레이션의 물리적 저장 형태에 따라 여러 방법으로 처리 할 수 있다.
+		- 블록 중첩 루프
+		- 인덱스 중첩 루프
+		- 합병조인
+		- 해시조인
+- Nested-Loop Join
+- Block Nested-Loop Join
+- Indexed Nested-Loop Join
+- Merge Join
+	- Merge Join Cost
+- Hash
+	- Recursive Partitioning
+	- Overflow 처리
+	- Hash Join Cost
+- Complex Joins
+
+- equi-join(동등 조인)
+	- A와 B릴레이션 `r` 과 `s` 의 속성이거나 속성의 집합일때
+- Nested-Loop Join
+	- 중첩된 `for` 반복문으로 구성되어 있는 알고리즘
+	- 릴레이션 `r` 은 **outer relation(외부 릴레이션)** , 릴레이션 `s` 는 **inner relation(내부 릴레이션)** 이라고 부른다.
+		- 왜?
+			- `r` 에 대한 반복문이 `s` 에 대한 반복문을 감싸고 있기 때문이다.
