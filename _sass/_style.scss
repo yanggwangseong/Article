@@ -149,3 +149,67 @@ code {
   color: #ccc;
   cursor: help;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9em;
+  font-family: var(--font-family-sans);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+
+  thead {
+    tr {
+      background-color: var(--secondary-color, #f4f4f4);
+      color: var(--text-color);
+      text-align: left;
+      font-weight: bold;
+    }
+  }
+
+  th,
+  td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color, #ddd);
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--border-color, #ddd);
+      transition: background-color 0.2s ease;
+
+      &:nth-of-type(even) {
+        background-color: var(--secondary-color-light, #f8f8f8);
+      }
+
+      &:last-of-type {
+        border-bottom: 2px solid var(--secondary-color, #f4f4f4);
+      }
+
+      &:hover {
+        background-color: var(--hover-color, #f5f5f5);
+      }
+    }
+  }
+
+  // 반응형 테이블
+  @media screen and (max-width: 600px) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+  }
+}
