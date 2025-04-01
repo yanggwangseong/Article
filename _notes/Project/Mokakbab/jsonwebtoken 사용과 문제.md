@@ -9,6 +9,8 @@ tags:
 layout: page
 ---
 
+![](/assets/Mokakbab06.png)
+
 # jsonwebtoken 사용과 문제
 
 - 🐙 **[모각밥 프로젝트(GitHub)](https://github.com/f-lab-edu/Mokakbab)** 

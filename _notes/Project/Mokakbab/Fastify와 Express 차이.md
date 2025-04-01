@@ -1,12 +1,14 @@
 ---
 title: fastify와 express 차이
-permalink: 
+permalink: /project/mokakbab/posts/fastify-vs-express
 tags:
   - fastify
   - express
   - nestjs
 layout: page
 ---
+
+![](/assets/Mokakbab06.png)
 
 - https://github.com/f-lab-edu/Mokakbab/pull/93
 - [모각밥 프로젝트 Express Adaptor Repository 브랜치](https://github.com/f-lab-edu/Mokakbab/tree/feature/express-adaptor) 
