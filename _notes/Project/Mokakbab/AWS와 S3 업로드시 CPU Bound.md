@@ -10,6 +10,8 @@ tags:
 layout: page
 ---
 
+![](/assets/Mokakbab06.png)
+
 ## AWS와 S3 업로드시 CPU Bound
 
 - 🐙 **[모각밥 프로젝트(GitHub)](https://github.com/f-lab-edu/Mokakbab)** 

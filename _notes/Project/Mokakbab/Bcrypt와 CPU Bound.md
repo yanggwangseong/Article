@@ -1,5 +1,5 @@
 ---
-title: Bcrypt와 CPU Intensive
+title: Bcrypt와 CPU Bound
 permalink: /project/mokakbab/trouble-shooting/5
 tags:
   - Troubleshooting
@@ -9,7 +9,7 @@ tags:
 layout: page
 ---
 
-## Bcrypt와 CPU Intensive
+## Bcrypt와 CPU Bound
 
 - 🐙 **모각밥 프로젝트(GitHub)**: [모각밥 프로젝트 링크](모각밥 프로젝트 링크)
 - 📑 **V1 프로젝트 리포트**
