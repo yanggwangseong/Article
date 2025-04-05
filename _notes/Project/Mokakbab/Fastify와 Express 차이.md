@@ -175,6 +175,7 @@ platform 랩핑 라이브러리 언급 NestJS 버전에 맞는 express와 fastif
 # Express와 Fastify에서 차이
 
 ## 테스트 결과 비교
+
 ### 테스트 환경
 
 ```ts
@@ -183,8 +184,8 @@ scenarios: {
 		executor: "ramping-vus",
 		startVUs: 0,
 		stages: [
-			{ duration: "2m", target: 500 }, // 1분 동안 VUs를 500으로 증가
-			{ duration: "1m", target: 0 }, // 30초 동안 VUs를 0으로 감소
+			{ duration: "2m", target: 500 }, // 2분 동안 VUs를 500으로 증가
+			{ duration: "1m", target: 0 }, // 1분 동안 VUs를 0으로 감소
 		],
 	},
 },
@@ -194,7 +195,7 @@ thresholds: {
 },
 ```
 
-- 테스트 환경은 동일하게 진행 했고 `k6` 를 사용 하였습니다.
+- 테스트 환경은 동일하게 진행 했고 도구로 `k6` 를 사용 하였습니다.
 
 ### 대상 API
 
