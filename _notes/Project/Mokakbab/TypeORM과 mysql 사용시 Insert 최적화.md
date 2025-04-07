@@ -9,6 +9,8 @@ tags:
 layout: page
 ---
 
+![](/assets/Mokakbab06.png)
+
 ## TypeORM과 mysql 사용시 Insert 최적화
 
 - 🐙 **모각밥 프로젝트(GitHub)**: [모각밥 프로젝트 링크](모각밥 프로젝트 링크)

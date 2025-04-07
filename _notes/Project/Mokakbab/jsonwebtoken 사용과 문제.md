@@ -11,14 +11,15 @@ layout: page
 
 ![](/assets/Mokakbab06.png)
 
-# jsonwebtoken 사용과 문제
+## jsonwebtoken 사용과 문제
 
 - 🐙 **[모각밥 프로젝트(GitHub)](https://github.com/f-lab-edu/Mokakbab)** 
-- 📑 [**V1 프로젝트 리포트**](https://curvy-wood-aa3.notion.site/V1-192135d46c8f803caaa6f10c2faeb4b2?pvs=4) 
+- 📘 **[노션 결과 리포트](https://curvy-wood-aa3.notion.site/v1-1-API-180135d46c8f804abf2bd6be14255686?pvs=4)** 
+- 🔗 **[PR #72 이슈 링크](https://github.com/f-lab-edu/Mokakbab/pull/72)** 
 
 ---
 
-## 📚 Contents
+### 📚 Contents
 
 1. 개요
 2. 문제
@@ -26,7 +27,7 @@ layout: page
 
 ---
 
-## 개요
+### 개요
 
 **호출 Flow** 
 
@@ -54,7 +55,7 @@ layout: page
 
 ---
 
-## 문제
+### 문제
 
 1. jsonWebtoken의 createPublicKey
 2. async와 sync
@@ -69,7 +70,7 @@ layout: page
 
 문제가 발생하고 있는 구간을 살펴보면 **createPublicKey** 라는것을 알 수 있습니다.
 
-### createPublicKey
+#### 1️⃣ createPublicKey
 
 **jsonWebtoken 라이브러리에서 `verfiy.js` 에서 호출되는 함수 입니다. 정확히는 nodejs의 crypto 모듈에서 호출되는 함수입니다.** 
 
@@ -96,7 +97,7 @@ if (secretOrPublicKey != null && !(secretOrPublicKey instanceof KeyObject)) {
 ```
 
 이를 해결하기 위해서 먼저 개요에서 나타나는것처럼 호출 순서와 지속적인 호출을 막기위해서 해결 할 수 있는 방법이 필요 하였습니다.
-### async와 sync
+#### 2️⃣ async와 sync
 
 ```ts
 // auth.service.ts 모각밥 프로젝트에서 verify 코드
@@ -122,15 +123,12 @@ Event-Loop가 Blocking되어 효율적인 Non-Blocking 작업처리가 되지 �
 
 ---
 
-## 문제 해결 및 결과
-
-- 📘 **[노션 결과 리포트](https://curvy-wood-aa3.notion.site/v1-1-API-180135d46c8f804abf2bd6be14255686?pvs=4)** 
-- 🔗 **[PR #72 이슈 링크](https://github.com/f-lab-edu/Mokakbab/pull/72)** 
+### 문제 해결 및 결과
 
 1. jsonWebtoken의 createPublicKey
 2. async와 sync
 
-### jsonWebtoken의 createPublicKey
+#### 1️⃣ jsonWebtoken의 createPublicKey
 
 - NestJS Module에서 key를 미리 생성하기
 
@@ -168,7 +166,7 @@ Module에서 JwtModule의 의존성을 주입할때 `useFactory` 를 통해서 *
 ![](/assets/Mokakbab02.png)
 
 **이를 통해서 createSecretKey 호출이 사라진 결과의 플레임그래프를 볼 수 있었습니다** 
-### verifyAsync 메서드로 변경
+#### 2️⃣ verifyAsync 메서드로 변경
 
 - `verifyAsync` 메서드를 통해서 Promise를 지원할 수 있게 변경 하였습니다.
 
