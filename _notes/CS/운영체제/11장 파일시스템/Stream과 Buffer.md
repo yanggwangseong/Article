@@ -67,8 +67,6 @@ readStream.on('end', () => {
 🚰 **수도꼭지(스트림)** 에서 물(데이터)이 나오는데, **양동이(버퍼)** 에 물이 차면 일정량씩 사용한다고 생각하면 됩니다.
 
 
-
-
 # Reference
 
 - https://f-lab.kr/insight/stream-vs-buffer

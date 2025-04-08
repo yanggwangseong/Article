@@ -111,8 +111,9 @@
 	- Stream에서 Buffer없이 데이터 전송 가능하다
 		- Buffer가 임시 저장소로 메모리를 차지하지 않기 때문에 자주 사용하는것이다.
 		- 일반적인 메인 메모리에 저장되는 문자열등을 그냥 Stream으로 전송 가능하다.
-
-
+- 매직넘버 와 매직 리터럴
+	- EX) `export const PASSWORD_HASH_LENGTH = 60;` 
+	- 매직넘버와 매직 리터럴을 사용할때 직관적인 명칭 사용과 주석을 꼭 달아주어야 한다.
 
 
 - HTTP Message Format
