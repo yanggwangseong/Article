@@ -143,7 +143,7 @@ const foundMember = await this.membersRepository.findOne({
 
 `member` 테이블과 `refreshToken` 테이블과 `relations` 옵션을 통해서 `findOne` 메서드를 사용 했을때 쿼리 로그를 보면 쿼리를 2개를 요청하는것을 알 수 있었다.
 
-```sql
+```ts
 SELECT DISTINCT `distinctAlias`.`memberentity_id` AS `ids_MemberEntity_id`  
 FROM   (SELECT `MemberEntity`.`id`                               AS  
                `MemberEntity_id`,  
