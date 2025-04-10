@@ -29,7 +29,7 @@ layout: page
 
 ### 개요
 
-**호출 Flow** 
+**동작 Flow** 
 
 ![](/assets/Mokakbab03.png)
 
