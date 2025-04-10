@@ -28,8 +28,6 @@ layout: page
 
 ### 개요
 
-`TypeORM` 에서 
-
 `TypeORM` 에서 `insert` 쿼리를 실행하기 위해서 제공하는 메서드들은 다음과 같습니다.
 
 - `save` 메서드
@@ -39,13 +37,72 @@ layout: page
 
 **query 메서드를 사용하여 INSERT하게 되면 affectedRows만 반환하기 때문에 선택지에서 제외 시켰습니다** 
 
+### 1. `save` 메서드
+
+```ts
+const rows = [
+	User.create({ name: '홍길동' }),
+	User.create({ name: '박민수' })
+];
+
+await User.save(rows)
+
+INSERT INTO user(id, name) VALUES (DEFAULT, '홍길동')
+SELECT User.id AS User_id, User.name AS User_name FROM user User WHERE User.id = 101
+INSERT INTO user(id, name) VALUES (DEFAULT, '박민수')
+SELECT User.id AS User_id, User.name AS User_name FROM user User WHERE User.id = 102
+
+// save option
+export interface SaveOptions {
+		...
+    transaction?: boolean;  // TRANSACTION을 하지 않을 수 있습니다.
+    chunk?: number;      // 데이터가 배열일때, chunk 개수를 설정할 수 있습니다.
+    reload?: boolean;    // Entity를 Reload 합니다.
+}
+```
+
+`save` 메서드는 단일 생성은 괜찮으나 여러 데이터를 생성할 때 매번 `INSERT INTO` 를 반복하게 되는 부분이 발생 합니다.
+
+Insert후 Select시에 **reload** 옵션을 통해서 생성된 데이터를 가져올 수 있으나 **모든 필드를 다 가져오게** 됩니다.
+
+모든 필드를 다 가져오지 않는 방법은 쿼리내에서는 방법이 따로 없습니다.
+
+### 2. `insert` 메서드
+
+```ts
+await User.insert(rows)
+INSERT INTO user(id, name) VALUES (DEFAULT, '홍길동'), (DEFAULT, '박민수')
+SELECT User.id AS User_id, User.name AS User_name FROM user User WHERE User.id = 111
+```
+
+`insert` 메서드를 사용하면 VALUES값을 한번에 모아서 INSERT를 실행 할 수 있습니다.
+
+하지만 **응답값(InsertResult.generatedMaps)** 을 채우기 위해 SELECT를 하고 있습니다
+
+이는 `TypeORM` 의 내부적인 동작으로 이를 막을 방법은 현재 없습니다.
+
+### 3.  QueryBuilder 
+
+```ts
+await User.createQueryBuilder()
+          .insert()
+          .values(rows)
+          .updateEntity(false)
+          .execute()
+          
+INSERT INTO user(id, name) VALUES (DEFAULT, '홍길동'), (DEFAULT, '박민수')
+```
+
+`QueryBuilder` 를 사용하여 `updateEntity(false)` 설정을 하게 되면 SELECT하지 않을 수 있습니다.
+
+하지만 현재 프로젝트에서 `AutoIncrement` 로 동작하는 `Primary Key` 를 `INSERT` 후에 `id` 값을 가져와야 하는 상황에서는 문제가 발생합니다. 
+
 ---
 
 ### 문제
 
-1. TypeORM에서 `Insert` 쿼리를 실행한 후 생성된 데이터값을 알기 위해서 `SELECT` 쿼리 발생
-2. `mysql` 사용시 해당 `SELECT` 쿼리시에 `Returning` 문법을 지원하지 않기 때문에 모든 필드를 가져오는 문제
-
+1. TypeORM에서 `INSERT` 후 `SELECT` 쿼리 발생
+2. `AutoIncrement` 로 동작하는 `Primary Key` 를 `INSERT` 후에 `id` 값을 가져와야 하는 상황
 
 ---
 
@@ -90,7 +147,14 @@ async saveVerificationCode(code: string) {
 
 **즉, TypeORM에서 mysql을 사용시에 필요한 필드를 다시 가져오는 쿼리를 보내는 방법밖에 없습니다** 
 
-다만, TypeORM에서 load 할 수 있는 옵션을 사용하게 되면 모든 필드들을 가져오기 때문에 필요한 필드만 가져오고 싶다면 해당 방법이 더 좋은 방법 입니다.
+다만, TypeORM에서 `reload` 옵션을 사용하게 되면 모든 필드를 가져오기 때문에 필요한 필드만 가져오고 싶다면 해당 방법이 더 좋은 방법 입니다.
 
-[[TypeORM에서 insert 최적화]]
+#### 어떻게 Primary Key인 id값을 가져 올 수 있을까?
+
+mysql driver가 mysql과 통신할때, 응답패킷에 **last-insert-id** 를 넘겨 주게 됩니다. 이를 통해서 `InsertResult` 에 id값을 알 수 있게 됩니다.
+
+
+### 후기
+
+`QueryBuilder` 를 통해서 `Insert` 를 실행 하고 `updateEntity(false)` 옵션을 주고 데이터를 저장하는 `INSERT` 를 실행하는 방법이 가장 효율적인것 같습니다.
 
