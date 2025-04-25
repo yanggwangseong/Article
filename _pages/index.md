@@ -23,3 +23,4 @@ permalink: /
 - [모던자바스크립트딥다이브](https://github.com/yanggwangseong/TIL/tree/be0100483d04651bd6ce97b3aa6236cb9f80560d/%EB%8F%84%EC%84%9C/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20%EB%94%A5%EB%8B%A4%EC%9D%B4%EB%B8%8C(Javascript%20DeepDive))
 - [아는만큼보이는데이터베이스설계와구축](https://github.com/yanggwangseong/TIL/tree/main/%EB%8F%84%EC%84%9C/%EC%95%84%EB%8A%94%EB%A7%8C%ED%81%BC%EB%B3%B4%EC%9D%B4%EB%8A%94%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%84%A4%EA%B3%84%EC%99%80%EA%B5%AC%EC%B6%95)
 - [이펙티브타입스크립트](https://github.com/yanggwangseong/TIL/tree/main/%EB%8F%84%EC%84%9C/%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C%20%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8)
+- [코어자바스크립트](https://github.com/yanggwangseong/TIL/blob/be0100483d04651bd6ce97b3aa6236cb9f80560d/%EB%8F%84%EC%84%9C/%EC%BD%94%EC%96%B4%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8/Chapter/1.%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%ED%83%80%EC%9E%85.md) 
