@@ -9,7 +9,6 @@
 - OLAP (Online Analytical Processing)이란?
 - RBAC(Role-Based Access Control)
 - ABAC(Attribute-Based Access Control)
-
 - 일급객체란?
 	1. 무명의 리터럴로 생성할 수 있다. 즉, 런타임에 생성이 가능하다.
 	2. 변수나 자료구조(객체, 배열 등)에 저장할 수 있다.
@@ -115,7 +114,6 @@
 	- EX) `export const PASSWORD_HASH_LENGTH = 60;` 
 	- 매직넘버와 매직 리터럴을 사용할때 직관적인 명칭 사용과 주석을 꼭 달아주어야 한다.
 
-
 - HTTP Message Format
 - 인터넷 전자메일
 - P2P
@@ -123,6 +121,7 @@
 - Http/3
 - CDN
 - 회선교환 큐잉 딜레이, 패킷 로스
+
 
 
 페북 용량 문제 RocksDB

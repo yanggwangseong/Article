@@ -8,3 +8,9 @@ layout: page
 
 ## Compare-and-Swap vs Test-and-Set
 
+
+
+- busy waiting
+- Block-wakeup
+
+- 데드락
