@@ -3,6 +3,7 @@ title: Slotted Page Structure
 permalink: /cs/database/slotted-page-structure
 tags:
   - Database
+  - Postgresql
 layout: page
 ---
 
