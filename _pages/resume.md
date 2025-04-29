@@ -18,9 +18,14 @@ export namespace YangGwangSeong {
     💡 저는 기본기를 매우 중요하게 생각합니다. 
         견고한 기초가 탄탄한 아키텍처와 안정적인 서비스를 만든다고 믿고 있으며, 이를 위해 ${Important}등 CS 지식을 꾸준히 학습하고 있습니다.
     📚 저는 책을 보는것을 좋아하고 열심히 기록하고 정리하는것을 좋아합니다. 
-        특히 기술서적 중에서는 📖 ${Book}을 가장 좋아합니다.
+        최근에 본 가장 좋아하는 책은 📖 ${Book}이고 해당 책을 가장 좋아합니다.
     🌟 지속적인 성장을 하기 위해서 꾸준함과 기록 복습이 중요하다고 생각합니다.
         이를 위해 블로그를 운영하고 있습니다. 블로그 (🛠️ Obsidian 기반, Jekyll 환경) 주소는 ${BlogUrl}입니다.
+    🧪 현실의 문제를 소트프웨어 기술을 통해서 해결 하는것을 좋아 합니다.
+		현재 제가 겪고 있는 문제는 ${CurrentProblem}이고 이를 해결 하기 위해서
+		1. ${CurrentSolve[0]} 깃허브 이슈기반을 통한 알고리즘 오답노트
+		2. ${CurrentSolve[1]} 매일 영어 한문장 서비스
+		통해서 개선해 나가고 있습니다.
     💻 기술스택
         ${Skill}
     🚀 함께 성장하며, 더 나은 개발자가 되기 위해 매일 한 걸음씩 나아가고 있습니다.
@@ -29,16 +34,17 @@ export namespace YangGwangSeong {
 
     // important 중요하게 생각하는것
     export type Important = "Item";
-    export type Book = "Item";
+    export type Book = "함께 자라기";
     export type BlogUrl = "Item";
     export type Skill = "Item";
+    export type CurrentProblem = ["1.알고리즘 효율적인 공부 방법", "2.영어공부"];
+    export type CurrentSolve = ["알고노트","daily-sentence"];
 }
 
 const yanggwangseong = "";
 ```
 
-프론트와 백엔드를 넘나들며 성장하고 있는 개발자입니다.  
-기록하고, 리팩터링하고, 성장을 추적하는 과정을 좋아합니다.
+- go언어 공부와 쿠버네티스 공부를 어디까지 했냐에 따라서 최근 관심사 문구 넣기
 
 # 📚 Study
 
