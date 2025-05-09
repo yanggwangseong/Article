@@ -19,13 +19,13 @@ layout: page
 
 ## Basic
 
-1. `var`
+### `var`
 
 > A `var` statement can be at package or function level. We see both in this example.
 
 - 즉, variable의 범위가 package와 함수 level에만 존재 한다는걸 뜻합니다.
 
-2. `:= (Short Variable)`
+### `:= (Short Variable)`
 
 ```go
 package main
@@ -44,7 +44,7 @@ func main() {
 
 - 자동으로 `int` 로 타입추론이 되는듯 합니다.
 
-3. Basic 타입
+### Basic 타입
 
 ```go
 bool
@@ -64,7 +64,7 @@ float32 float64
 complex64 complex128
 ```
 
-4. Zero values
+### Zero values
 
 > 초기값 설정이 없는 변수에 자동으로 값이 할당 됩니다.
 
@@ -82,7 +82,7 @@ func main() {
 }
 ```
 
-5. `const`
+### `const`
 
 ```go
 package main
