@@ -1,5 +1,5 @@
 ---
-title: Go 학습
+title: Go 기본
 permalink: /Go/tutorial
 tags:
   - go
@@ -98,4 +98,3 @@ func main(){
 }
 
 ```
-

@@ -616,9 +616,6 @@ app.use = function use(fn) {
 
 ```
 
-
-
-
 # Core 2: 비동기 처리
 
 ## Express
@@ -702,9 +699,6 @@ if (context.onRequest !== null) {
 }
 ```
 
-
-
-
 ```ts
 // lib/wrapThenable.js
 function wrapThenable (thenable, reply, store) {
@@ -720,11 +714,7 @@ function wrapThenable (thenable, reply, store) {
 # Reference
 
 - [ https://docs.nestjs.com/techniques/performance]( https://docs.nestjs.com/techniques/performance) 
-
 - [https://fastify.dev/docs/latest/Reference/Routes/](https://fastify.dev/docs/latest/Reference/Routes/) 
-
 - [https://github.com/nestjs/nest/tree/master/packages/platform-express](https://github.com/nestjs/nest/tree/master/packages/platform-express) 
-
 - [https://github.com/nestjs/nest/tree/master/packages/platform-fastify](https://github.com/nestjs/nest/tree/master/packages/platform-fastify) 
 - [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)
-- [라우팅 최적화](https://ankitpandeycu.medium.com/unleashing-the-potential-of-radix-tree-35e6c5d3b49d) 
