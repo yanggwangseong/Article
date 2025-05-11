@@ -68,7 +68,125 @@ func stackingDefer() {
 */
 ```
 
-TODO : 1. panic Recover, 2. pointer
+두 파일을 열고 한 파일의 내용을 다른 파일에 복사하는 함수
+
+```go
+func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+
+    dst, err := os.Create(dstName) // 실패 했을때 파일을 닫지 않는 문제
+    if err != nil {
+        return
+    }
+
+    written, err = io.Copy(dst, src)
+    dst.Close()
+    src.Close()
+    return
+}
+```
+
+문제점
+
+- `os.create` 로의 호출이 실패하면 소스 파일을 닫지 않고 함수가 반환 됩니다.
+	- 두번째 리턴 명령문 전에 `SRC.Close` 에 호출을함으로써 쉽게 해결할 수 있습니다.
+- 하지만 함수가 더욱 복잡해지게 되는 경우에 문제를 쉽게 알아 차리고 해결되지 않을 수 있습니다.
+- 이때 `Defer` 를 통해서 **파일이 항상 닫혀 있는지 확인 할 수 있습니다.** 
+
+```go
+func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+    defer src.Close()
+
+    dst, err := os.Create(dstName)
+    if err != nil {
+        return
+    }
+    defer dst.Close()
+
+    return io.Copy(dst, src)
+}
+```
+
+- `Defer` 를 사용하면 **열린 직후 각 파일을 닫는 것에 대해 생각할 수 있으며, 함수의 리턴 명령문 수에 관계없이 파일이 닫히게 됩니다.** 
+
+### Defer의 3가지 규칙
+
+#### 1. defer로 등록한 함수의 인자(argument)는 defer문이 실행되는 순간에 평가된다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    defer fmt.Println("Deferred:", x)
+    x = 20
+}
+// 출력 : Deferred: 10
+```
+
+- `defer fmt.Println("Deferred:", x)` 이 줄이 실행될 **순간** → `x`의 값인 **10**이 이미 평가되어 **함수 인자로 저장**됩니다.
+- 나중에 `main()` 종료 시 `fmt.Println()`이 실행되지만, 그때의 `x` 값 **(20)** 과는 관계없이 **이미 평가된 10**이 사용됩니다.
+
+#### 2. defer로 등록된 함수들은 주변 함수가 반환된 후, 등록된 역순(LIFO)으로 실행된다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    defer fmt.Println("1")
+    defer fmt.Println("2")
+    defer fmt.Println("3")
+}
+// 출력 
+// 3
+// 2
+// 1
+```
+
+- **스택처럼** 나중에 `defer`한 함수부터 먼저 실행 됩니다.
+
+#### 3. defer 함수는 리턴되는 함수의 이름이 지정된 반환 변수(named return value)를 읽거나 수정할 수 있다.
+
+```go
+func example() (result int) {
+    defer func() {
+        result = 42 // named return
+    }()
+    return 0
+}
+// 출력
+// 42
+```
+
+- defer 함수는 주변 함수가 먼저 실행 함수의 `return 0` 문이 실행되면, 리턴값 `result`에 **0이 일단 할당**됨
+- 그 후 **`defer` 함수가 실행되며 `result = 42`로 덮어씀**
+- 최종적으로 `result`가 리턴됨
+
+```go
+func c() (i int) {
+    defer func() { i++ }()
+    return 1
+}
+// 출력
+// 2
+```
+
+- 먼저 return 1이 실행된 후 defer 함수가 실행되면서 i값을 증가 시킨다.
+- 1 + 1을 증가시켜서 최종적으로 2를 리턴한다.
+
+**이러한 성질을 활용하여 함수의 오류 반환 값을 수정하는 데 편리합니다** 
+
 
 ## Reference
 
