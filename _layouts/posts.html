@@ -8,6 +8,17 @@ layout: default
   {% assign notes = site.notes | where_exp: "item", "item.path contains
   'posting/'" | sort: "last_modified_at" | reverse %}
 
+  <!-- 태그 필터 섹션 추가 -->
+  <div class="tag-filter">
+    <h3>태그 필터</h3>
+    {% assign all_tags = notes | map: "tags" | uniq | sort %}
+    <div class="tags">
+      {% for tag in all_tags %}
+      <a href="/tags/{{ tag }}" class="tag">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
   <ul>
     {% for note in notes %}
     <li>

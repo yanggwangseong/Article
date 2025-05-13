@@ -36,8 +36,3 @@ tags:
 
 [백준 12865](https://www.acmicpc.net/problem/12865) 
 
-## Prefix Sum (누적합 문제)
-
-[백준 11659](https://www.acmicpc.net/problem/11659) 
-[백준 11660](https://www.acmicpc.net/problem/11660)
-
