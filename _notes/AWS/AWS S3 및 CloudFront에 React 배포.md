@@ -1,4 +1,14 @@
 
+## 프론트
+
+- **S3에 정적 파일 배포**
+- **CloudFront 생성**
+    - Origin → S3
+    - Custom domain → `www.example.com`
+    - TLS → **ACM (us-east-1)에서 발급**
+- **Route53 연결**
+    - `www.example.com` → CloudFront 도메인 (A 레코드, alias)
+
 ## S3에 배포파일
 
 ## CloudFront
