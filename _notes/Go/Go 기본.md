@@ -4,6 +4,7 @@ permalink: /Go/tutorial
 tags:
   - go
 layout: page
+image: /assets/golang01.png
 ---
 
 ![](/assets/golang01.png)
