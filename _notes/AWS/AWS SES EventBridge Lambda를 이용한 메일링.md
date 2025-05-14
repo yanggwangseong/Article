@@ -304,5 +304,5 @@ export const handler = async (event) => {
 
 ## Reference
 
-- https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/ses-examples-creating-template.html
-- https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html
+- [https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/ses-examples-creating-template.html](https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/ses-examples-creating-template.html) 
+- [https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html) 
