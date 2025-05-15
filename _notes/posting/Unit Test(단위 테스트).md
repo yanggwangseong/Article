@@ -3,7 +3,6 @@ title: Unit Test(단위 테스트)
 permalink: /unit-test
 tags:
   - TDD
-  - post
   - unit-test
 layout: page
 category:
