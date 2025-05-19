@@ -41,3 +41,7 @@ defaults:
       path: "_notes/**/*.md"
     values:
       layout: "note"
+  - scope:
+      path: "_notes/study/**/*.md"
+    values:
+      layout: "study"
