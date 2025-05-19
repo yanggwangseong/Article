@@ -1,9 +1,8 @@
 ---
 title: Isolation-level
-permalink: /study/Isolation-level
-tags:
-  - study
-layout: study
+permalink: /study/2
+tags: 
+layout: page
 image: /assets/cat01.png
 ---
 
