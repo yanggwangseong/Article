@@ -8,6 +8,12 @@
 - https://github.com/redis/redis/blob/unstable/src/ae.c
 - https://medium.com/better-programming/internals-workings-of-redis-718f5871be84
 
+```
+Redis 8의 iothread.c 파일을 뜯어보면 Redis 8 부터는 io-thread 기능이 좀 더 발전한 것을 알 수 있습니다. 클라이언트의 io multiplexing 을 Io thread에서 처리하고 실제 커맨드가 완성되면 이것을 main thread에서 처리하는 형태로 처리하고 있습니다.  
+  
+예전의 io-thread 모델보다 확실히 발전된 모습니다.(AWS의 ElastiCache가 이미 이런 구조)
+```
+
 # Memcached vs Redis
 
 - 멘토님께 질문) 멤캐시와 Redis 선택 기준?

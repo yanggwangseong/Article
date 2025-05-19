@@ -5,9 +5,9 @@ tags:
   - tools
 ---
 
-# VSCODE
+## VSCODE
 
-## 단축키
+### 단축키
 
 - **파일 열기**
 	- 한번 클릭
@@ -26,6 +26,10 @@ tags:
 - Cmd + 1 or 2 : **좌측 또는 우측 화면으로 포커스 하기**
 - Cmd + Pageup / Pagedown : **열어놓은 탭 왔다갔다 하기**
 - Cmd + p : **파일 검색해서 빠르게 파일 열기**
+
+## JSDoc
+
+## Chrome
 
 
 

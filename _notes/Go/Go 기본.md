@@ -11,13 +11,6 @@ image: /assets/golang01.png
 
 ## Go학습
 
-**Go 공식 문서가 생각보다 친절한 자료들이 많이 있습니다** 
-
-1. [A Tour of Go](https://go.dev/tour/list) 
-2. [Effective Go](https://go.dev/doc/effective_go) 
-
-- [Go 공식문서](https://go.dev/doc/) 
-
 ## Basic
 
 ### `var`
@@ -99,3 +92,7 @@ func main(){
 }
 
 ```
+
+## Reference
+
+- [Go Docs](https://go.dev/doc/) 

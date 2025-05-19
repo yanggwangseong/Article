@@ -1,4 +1,10 @@
 
+1. **현실의 문제를 소프트웨어 도구를 통해서 해결하기를 좋아합니다** 
+2. 이렇게 일하는 방식을 선호해요!
+
+[당근마켓 프로덕트 진심1편](https://about.daangn.com/blog/archive/%EB%8B%B9%EA%B7%BC-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EB%AA%A9%EC%A0%81%EC%A1%B0%EC%A7%81-%ED%94%84%EB%A1%9C%EB%8D%95%ED%8A%B8-%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4/) 
+[당근마켓 일 잘하는 법](https://about.daangn.com/blog/archive/%EB%8B%B9%EA%B7%BC-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9A%B4%EC%98%81%EA%B0%9C%EB%B0%9C-%EC%9A%B4%EC%98%81%EC%8B%A4-%ED%8C%80%EB%AC%B8%ED%99%94/) 
+
 # 블로그 기능 완료
 
 - 태그 페이지와 태그 기능 완료

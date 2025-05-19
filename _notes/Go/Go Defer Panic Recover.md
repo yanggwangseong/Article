@@ -215,5 +215,4 @@ func c() (i int) {
 
 ## Reference
 
-- [go defer-panic-and-recover](https://go.dev/blog/defer-panic-and-recover) 
-- [a tour of go](https://go.dev/tour/flowcontrol/12) 
+- [Go Docs](https://go.dev/doc/) 

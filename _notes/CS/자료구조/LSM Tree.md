@@ -13,3 +13,5 @@ layout: page
 # Reference
 
 - [LSM Tree 위키피디아](https://en.wikipedia.org/wiki/Log-structured_merge-tree) 
+- LSM 논문
+- Database System 7th
