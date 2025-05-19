@@ -1,6 +1,6 @@
 ---
-title: 비관적 락 낙관적 락
-permalink: /study/Optimistic-Lock-Pessimistic Lock
+title: Isolation-level
+permalink: /study/Isolation-level
 tags:
   - study
 layout: study
