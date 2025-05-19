@@ -1,11 +1,9 @@
 ---
 title: 왜 TypeORM을 선택 했을까?
 permalink: 왜 TypeORM을 선택 했을까?
-tags: 
+tags:
 layout: page
 image: /assets/cat01.png
-timepoint: 4h
-realtimepoint:
 ---
 
 ## 왜 TypeORM을 선택 했을까?
@@ -21,9 +19,6 @@ realtimepoint:
 ---
 
 ## mysql2이란?
-
-
-
 
 ---
 

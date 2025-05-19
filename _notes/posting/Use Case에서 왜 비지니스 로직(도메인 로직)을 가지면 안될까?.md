@@ -1,11 +1,9 @@
 ---
 title: Use Case에서 왜 비지니스 로직(도메인 로직)을 가지면 안될까?
 permalink: /Use Case에서 왜 비지니스 로직(도메인 로직)을 가지면 안될까?
-tags: 
+tags:
 layout: page
 image: /assets/cat01.png
-timepoint: 4h
-realtimepoint:
 ---
 
 ## Use Case에서 왜 비지니스 로직(도메인 로직)을 가지면 안될까?
@@ -55,7 +53,7 @@ export class GetSentenceUseCase implements IGetSentenceUseCase {
 
 use-case에서 비지니스 로직을 가지게 되면 안된다. 해당 비지니스 로직은 Service Layer에서 처리해야 하고 도메인 로직은 도메인에서 처리해야한다. 즉, use-case는 독립적이어야 한다.
 
-왜냐하면 
+왜냐하면
 
 확장성
 

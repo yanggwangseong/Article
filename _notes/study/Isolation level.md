@@ -5,12 +5,9 @@ tags:
   - study
 layout: study
 image: /assets/cat01.png
-timepoint: 2h
-realtimepoint:
 ---
 
 ## 비관적 락 낙관적 락
-
 
 ---
 
@@ -26,16 +23,15 @@ realtimepoint:
 
 **비관적 락(Pessimistic Lock)** 은 데이터 충돌이 많을 것으로 가정하고, 트랜잭션이 시작될 때 공유락(Shared Lock, S-Lock) 또는 베타락(Exclusive Lock, X-Lock)을 설정하여 다른 트랜잭션이 해당 데이터에 접근하지 못하도록 하는 방식입니다.
 
-**'READ UNCOMMITTED', 'READ COMMITTED', 'REPEATABLE READ', 'SERIALIZABLE'** 
+**'READ UNCOMMITTED', 'READ COMMITTED', 'REPEATABLE READ', 'SERIALIZABLE'**
 
-https://amenable.tistory.com/144 
+https://amenable.tistory.com/144
 
 - 현상 - DIRTY READ, NON-REPEATABLE READ, PHANTOM READ
 
 1. ACID 중 Isolation(격리성)을 깊이 이해하고 있다
 2. DB 동시성 제어와 관련된 문제를 식별하고, 적절한 격리 수준을 선택할 수 있다
 3. RDB의 다중 트랜잭션 환경에서 발생할 수 있는 대표적인 문제들을 알고 있다
-
 
 ## 3. TypeOrm의 비관적 락 방식들
 
@@ -73,9 +69,6 @@ SERIALIZABLE isolation level에서 사용되는 Lock 모드로, 다른 트랜잭
 
 읽기 작업에 대한 Lock을 걸지 않고, 엔티티의 키만을 공유 Lock으로 설정합니다.  
 다른 트랜잭션이 해당 엔티티를 읽는 것을 허용하지만, 키에 대한 수정을 막습니다.
-
-
-
 
 ---
 
