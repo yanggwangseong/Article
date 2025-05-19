@@ -4,7 +4,6 @@ permalink: /RESTful API 설계
 tags: 
 layout: page
 image: /assets/Layered-Architecture-01.png
-timepoint: 2h
 ---
 
 ## RESTful API 설계
