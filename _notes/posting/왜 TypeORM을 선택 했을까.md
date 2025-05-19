@@ -1,12 +1,12 @@
 ---
-title: 왜 TypeORM을 선택 했을까?
-permalink: 왜 TypeORM을 선택 했을까?
-tags:
+title: 왜 TypeORM을 선택 했을까
+permalink: 왜 TypeORM을 선택 했을까
+tags: 
 layout: page
 image: /assets/cat01.png
 ---
 
-## 왜 TypeORM을 선택 했을까?
+## 왜 TypeORM을 선택 했을까
 
 ---
 
