@@ -1,7 +1,7 @@
 ---
-title: Use Case에서 왜 비지니스 로직(도메인 로직)을 가지면 안될까?
-permalink: /Use Case에서 왜 비지니스 로직(도메인 로직)을 가지면 안될까?
-tags:
+title: Use Case에서 비지니스 로직
+permalink: /Use Case에서 비지니스 로직
+tags: 
 layout: page
 image: /assets/cat01.png
 ---
