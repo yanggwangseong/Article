@@ -5,7 +5,6 @@ layout: default
 <div class="posts-list">
   {% assign notes = site.notes | where_exp: "item", "item.tags contains 'post'"
   | sort: "last_modified_at" | reverse %}
-
   <ul class="post-list">
     {% for note in notes %}
     <li class="post-card">
@@ -17,15 +16,18 @@ layout: default
           />
         </div>
         <div class="post-info">
-          <div class="post-title">{{ note.title }}</div>
           <div class="post-meta">
-            {% if note.last_modified_at %} {{ note.last_modified_at | date:
-            "%Y-%m-%d" }} {% endif %}
+            {{ note.last_modified_at | date: "%Y. %m. %d" }} &nbsp; | &nbsp;
+            Open Source
           </div>
+          <div class="post-title">{{ note.title }}</div>
           <div class="post-excerpt">
             {{ note.excerpt | default: note.content | strip_html |
             truncatewords: 30 }}
           </div>
+        </div>
+        <div class="post-action">
+          <span class="icon">&#128065;</span>
         </div>
       </a>
     </li>
