@@ -5,7 +5,8 @@ tags:
   - aws
   - post
 layout: page
-image:
+image: 
+category: AWS
 ---
 
 ## 워크 플로우

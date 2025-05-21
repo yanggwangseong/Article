@@ -24,7 +24,11 @@ layout: default
         </span>
         <span class="category">
           <i class="uil uil-bookmark"></i>
-          <span>Open Source</span>
+          <span
+            >{% if note.category %}{{ note.category }}{% elsif note.categories
+            %}{{ note.categories | join: ', ' }}{% else %}미분류{% endif
+            %}</span
+          >
         </span>
       </div>
       <div class="summary">

@@ -1,9 +1,10 @@
 ---
-title: mokakbab-issue
+title: AWS Code Deploy
 permalink: /AWS/aws-code-deploy
 tags:
   - aws
   - post
+category: AWS
 ---
 
 ## 선행 작업

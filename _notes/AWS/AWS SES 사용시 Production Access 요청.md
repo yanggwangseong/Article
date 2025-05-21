@@ -5,9 +5,9 @@ tags:
   - aws
   - post
 layout: page
-image:
+image: 
+category: AWS
 ---
-
 
 ## AWS SES 사용시 Production Access 요청
 
