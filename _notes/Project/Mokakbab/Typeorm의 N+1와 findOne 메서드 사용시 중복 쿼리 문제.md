@@ -6,7 +6,9 @@ tags:
   - mokakbab
   - nestjs
   - typeorm
+  - post
 layout: page
+image: /assets/Mokakbab06.png
 ---
 
 ![](/assets/Mokakbab06.png)

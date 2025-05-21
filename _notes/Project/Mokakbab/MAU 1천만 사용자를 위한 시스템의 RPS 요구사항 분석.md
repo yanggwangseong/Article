@@ -3,7 +3,9 @@ title: MAU 1천만 사용자를 위한 시스템의 RPS 요구사항 분석
 permalink: /project/mokakbab
 tags:
   - mokakbab
+  - post
 layout: page
+image: /assets/Mokakbab06.png
 ---
 
 ![](/assets/Mokakbab06.png)
