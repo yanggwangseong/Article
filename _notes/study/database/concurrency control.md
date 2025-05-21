@@ -52,3 +52,8 @@ transaction들이 겹쳐서(interleaving) 실행되는 schedule
 - 쉬운코드 concurrency control 1 https://www.youtube.com/watch?v=DwRN24nWbEc
 - 쉬운코드 concurrency control2 https://www.youtube.com/watch?v=89TZbhmo8zk
 
+***
+
+## Series
+
+[[_notes/study/database/Isolation level|Isolation level]] 
