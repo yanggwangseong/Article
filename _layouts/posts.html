@@ -2,10 +2,23 @@
 layout: default
 ---
 
+{% assign notes = site.notes | where_exp: "item", "item.tags contains 'post'" |
+sort: "last_modified_at" | reverse %} {% assign all_categories = notes | map:
+'category' | uniq | sort %}
+
+<div class="category-filter-bar">
+  <button class="category-btn active" data-category="all">전체</button>
+  {% for cat in all_categories %} {% if cat %}
+  <button class="category-btn" data-category="{{ cat }}">{{ cat }}</button>
+  {% endif %} {% endfor %}
+</div>
+
 <ul class="index-list">
-  {% assign notes = site.notes | where_exp: "item", "item.tags contains 'post'"
-  | sort: "last_modified_at" | reverse %} {% for note in notes %}
-  <li class="index-item">
+  {% for note in notes %}
+  <li
+    class="index-item"
+    data-category="{{ note.category | default: '미분류' }}"
+  >
     <a
       href="{{ note.url }}"
       class="image-wrapper article-thumbnail-shape-default"
@@ -24,11 +37,7 @@ layout: default
         </span>
         <span class="category">
           <i class="uil uil-bookmark"></i>
-          <span
-            >{% if note.category %}{{ note.category }}{% elsif note.categories
-            %}{{ note.categories | join: ', ' }}{% else %}미분류{% endif
-            %}</span
-          >
+          <span>{{ note.category | default: '미분류' }}</span>
         </span>
       </div>
       <div class="summary">
@@ -39,3 +48,25 @@ layout: default
   </li>
   {% endfor %}
 </ul>
+
+<script>
+  // 카테고리 필터링 (JS)
+  document.addEventListener("DOMContentLoaded", function () {
+    const btns = document.querySelectorAll(".category-btn");
+    const items = document.querySelectorAll(".index-item");
+    btns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        btns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const cat = btn.getAttribute("data-category");
+        items.forEach((item) => {
+          if (cat === "all" || item.getAttribute("data-category") === cat) {
+            item.style.display = "";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+    });
+  });
+</script>
