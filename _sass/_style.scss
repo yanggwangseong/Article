@@ -82,26 +82,12 @@ h6 {
 }
 
 a {
-  transition: background 300ms;
-  padding: 0 0.1em;
-  text-decoration: none;
-  border-bottom: 1px solid $color-border;
-  color: $color-primary;
-  &:hover {
-    color: black !important;
-    background: #fffaf1;
-  }
-  &:after {
-    position: relative;
-    top: -0.5em;
-    font-size: 0.7em;
-    content: "↗";
-    color: #aaaaaa;
-  }
-  &.internal-link:after,
-  &.footnote:after,
-  &.reversefootnote:after {
-    content: "";
+  border-bottom: none !important;
+  text-decoration: none !important;
+  position: relative;
+  &::after {
+    content: none !important;
+    display: none !important;
   }
 }
 
@@ -114,18 +100,19 @@ nav {
   margin: 1em 0 3em;
 }
 
-#notes-entry-container {
-  display: grid;
-  grid-gap: 2em;
-  grid-template-areas:
-    "content"
-    "side";
+// 노드 레이아웃 content 영역 조정
+// #notes-entry-container {
+//   display: grid;
+//   grid-gap: 2em;
+//   grid-template-areas:
+//     "content"
+//     "side";
 
-  @media (min-width: 700px) {
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas: "content side";
-  }
-}
+//   @media (min-width: 700px) {
+//     grid-template-columns: 3fr 1fr;
+//     grid-template-areas: "content side";
+//   }
+// }
 
 .backlink-box {
   background: $color-box-background;
