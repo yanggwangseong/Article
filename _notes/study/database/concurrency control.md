@@ -9,6 +9,8 @@ category: Database
 description: Schedule이란 여러 transaction들이 동시에 실행될때 각 transaction에 속한 operation들의 실행 순서 Serial schedule란 transaction들이 겹치지 않고 한번에 하나씩 실행되는 schedule NonSerial schedule란transaction들이 겹쳐서(interleaving) 실행되는 schedule
 ---
 
+![](/assets/812.jpg)
+
 ## 1. concurrency control
 
 concurrency control이란 ㄹㄹㄹㄹㄹㄹ뭐라뭐라
