@@ -3,7 +3,11 @@ title: Go Defer Panic Recover
 permalink: /Go/defer-panic-recover
 tags:
   - go
+  - post
 layout: page
+image: /assets/golang01.png
+category: Go
+description: Go 언어에서 defer는 함수 종료 시점에 호출되는 지연 실행 메커니즘으로, 리소스 정리와 오류 처리에 유용하게 사용됩니다. panic은 예기치 못한 오류 상황에서 프로그램 흐름을 중단시키며, recover는 panic 상태에서도 흐름을 복구할 수 있도록 도와줍니다. 이 글에서는 defer의 평가 시점, 실행 순서, named return과의 관계를 다루고, panic과 recover를 활용한 예외 복구 패턴까지 실용적인 예제 중심으로 정리했습니다.
 ---
 
 ![](/assets/golang01.png)
