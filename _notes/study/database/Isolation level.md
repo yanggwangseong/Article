@@ -6,7 +6,7 @@ layout: page
 image: /assets/cat01.png
 ---
 
-## 비관적 락 낙관적 락
+## Isolation level
 
 ---
 
@@ -17,6 +17,8 @@ image: /assets/cat01.png
 3. 문제 해결 및 결과
 
 ---
+
+
 
 **낙관적 락(Optimistic Lock)** 은 데이터 충돌이 적을 것으로 가정하고, 데이터를 읽을 때 락을 설정하지 않고 트랜잭션이 데이터를 수정할 때 충돌이 발생하지 않았는지 확인하는 방식입니다. 보통 version과 같은 별도의 구분 컬럼을 사용해서 데이터가 변경되었는지 확인하며, 충돌이 발생하면 데이터베이스가 아닌 애플리케이션에서 직접 롤백하거나 재시도 처리를 해야 합니다.
 
@@ -73,4 +75,6 @@ SERIALIZABLE isolation level에서 사용되는 Lock 모드로, 다른 트랜잭
 
 ## Reference
 
-- https://github.com/LandazuriPaul/nest-react
+- 10x 개발자 트랜잭션 격리수준 - https://www.youtube.com/watch?v=sDSU8KrOcxc
+- 쉬운코드 Isolation level https://www.youtube.com/watch?v=bLLarZTrebU
+- Isolation level https://code-run.tistory.com/72

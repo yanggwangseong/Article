@@ -25,8 +25,24 @@ image: /assets/Layered-Architecture-01.png
 
 https://www.samsungsds.com/kr/insights/oidc.html
 
-
 [Wikipedia Reply attack](https://en.wikipedia.org/wiki/Replay_attack) 
+
+## Oauth2 깊은 동작 원리
+
+- 로그인 버튼 클릭부터, 소셜 인증, 콜백 URL,  
+- 세션 쿠키 생성, SSR에서의 getUser 호출까지  
+- “내 눈 앞에서 어떤 값이 오가고,  
+- 어떤 타이밍에 인증이 완성되는지”  
+- 실제 동작과 시퀀스 다이어그램(표), 코드로 살펴보았어요.
+- 직접 JWT 파싱, 토큰 검증, 세션 로직을 구현하지 않더라도  
+- “브라우저 → 소셜 → 콜백 → 내 서버 → 세션 인증”
+- https://www.youtube.com/watch?v=RqMuhxbtIWw
+
+## Referesh Token 전략
+
+
+
+
 
 ---
 
