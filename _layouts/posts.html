@@ -2,32 +2,36 @@
 layout: default
 ---
 
-<div class="posts-list">
+<ul class="index-list">
   {% assign notes = site.notes | where_exp: "item", "item.tags contains 'post'"
-  | sort: "last_modified_at" | reverse %}
-  <ul class="post-list">
-    {% for note in notes %}
-    <li class="post-card">
-      <a href="{{ note.url }}" class="post-link">
-        <div class="post-thumb">
-          <img
-            src="{{ note.image | default: '/assets/default_thumbnai.jpg' }}"
-            alt="썸네일"
-          />
-        </div>
-        <div class="post-info">
-          <div class="post-meta">
-            {{ note.last_modified_at | date: "%Y. %m. %d" }} &nbsp; | &nbsp;
-            Open Source
-          </div>
-          <div class="post-title">{{ note.title }}</div>
-          <div class="post-excerpt">
-            {{ note.excerpt | default: note.content | strip_html |
-            truncatewords: 40 }}
-          </div>
-        </div>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
+  | sort: "last_modified_at" | reverse %} {% for note in notes %}
+  <li class="index-item">
+    <a
+      href="{{ note.url }}"
+      class="image-wrapper article-thumbnail-shape-default"
+    >
+      <img
+        src="{{ note.image | default: '/assets/default_thumbnai.jpg' }}"
+        alt="thumbnail"
+      />
+    </a>
+    <div class="article-info">
+      <a href="{{ note.url }}" class="title">{{ note.title }}</a>
+      <div class="date-n-category">
+        <span class="date">
+          <i class="uil uil-calender"></i>
+          <span>{{ note.last_modified_at | date: "%Y. %m. %d" }}</span>
+        </span>
+        <span class="category">
+          <i class="uil uil-bookmark"></i>
+          <span>Open Source</span>
+        </span>
+      </div>
+      <div class="summary">
+        {{ note.excerpt | default: note.content | strip_html | truncatewords: 40
+        }}
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
