@@ -11,8 +11,26 @@ layout: default
     </time>
   </div>
 
-  <div id="notes-entry-container">
-    <content>
+  <div id="notes-entry-container" style="display: flex; gap: 2rem; align-items: flex-start;">
+    <!-- 목차 (TOC) -->
+    <nav class="toc-nav" style="min-width: 220px;">
+      <h3 style="margin-bottom: 1em; font-size: 1.1em;">목차</h3>
+      <ul class="toc-list">
+        {% assign headings = content | split: '<h' %}
+        {% for h in headings %}
+          {% if forloop.first == false %}
+            {% assign level = h | truncate: 1, '' %}
+            {% if level == '1' or level == '2' or level == '3' %}
+              {% assign header = h | split: '</h' | first %}
+              {% assign title = header | split: '>' | last | strip %}
+              {% assign id = title | downcase | replace: ' ', '-' | replace: '.', '' | replace: ':', '' %}
+              <li class="toc-h{{ level }}"><a href="#{{ id }}">{{ title }}</a></li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+    <content style="flex:1;">
       {{ content }}
       <p>This line appears after every note.</p>
     </content>
@@ -48,3 +66,38 @@ layout: default
     </side>
   </div>
 </article>
+
+<style>
+.toc-nav {
+  position: sticky;
+  top: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.2rem 1.2rem 1.2rem 1.5rem;
+  font-size: 1rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc-h1 { margin-bottom: 0.7em; font-weight: bold; }
+.toc-h2 { margin-left: 1em; margin-bottom: 0.5em; }
+.toc-h3 { margin-left: 2em; margin-bottom: 0.3em; }
+.toc-list a {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 0.98em;
+  transition: color 0.15s;
+}
+.toc-list a:hover {
+  color: #1e293b;
+  text-decoration: underline;
+}
+@media (max-width: 900px) {
+  .toc-nav { display: none; }
+}
+</style>
