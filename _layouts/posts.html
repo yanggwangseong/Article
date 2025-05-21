@@ -23,11 +23,8 @@ layout: default
           <div class="post-title">{{ note.title }}</div>
           <div class="post-excerpt">
             {{ note.excerpt | default: note.content | strip_html |
-            truncatewords: 30 }}
+            truncatewords: 40 }}
           </div>
-        </div>
-        <div class="post-action">
-          <span class="icon">&#128065;</span>
         </div>
       </a>
     </li>
