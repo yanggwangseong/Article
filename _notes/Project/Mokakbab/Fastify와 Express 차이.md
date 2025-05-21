@@ -9,6 +9,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: NestJS에서 기본 Express 어댑터 대신 Fastify 어댑터를 사용한 결과, 별다른 최적화 없이도 응답 지연(P90)과 RPS가 2배 이상 개선되는 성능 향상을 확인했습니다. Fastify는 라우팅에 Radix Tree 기반의 find-my-way를 사용하고, 요청 및 응답 처리에 비동기 파이프라인을 적용해 이벤트 루프 블로킹을 최소화합니다. 반면 Express는 O(N) 라우팅과 콜백 기반 구조로 인해 성능에서 상대적으로 불리했습니다. NestJS는 추상 어댑터(AbstractHttpAdapter)를 기반으로 Express와 Fastify를 유연하게 교체할 수 있으며, 실제 벤치마크와 실험 코드를 통해 어댑터 선택만으로도 실질적인 성능 개선이 가능함을 입증했습니다.
 ---
 
 ![](/assets/Mokakbab06.png)

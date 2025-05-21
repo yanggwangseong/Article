@@ -7,6 +7,7 @@ tags:
 layout: page
 image: 
 category: AWS
+description: AWS SES 사용시 Production Access 요청
 ---
 
 ## AWS SES 사용시 Production Access 요청

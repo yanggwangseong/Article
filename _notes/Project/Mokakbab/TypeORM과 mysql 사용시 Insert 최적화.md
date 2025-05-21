@@ -10,6 +10,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: TypeORM에서 MySQL 사용 시, save 및 insert 메서드를 통한 다량의 데이터 삽입 과정에서 불필요한 SELECT 쿼리가 자동 실행되어 성능 병목이 발생했습니다. 특히 AutoIncrement 방식의 기본 키 값을 가져오기 위한 SELECT가 문제였고, QueryBuilder의 updateEntity(false) 옵션과 함께 insert 쿼리를 사용해 SELECT 생략이 가능했으나, 필요한 필드만 조회하는 별도 로직이 필요했습니다. 최종적으로 insertId를 통해 id만 추출하는 방식으로 SELECT 비용을 줄이면서도 필요한 데이터를 안전하게 처리할 수 있었습니다.
 ---
 
 ![](/assets/Mokakbab06.png)

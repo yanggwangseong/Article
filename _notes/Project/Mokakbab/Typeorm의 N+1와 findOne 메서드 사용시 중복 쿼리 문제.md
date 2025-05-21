@@ -10,6 +10,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: TypeORM에서 findOne 메서드와 relations 옵션을 함께 사용할 경우, OneToOne 관계에서도 중복된 SELECT 쿼리가 2회 실행되는 문제가 발생합니다. 이는 TypeORM 내부에서 그룹핑 안정성을 확보하기 위한 처리지만, 실제로는 불필요한 성능 낭비로 이어집니다. 이를 해결하기 위해 QueryBuilder를 사용해 필요한 필드만 명시적으로 조인하고 조회함으로써 중복 쿼리를 제거하고 성능을 개선했습니다.
 ---
 
 ![](/assets/Mokakbab06.png)

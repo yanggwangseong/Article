@@ -11,6 +11,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: NestJS에서 AWS S3로 파일 업로드 시, signature-v4의 getPayloadHash 과정에서 CPU 사용률이 급격히 높아지는 문제가 발생했습니다. 업로드 요청마다 암호화된 x-amz-context 헤더가 포함되며, 이로 인해 매 요청마다 해시 연산이 수행되고 CPU Bound 문제가 나타났습니다. 이는 lib-storage 내부의 signRequest → getPayloadHash 흐름에서 비롯되며, 구조적으로 비동기 해시 연산이 반복되는 구조입니다. 보안상 헤더 암호화는 필수이므로 근본적인 해결보다는 서버 리소스 확장이 장기적으로 필요한 상황입니다.
 ---
 
 ![](/assets/Mokakbab06.png)

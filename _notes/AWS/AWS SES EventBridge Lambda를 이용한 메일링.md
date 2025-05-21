@@ -7,11 +7,12 @@ tags:
 layout: page
 image: 
 category: AWS
+description: EventBridge Lambda SES를 이용한 메일 전송
 ---
 
 ## 워크 플로우
 
-- SQS EventBridge Lambda SES
+- EventBridge Lambda SES
 
 ## SES 생성
 

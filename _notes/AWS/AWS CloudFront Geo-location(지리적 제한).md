@@ -7,6 +7,7 @@ tags:
 layout: page
 image: 
 category: AWS
+description: AWS CloudFront Geo-location
 ---
 
 ## AWS CloudFront Geo-location

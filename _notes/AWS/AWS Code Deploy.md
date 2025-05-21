@@ -5,6 +5,7 @@ tags:
   - aws
   - post
 category: AWS
+description: AWS Code Deploy 선행 작업 EC2 ECR ECS 연동 ECS 클러스터 생성 ECS 태스크 정의 패밀리 생성 Route53 ACM 도메인 등록 ALB와 도메인 연동
 ---
 
 ## 선행 작업

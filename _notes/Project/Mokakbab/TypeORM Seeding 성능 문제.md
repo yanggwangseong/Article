@@ -10,6 +10,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: TypeORM 환경에서 대용량 테스트 데이터를 삽입하기 위해 typeorm-extension의 saveMany 메서드를 사용했으나, 내부적으로 반복 호출되는 save 로직이 각각 SELECT → INSERT/UPDATE 쿼리를 발생시켜 성능 병목이 발생했습니다. 이를 해결하기 위해 QueryBuilder를 이용한 batch 단위의 Bulk Insert 방식으로 변경했으며, 트랜잭션을 적용해 성능과 안정성을 확보했습니다. 이로써 대량의 더미 데이터를 효율적으로 생성할 수 있는 시딩 구조를 구축할 수 있었습니다.
 ---
 
 ![](/assets/Mokakbab06.png)
