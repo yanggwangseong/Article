@@ -32,8 +32,8 @@ layout: default
         </span>
       </div>
       <div class="summary">
-        {{ note.excerpt | default: note.content | strip_html | truncatewords: 40
-        }}
+        {{ note.description | default: note.excerpt | default: note.content |
+        strip_html | truncatewords: 40 }}
       </div>
     </div>
   </li>

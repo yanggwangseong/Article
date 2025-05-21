@@ -10,6 +10,7 @@ tags:
 layout: page
 image: /assets/Mokakbab06.png
 category: NestJS
+description: NestJS에서 JWT verify 시 createPublicKey 호출로 인한 CPU 병목 문제 해결기
 ---
 
 ![](/assets/Mokakbab06.png)
