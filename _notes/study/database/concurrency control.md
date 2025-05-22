@@ -17,8 +17,6 @@ concurrency control이란 ㄹㄹㄹㄹㄹㄹ뭐라뭐라
 
 
 
-
-
 ---
 
 ## 2. Lost Update

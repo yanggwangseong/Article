@@ -53,3 +53,35 @@ permalink: /books/
     </div>
   </div>
 </div>
+
+
+## 책
+
+- OOP와 DDD 그리고 VO, TO, DTO, 불변성
+	- VO
+	    - Fowler 2003의 486쪽.
+	    - [http://martinfowler.com/bliki/ValueObject.html](http://martinfowler.com/bliki/ValueObject.html)
+	- TO , DTO
+	    - Alur 2001의 7.7절(번역판 472쪽).
+	    - [http://www.oracle.com/technetwork/java/transferobject-139757.html](http://www.oracle.com/technetwork/java/transferobject-139757.html)
+	    - Fowler 2003 401쪽.
+	    - [http://martinfowler.com/eaaCatalog/dataTransferObject.html](http://martinfowler.com/eaaCatalog/dataTransferObject.html)
+	-  [http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP](http://findbugs.sourceforge.net/bugDescriptions.html)  
+	- [http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2](http://findbugs.sourceforge.net/bugDescriptions.html)
+	- [http://blog.benelog.net/viewer/2173103](http://blog.benelog.net/viewer/2173103) 참조
+	- Joshua Bloch의 "How to Design a Good API & Why it Matters" 강연([http://www.infoq.com/presentations/effective-api-design](http://www.infoq.com/presentations/effective-api-design)) 에서도 강조되는 원칙이다.
+	-  [http://spring.io/blog/2009/11/17/spring-3-type-conversion-and-validation/](http://spring.io/blog/2009/11/17/spring-3-type-conversion-and-validation/)  
+	-  [https://java.net/projects/jsr-310/](https://java.net/projects/jsr-310/)
+	- [https://jira.springsource.org/browse/SPR-9641](https://jira.springsource.org/browse/SPR-9641)
+	- VO의 불변성이 왜 좋은 설계인지 대해서는 다음 자료에 자세히 설명되어 있다.
+		- Evans 2004의 99 ~ 103쪽.
+		- Fowler 2003의 486쪽.
+		- Bloch 2008의 73 ~ 80쪽. Item 15 : Minimize mutability.
+	- OOP와 DDD
+		- 토끼책, 오브젝트
+		- Core j2Ee Patterns(Alur 2001)
+		- Patterns of Enterprise Application Architecture(Fowler 2003)
+		- Effective Java(Bloch 2008)
+		- DDD 블루북(Domain-Driven Design: Tackling Complexity in the Heart of Software, Eric Evans), 레드북
+- 테스트
+	- Unit Test 책
