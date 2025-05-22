@@ -1,10 +1,10 @@
 ---
 title: concurrency control
-permalink: /database/concurrency-control
+permalink: /ts/typescript-typesystem
 tags: 
 layout: note
-image: /assets/cat01.png
-category: Database
+image: /assets/Typescript01.png
+category: 
 description: TypeScript 타입 시스템과 구조적 타이핑
 ---
 
