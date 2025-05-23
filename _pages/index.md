@@ -5,19 +5,32 @@ id: home
 permalink: /
 ---
 
-## CS
+## 👋 About Me
 
-- Operating System Concepts 10th
-  - [태그 : OS](https://yokan.netlify.app/tags/os/)
-- Computer Networking: A Top-Down Approach 8th
-  - [태그 : Network](https://yokan.netlify.app/tags/network/)
-- Database system concepts 7th
-  - [태그 : Database](https://yokan.netlify.app/tags/database/)
-- [태그: data-structure](https://yokan.netlify.app/tags/data-structure/)
-- [태그: algorithm](https://yokan.netlify.app/tags/algorithm/)
+다양한 경험과 도전 하는것을 좋아하는 개발자 양광성입니다.
+현실의 문제를 소프트웨어라는 도구로 해결하기를 좋아합니다.
+
+## 🚀 Project
+
+- 모각밥 프로젝트 (Oct 2024 – Present)
+
+## ✍️ Posting
+
+- 내세울만한 포스팅들
+
+## 🤔 최근 관심사
+
+- Go
+- Kubernetes
 
 ## Book
 
+- Operating System Concepts 10th
+	- [태그 : OS](https://yokan.netlify.app/tags/os/)
+- Computer Networking: A Top-Down Approach 8th
+	- [태그 : Network](https://yokan.netlify.app/tags/network/)
+- Database system concepts 7th
+	- [태그 : Database](https://yokan.netlify.app/tags/database/)
 - [객체지향의 사실과 오해](https://github.com/yanggwangseong/TIL/tree/main/%EB%8F%84%EC%84%9C/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98%20%EC%82%AC%EC%8B%A4%EA%B3%BC%20%EC%98%A4%ED%95%B4)
 - [오브젝트](https://github.com/yanggwangseong/TIL/tree/main/%EB%8F%84%EC%84%9C/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8)
 - [모던자바스크립트딥다이브](<https://github.com/yanggwangseong/TIL/tree/be0100483d04651bd6ce97b3aa6236cb9f80560d/%EB%8F%84%EC%84%9C/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20%EB%94%A5%EB%8B%A4%EC%9D%B4%EB%B8%8C(Javascript%20DeepDive)>)

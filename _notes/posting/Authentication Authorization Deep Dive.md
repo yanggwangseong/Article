@@ -8,8 +8,7 @@ image: /assets/Layered-Architecture-01.png
 
 ## Authentication Authorization Deep Dive
 
-- 🐙 **[진행중인 프로젝트(GitHub)](https://github.com/yanggwangseong/daily-sentence-be)** 
-- 🔗 **[PR #82 이슈 링크](https://github.com/f-lab-edu/Mokakbab/pull/82)** 
+- 2주에 하나씩 FEATURE 1년 24개의 FEATURE
 
 ---
 
@@ -37,6 +36,10 @@ https://www.samsungsds.com/kr/insights/oidc.html
 - 직접 JWT 파싱, 토큰 검증, 세션 로직을 구현하지 않더라도  
 - “브라우저 → 소셜 → 콜백 → 내 서버 → 세션 인증”
 - https://www.youtube.com/watch?v=RqMuhxbtIWw
+
+
+## Proxy Authentication
+
 
 ## Referesh Token 전략
 

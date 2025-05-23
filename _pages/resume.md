@@ -6,45 +6,27 @@ permalink: /resume/
 
 # 👋 About Me
 
-```ts
-// Pick, Omit 타입 같은걸로 내가 중요하게 생각하는것을 선택하는 코드
-// Pick<Item, "OS" | "Network" | >
-// 블라블라
+👋 안녕하세요!
+	탄탄한 CS 기반 위에 실용적인 서비스를 만드는 백엔드 개발자를 지향합니다.
 
-export namespace YangGwangSeong {
-    export type Introdution = `
-    👋 안녕하세요! 
-        탄탄한 CS 기반 위에 실용적인 서비스를 만드는 백엔드 개발자를 지향합니다.
-    💡 저는 기본기를 매우 중요하게 생각합니다. 
-        견고한 기초가 탄탄한 아키텍처와 안정적인 서비스를 만든다고 믿고 있으며, 이를 위해 ${Important}등 CS 지식을 꾸준히 학습하고 있습니다.
-    📚 저는 책을 보는것을 좋아하고 열심히 기록하고 정리하는것을 좋아합니다. 
-        최근에 본 가장 좋아하는 책은 📖 ${Book}이고 해당 책을 가장 좋아합니다.
-    🌟 지속적인 성장을 하기 위해서 꾸준함과 기록 복습이 중요하다고 생각합니다.
-        이를 위해 블로그를 운영하고 있습니다. 블로그 (🛠️ Obsidian 기반, Jekyll 환경) 주소는 ${BlogUrl}입니다.
-    🧪 현실의 문제를 소트프웨어 기술을 통해서 해결 하는것을 좋아 합니다.
-		현재 제가 겪고 있는 문제는 ${CurrentProblem}이고 이를 해결 하기 위해서
-		1. ${CurrentSolve[0]} 깃허브 이슈기반을 통한 알고리즘 오답노트
-		2. ${CurrentSolve[1]} 매일 영어 한문장 서비스
-		통해서 개선해 나가고 있습니다.
-    💻 기술스택
-        ${Skill}
-    🚀 함께 성장하며, 더 나은 개발자가 되기 위해 매일 한 걸음씩 나아가고 있습니다.
-    `;
-    export type Item = ["OS", "DB", "Network", "Data Structure", "Algorithm"];
+💡 저는 기본기를 매우 중요하게 생각합니다.
+	견고한 기초가 탄탄한 아키텍처와 안정적인 서비스를 만든다고 믿고 있으며, 이를 위해 OS등 CS 지식을 꾸준히 학습하고 있습니다.
 
-    // important 중요하게 생각하는것
-    export type Important = "Item";
-    export type Book = "함께 자라기";
-    export type BlogUrl = "Item";
-    export type Skill = "Item";
-    export type CurrentProblem = ["1.알고리즘 효율적인 공부 방법", "2.영어공부"];
-    export type CurrentSolve = ["알고노트","daily-sentence"];
-}
+🌟 지속적인 성장을 하기 위해서 꾸준함과 기록이 중요하다고 생각합니다.
+	이를 위해 블로그를 운영하고 있습니다. 블로그 주소는 📝 [https://yokan.netlify.app](https://yokan.netlify.app) 입니다.
 
-const yanggwangseong = "";
-```
+🧪 현실의 문제를 소트프웨어 기술을 통해서 해결 하는것을 좋아 합니다
+	현재 제가 겪고 있는 문제는 1.어떻게 영어공부를 가볍게 시작할 수 있을까? 2.알고리즘 공부를 어떻게 효율적으로 할 수 있을까?이고 이를 해결 하기 위해서
+	1. AlgoNote 깃허브 이슈기반을 통한 알고리즘 오답노트 [Github](https://github.com/yanggwangseong/AlgoNote) 
+	2. daily-sentence 매일 영어 한문장 서비스 [Github](https://github.com/yanggwangseong/daily-sentence-be) 
+	통해서 개선해 나가고 있습니다.
 
-- go언어 공부와 쿠버네티스 공부를 어디까지 했냐에 따라서 최근 관심사 문구 넣기
+💻 기술스택
+	NodeJS, Typescript
+🤔 최근 관심사
+	Go, Kubernetes를 학습중입니다.
+🚀 꾸준히 성장하며, 더 나은 개발자가 되기 위해 매일 한 걸음씩 나아가고 있습니다.
+
 
 # 📚 Study
 
