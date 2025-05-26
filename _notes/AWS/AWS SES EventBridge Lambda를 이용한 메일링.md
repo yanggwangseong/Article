@@ -120,6 +120,30 @@ export const handler = async (event) => {
 $ zip -r lambda.zip index.mjs node_modules package.json package-lock.json
 ```
 
+```sql
+SELECT 
+        sentence.id AS sentence_id,
+        sentence.sentence AS sentence_sentence,
+        sentence.meaning AS sentence_meaning,
+        sentence.createdat AS sentence_createdAt,
+        sentence.updatedat AS sentence_updatedAt,
+        vocab.id AS vocab_id,
+        vocab.word AS vocab_word,
+        vocab.definition AS vocab_definition,
+        vocab.createdat AS vocab_createdAt,
+        vocab.updatedat AS vocab_updatedAt,
+        vocab.sentenceid AS vocab_sentenceId,
+        video.id AS video_id,
+        video.videourl AS video_videoUrl,
+        video.createdat AS video_createdAt,
+        video.updatedat AS video_updatedAt
+      FROM sentences sentence
+      LEFT JOIN vocabs vocab ON vocab.sentenceid = sentence.id
+      LEFT JOIN videos video ON video.id = sentence.videoid
+      WHERE Date(sentence.createdat) BETWEEN "2025-05-19" AND "2025-05-25"
+```
+
+
 ![](/assets/aws-lambda-09.png)
 
 - 배포가 완료되었다! 이제 테스트를 실행하여서 DB와 연동이 되는지 체크
@@ -304,7 +328,42 @@ export const handler = async (event) => {
 - 이전에 만들어둔 Lambda 함수를 선택 해준다.
 - 매주 월요일마다 Lambda를 통해서 메일링 배치 작업 스케줄을 등록 했다.
 
+## Lambda에 VPC를 연결 하려면 NAT를 사용해야한다.
+
+하지만 NAT는 굉장히 비싼녀석이기 때문에 사이드 프로젝트에는 Lambda에 VPC를 제거 한다.
+
+```json
+"error": "InvalidClientTokenId: The security token included in the request is invalid."
+```
+
+- Lambda 함수를 사용할때 IAM설정을 해두었다면 `credentials` 을 제거하여도 Lambda에서 알아서 자격증명을 가져온다. 그래서 아래처럼 넣게 되면 충돌이 발생해서 에러가 발생한다.
+
+```js
+const sesClient = new SESClient({
+  region: process.env.AWS_REGION,
+  credentials: { // 제거해야함
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+```
+
+![[aws-ses-bug01.png]]
+
+## SES에서 Configuration Set을 세트 생성 오류
+
+분명히 Configuration Set(구성 세트)를 생성 했다가 바로 삭제 했는데도 Lambda에서 ConfigurationSetDoesNotExistException 에러가 발생한다.
+
+```
+\"error\":\"ConfigurationSetDoesNotExistException: Configuration set <my-first-configuration-set> does not exist.\",\"stack\":\"ConfigurationSetDoesNotExistException:
+```
+
+- Configuration Set이란?
+	- SES를 통해서 메일을 전송 하고 난 이후 그 메일을 추적하는 기능인데 과금의 원인이 된다.
+
+
 ## Reference
 
 - [https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/ses-examples-creating-template.html](https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/ses-examples-creating-template.html) 
-- [https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html) 
+- [https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/example_serverless_connect_RDS_Lambda_section.html)
+
