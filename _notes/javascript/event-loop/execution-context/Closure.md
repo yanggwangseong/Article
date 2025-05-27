@@ -2,7 +2,6 @@
 title: Closure
 permalink: /javascript/event-loop/execution-context/closure
 ---
-- [[Execution Context]]
 
 # Closure
 
@@ -33,7 +32,6 @@ console.log(outer2()); // 3
 - 다시 outer2()를 호출하면 a의 값이 다시 증가하여 3이 반환된다. 이는 inner 함수가 a를 계속해서 참조하고 있기 때문이다.
 - 이러한 현상을 `클로저` 라고 한다. 함수가 선언된 당시의 Lexical Environment를 기억하고 그 환경의 변수에 접근할 수 있는 현상을 의미한다.
 
-TODO 그림 필요.
 
 ```js
 // 직접 만들어 보기 : 배열에 숫자값을 push하는 클로저

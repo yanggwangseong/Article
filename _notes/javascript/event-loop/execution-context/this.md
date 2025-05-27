@@ -4,7 +4,7 @@ permalink: /javascript/event-loop/execution-context/this
 tags:
   - Javascript
 ---
-- [[Execution Context]]
+
 # this
 
 - 실행 컨텍스트가 실행 될때 함께 결정된다.
