@@ -3,8 +3,10 @@ title: Go 기본
 permalink: /Go/tutorial
 tags:
   - go
-layout: page
+layout: node
 image: /assets/golang01.png
+category: Go
+description: Go Basic 타입과 var와 const
 ---
 
 ![](/assets/golang01.png)
