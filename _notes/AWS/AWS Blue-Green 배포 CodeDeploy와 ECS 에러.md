@@ -155,3 +155,8 @@ CodeDeploy에서 원래 개정 종료를 시간 1시간으로 처음 Default로 
 ### 배포 화면에서 수동 종료
 
 배포 UI에서 직접 "원래 작업 세트 종료" 버튼 클릭하면 빠르게 배포 완료된다.
+
+
+## Blue Green 배포시 PORT 전략 2가지
+
+- [blue-green 배포 2가지 전략](https://velog.io/@yuureru/GithubActions%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-CICD-nginX-redis-springboot-bluegreen-%EC%A0%81%EC%9A%A92) 
