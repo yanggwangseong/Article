@@ -16,13 +16,24 @@ description: recoverability
 
 ---
 
+
 ## recoverable schedule
+
+흠..
 
 ## cascadeless schedule
 
 ## strict schedule
 
 
+unrecoverable schedule
+
+DBMS에서 허용을 하면 안된다.
+
+recoverable schedule
+
+- cascadeless schedule
+- strict schedule
 
 
 ---

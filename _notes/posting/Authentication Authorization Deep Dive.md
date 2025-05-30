@@ -44,6 +44,29 @@ https://www.samsungsds.com/kr/insights/oidc.html
 ## Referesh Token 전략
 
 
+## Web Authentication
+
+![](/assets/web-authentication.gif)
+
+### Cookies and Sessions  
+  
+This traditional approach stores session data on the server and uses a simple cookie on the client to reference it. When a user logs in, the server creates a session and sends back a session ID cookie. Every subsequent request includes this cookie, allowing the server to retrieve the user's session data.  
+  
+The benefit? Complete server-side control over user sessions. You can instantly revoke access by deleting the session. The downside? Scalability becomes challenging in distributed systems since sessions are tied to specific servers.  
+  
+### JWT  
+  
+JSON Web Tokens flip the script by storing all user information directly in the token itself. No server-side storage required. The token contains three parts: a header specifying the algorithm, a payload with user data, and a signature for verification.  
+  
+JWTs works well in distributed systems since any server can verify the token independently. However, this convenience comes with security considerations—once issued, JWTs are difficult to revoke, and token theft can be problematic.  
+  
+### PASETO  
+  
+If you want to avoid becoming a security incident case study, PASETO removes the ways developers typically mess up token-based auth.  
+  
+Platform-Agnostic Security Tokens deliver JWT's benefits without the vulnerabilities. JWT's flexibility has enabled real attacks—algorithm confusion exploits and weak configurations plague applications. PASETO eliminates these risks by enforcing secure defaults: one vetted algorithm per version, rigid token structure, and modern cryptography. You get stateless authentication without the cryptographic landmines.
+
+![[Pasted image 20250530222321.png]]
 
 
 

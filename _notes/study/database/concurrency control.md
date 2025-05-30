@@ -18,7 +18,7 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 ### 1.1 CASE1
 
-![[Pasted image 20250523175957.png]]
+![](/assets/concurrency-control01.png)
 
 ```ts
 
@@ -60,7 +60,7 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 ### 1.2 CASE2
 
-![[Pasted image 20250523180656.png]]
+![](/assets/concurrency-control02.png)
 
 ```ts
 // Case 2: H가 ATM에서 30만원 입금 후, K가 H에게 20만원 이체
@@ -100,7 +100,7 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 ### 1.3 CASE3
 
-![[Pasted image 20250523191231.png]]
+![](/assets/concurrency-control03.png)
 
 ```ts
 // Case 3: 트랜잭션이 겹쳐서 H의 입금이 먼저 커밋되고, 그 후 K의 이체가 H의 잔고에 반영됨
@@ -140,7 +140,7 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 ### 1.4 CASE4 (Lost Update 케이스)
 
-![[Pasted image 20250523191718.png]]
+![](/assets/concurrency-control04.png)
 
 ```ts
 // Case 4: 트랜잭션이 겹쳐서 H의 입금이 먼저 커밋되고, 그 후 K의 이체가 H의 잔고에 반영되지만, 마지막에 H의 잔고가 덮어써짐
