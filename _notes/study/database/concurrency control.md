@@ -1,10 +1,10 @@
 ---
 title: concurrency control
 permalink: /database/concurrency-control
-tags: []
+tags: 
 layout: note
 image: /assets/812.jpg
-category: 
+category: Database
 description: Schedule이란 여러 transaction들이 동시에 실행될때 각 transaction에 속한 operation들의 실행 순서 Serial schedule란 transaction들이 겹치지 않고 한번에 하나씩 실행되는 schedule NonSerial schedule란transaction들이 겹쳐서(interleaving) 실행되는 schedule
 ---
 
@@ -12,7 +12,13 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 ## 1. concurrency control
 
+**concurrency control이란?**
+
+**Concurrency Control** 은 데이터베이스에서 **여러 트랜잭션이 동시에 실행되더라도 데이터의 정합성과 일관성을 보장하기 위한 메커니즘**입니다.
+
 - 🐙 **[해당 본문 코드(GitHub)](https://github.com/yanggwangseong/implementation/tree/main/concurrency-control)** 
+
+>  K가 H에게 20만원을 이체할때 H도 본인 계좌에 30만원을 입금한다면 여러 형태의 실행이 가능할 수 있다.
 
 ---
 
@@ -193,15 +199,17 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 
 트랜잭션에서 `read` 와 `write` 를 **operation** 이라고 합니다.
 
-## 3. Schedule
+---
 
-### 3.1 Schedule이란
+## 2. Schedule
+
+### 2.1 Schedule이란
 
 - Schedule이란
 	- 여러 transaction들이 동시에 실행될때 각 transaction에 속한 operation(read, write)들의 실행 순서
 	- **각 transaction 내의 operations들의 순서는 바뀌지 않는다** 
 
-#### 3.1.1 Schedule 표현식
+#### 2.1.1 Schedule 표현식
 
 위의 예제에서 `read(K_balance)` `write(K_balance)` `commit` 해당 부분을 간소화 시켜서 가로 표현식으로 나타낼 수 있다.
 
@@ -210,7 +218,7 @@ description: Schedule이란 여러 transaction들이 동시에 실행될때 각 
 - **CASE3** : r1(K) w1(K) r2(H) w2(H) c2 r1(H) w1(H) c1
 - **CASE4** : r1(K) w1(K) r1(H) r2(H) w2(H) c2 w1(H) c1
 
-### 3.2 Serial schedule
+### 2.2 Serial schedule
 
 transaction들이 겹치지 않고 한번에 하나씩 실행되는 schedule
 
@@ -219,11 +227,11 @@ transaction들이 겹치지 않고 한번에 하나씩 실행되는 schedule
 - **CASE1** : r1(K) w1(K) r1(H) w1(H) c1 r2(H) w2(H) c2
 - **CASE2** : r2(H) w2(H) c2 r1(K) w1(K) r1(H) w1(H) c1
 
-#### 3.2.1 Serial schedule 성능
+#### 2.2.1 Serial schedule 성능
 장점으로는 **Lost Update** 같은 데이터 정합성이 깨지는 일은 없다.
 단점으로는 한번에 하나의 **transaction** 만 실행되기 때문에 좋은 성능을 낼 수 없고 현실적으로 사용할 수 없는 방식이다.
 
-#### 3.2.2 왜 좋은 성능을 낼 수 없을까?
+#### 2.2.2 왜 좋은 성능을 낼 수 없을까?
 
 트랜잭션끼리 겹치지 않는 Schedule이기 때문에 동시성이 없는 스케줄이라고도 부르고 그렇기 때문에 효율적으로 병렬처리 할 수 없다.
 
@@ -231,13 +239,13 @@ Serial Schedule은 **모든 트랜잭션을 순차적으로 실행**하므로, *
 
 I/O, CPU 사용률, DB 커넥션 등 자원을 효율적으로 사용할 수 없어 **낮은 처리량(throughput)** 을 가집니다.
 
-#### 3.2.3 왜 현실적으로 사용 할 수 없는 방법일까?
+#### 2.2.3 왜 현실적으로 사용 할 수 없는 방법일까?
 
 Serial Schedule은 이상적으로는 데이터 정합성을 100% 보장하지만, **모든 트랜잭션을 순차적으로 처리**해야 하므로 **현실적인 동시 사용자 환경에선 처리량이 극단적으로 낮아집니다.** 
 
 오늘날의 시스템은 수백~수천 개의 트랜잭션을 동시에 처리해야 하며, **병렬성과 자원 효율을 확보하지 않으면 심각한 성능 저하**가 발생하기 때문에 **Serial Schedule은 이론적인 기준일 뿐 현실적으로는 사용되지 않습니다.** 
 
-### 3.3 NonSerial schedule
+### 2.3 NonSerial schedule
 
 transaction들이 겹쳐서(interleaving) 실행되는 schedule
 
@@ -246,7 +254,7 @@ transaction들이 겹쳐서(interleaving) 실행되는 schedule
 - **CASE3** : r1(K) w1(K) r2(H) w2(H) c2 r1(H) w1(H) c1
 - **CASE4** : r1(K) w1(K) r1(H) r2(H) w2(H) c2 w1(H) c1
 
-#### 3.3.1 NonSerial schedule 성능
+#### 2.3.1 NonSerial schedule 성능
 
 - Serial Schedule : r2(H) w2(H) c2 r1(K) w1(K) r1(H) w1(H) c1
 - NonSerial Schedule : r2(H) r1(K) w2(H) w1(K) c2 r1(H) w1(H) c1
