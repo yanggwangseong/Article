@@ -53,7 +53,27 @@ description: recoverability
 
 - **CASE1** : r1(K) w1(K) r2(H) w2(H) r1(H) w1(H) c2 c1
 
-## cascadeless schedule
+#### 2.1.1 recoverable schedule
+
+- **schedule 내에서 그 어떤 transaction도 자신이 읽은 데이터를 write한 transaction이 먼저 commit/rollback 전까지는 commit 하지 않는 경우** 이를 **recoverable schedule** 이라고 한다.
+- rollback 할 때 이전 상태로 온전히 돌아갈 수 있기 때문에 DBMS는 이런 schedule만 허용해야 한다.
+
+#### 2.1.2 cascading rollback
+
+**정의 : 하나의 transaction이 rollback하면 의존성이 있는 다른 transaction도 rollback 해야한다** 
+
+**단점 : 여러 transaction의 rollback이 연쇄적으로 일어나면 처리하는 비용이 많이 든다** 
+
+#### 2.1.3 cascadeless schedule
+
+- cascading rollback의 단점을 어떻게 해결할까?
+	- **데이터를 write한 transaction이 commit/rollback 한 뒤에 데이터를 읽는 schedule만 허용하자!**
+
+**정의 : schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 읽지 않는 경우** 
+
+- 종종 avoid cascading rollback이라고 부르기도 한다.
+
+### 2.1 CASE3
 
 ## strict schedule
 

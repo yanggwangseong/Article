@@ -15,7 +15,7 @@ description: synchronization
 
 ---
 
-
+- 동시성과 병렬성
 - Race condition 이란?
 	- critical section 이란?
 	- critical section 해결을 위한 세가지 조건
