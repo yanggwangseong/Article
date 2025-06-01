@@ -49,9 +49,9 @@ description: recoverability
 
 ### 2.1 CASE2
 
-![[Pasted image 20250530232646.png]]
+![](/assets/recoverability02.png)
 
-- **CASE1** : r1(K) w1(K) r2(H) w2(H) r1(H) w1(H) c2 c1
+- **CASE2** : r1(K) w1(K) r2(H) w2(H) r1(H) w1(H) c2 c1
 
 #### 2.1.1 recoverable schedule
 
@@ -73,24 +73,61 @@ description: recoverability
 
 - 종종 avoid cascading rollback이라고 부르기도 한다.
 
-### 2.1 CASE3
+---
 
-## strict schedule
+## 3. strict schedule
 
+**정의: schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 `쓰지도,` 읽지 않는 경우**
 
-unrecoverable schedule
+### 3.1 CASE3
 
-DBMS에서 허용을 하면 안된다.
+상황 (pizza schedule)
 
-recoverable schedule
+> H사장님이 3만원이던 피자가격을 2만원으로 낮추려는데 K직원도 동일한 피자의 가격을 실수로 1만원으로 낮추려 했을때 이런 schedule도 생길 수 있습니다.
+
+![](/assets/recoverability03.png)
+
+- **CASE3** : w1(pizza) w2(pizza) c2 a1(rollback)
+
+**pizza schedule** 은 **cascadeless schedule** 이다. 하지만 **strict schedule은 아니다** 
+
+cascadeless schedule의 정의는 **schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 읽지 않는 경우** 이것인데 해당 조건을 만족하지만 **현재 tx2 트랜잭션2 결과가 사라졌다!**
+
+이를 해결 하기위해서 하나의 조건이 더 추가 되면 해결 할 수 있다.
+
+**schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 `쓰지도,` 읽지 않는 경우**
+
+이러한 Schedule을 **strict schedule** 이라고 한다.
+
+### 3.2 CASE4
+
+**cascadeless schedule** 이면서 **strict schedule** 
+
+![](/assets/recoverability04.png)
+
+- **CASE3** : w1(pizza) c1 or a1 w2(pizza) c2
 
 - cascadeless schedule
+	- **schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 읽지 않는 경우**
 - strict schedule
+	**schedule내에서 어떤(any) transaction도 commit 되지 않은 transaction들이 write한 데이터는 `쓰지도,` 읽지 않는 경우**
 
-Isolation
+#### 3.3 strict schedule 장점
 
+- rollback 할 때 recovery가 쉽다.
+- transaction 이전 상태로 돌려 놓기만 하면 된다.
+
+
+
+---
+
+
+- **Isolation** : 동시성 제어를 위한 트랜잭션 속성
 - concurrency control providers **serializability & recoverability** 
 
+**concurrency control(동시성 제어) 는 serializability와 recoverability** 를 제공한다(provider)
+
+이것과 관련된 트랜잭션 속성이 **Isolation** 이다.
 
 ---
 
