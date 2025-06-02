@@ -20,6 +20,10 @@ image: /assets/Layered-Architecture-01.png
 
 ---
 
+
+## SAML 인증
+
+
 ## OpenID Connect(OIDC)
 
 https://www.samsungsds.com/kr/insights/oidc.html
