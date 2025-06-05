@@ -38,9 +38,6 @@ transaction들이 겹치지 않고 한번에 하나씩 실행되는 schedule
 transaction들이 겹쳐서(interleaving) 실행되는 schedule
 
 
-
-
-
 ---
 
 ## Reference
