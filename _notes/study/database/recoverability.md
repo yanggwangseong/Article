@@ -4,7 +4,7 @@ permalink: /database/recoverability
 tags: 
 layout: note
 image: /assets/812.jpg
-category: Database
+category: 
 description: recoverability
 ---
 
@@ -121,6 +121,19 @@ cascadeless schedule의 정의는 **schedule내에서 어떤(any) transaction도
 
 ---
 
+## 4.1 정리
+unrecoverable schedule
+롤백이 발생 했을때 회복 불가능할 수 있기 때문에 
+이런 스케줄은 dbms에서 허용하면 안된다!
+
+recoverable schedule
+롤백이 발생 했을때 이전 상태로 회복이 가능하기 때문에
+이런 스케줄은 dbms에서 허용!
+
+recoverable schedule 롤백
+cascading rollback이 발생하지 않게 하는 스케줄을 cascadeless schedule이라고 한다.
+strict schedule
+cascadeless schedule에서 좀 더 엄격한(커밋되지 않은 데이터는 읽지도 쓰지도 않는 상태)스케줄
 
 - **Isolation** : 동시성 제어를 위한 트랜잭션 속성
 - concurrency control providers **serializability & recoverability** 
@@ -128,6 +141,8 @@ cascadeless schedule의 정의는 **schedule내에서 어떤(any) transaction도
 **concurrency control(동시성 제어) 는 serializability와 recoverability** 를 제공한다(provider)
 
 이것과 관련된 트랜잭션 속성이 **Isolation** 이다.
+
+
 
 ---
 
